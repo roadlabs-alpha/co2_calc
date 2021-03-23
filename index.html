@@ -1,5 +1,24 @@
+
+
 <!DOCTYPE html>
 <html>
+
+<script>
+function calculate_co2() {
+
+	n_employees = parseInt(document.getElementById("number_employes").value)
+
+	co2_t = n_employees * 250 / 1000
+
+	cost_saved = co2_t * 65 
+
+	console.log(cost_saved)
+
+  document.getElementById("result").innerHTML = String(cost_saved)+"€";
+}
+    </script>
+
+
 <head>
 <style>
 .button {
@@ -23,15 +42,13 @@
 <h1>Roadlabs CO2-Calculator: Save using Mobility-Management</h1>
 
 <p>
+  <label >Number of employees</label>
+  <input type="text" id="number_employes" name="number_employes"><br>
+  
 <button class="button button1" onclick="calculate_co2()">Calculate Savings!</button>
+
   <p>
-  Result:  <span id="result"><span>
+  Result:  <span id="result"></span>
 </body>
 </html>
 
-
-<script>
-function calculate_co2() {
-  document.getElementById("result").innerHtml("200€")
-}
-    </script>
