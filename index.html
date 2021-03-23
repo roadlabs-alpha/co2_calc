@@ -1,1 +1,37 @@
-HELLO WORLD
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {background-color: #4CAF50;} /* Green */
+.button2 {background-color: #008CBA;} /* Blue */
+</style>
+</head>
+<body>
+
+<h1>Roadlabs CO2-Calculator: Save using Mobility-Management</h1>
+
+<p>
+<button class="button button1" onclick="calculate_co2()">Calculate Savings!</button>
+  <p>
+  Result:  <span id="result"><span>
+</body>
+</html>
+
+
+<script>
+function calculate_co2() {
+  document.getElementById("result").innerHtml("200€")
+}
+    </script>
