@@ -81,7 +81,7 @@ export class CompanyVehiclesComponent implements OnInit{
 		//var vg = "as";
 		this.vehicle_groups.push(vg);
 
-		this.calc_total_vehicle_count()
+		this.calc_total_vehicle_count();
 		this.vgn=this.generate_vehicle_group_name(1);
 
 	}
@@ -91,6 +91,7 @@ export class CompanyVehiclesComponent implements OnInit{
 		console.log("del element", vgi)
 		this.vehicle_groups.splice(vgi,1);
 		this.vgn=this.generate_vehicle_group_name(0);
+		this.calc_total_vehicle_count();
 	}
 
 	calc_total_vehicle_count(): void{
