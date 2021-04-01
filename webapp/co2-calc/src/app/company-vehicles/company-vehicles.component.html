@@ -1,3 +1,65 @@
 <div class=component_container>
 	<h2>Company Vehicles</h2>
-</div>
+	Currently, you have {{n_vehicles}} vehicles!
+	<br>
+	<br>
+	Add Vehicle Category
+	<br>
+
+	<div class=add_vehicle_category_block>
+
+		<div>
+			<h3>Vehicle Group {{vgn}}</h3>
+		</div>
+
+		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
+			<mat-label>Select Vehicle Class</mat-label>
+			<mat-select matNativeControl formControlName="fc_vehicleclass">
+				<mat-option value="one">Compact</mat-option>
+				<mat-option value="two">Executive</mat-option>
+				<mat-option value="two">Transporter</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
+			<mat-label>Vehicle Propulsion</mat-label>
+			<mat-select matNativeControl formControlName="fc_vehicleprop">
+				<mat-option value="one">Electric</mat-option>
+				<mat-option value="two">Gasoline</mat-option>
+				<mat-option value="two">Diesel</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
+			<mat-label>Mileage (Year)</mat-label>
+			<mat-select matNativeControl formControlName="fc_mileage">
+				<mat-option value="one"><5000 km</mat-option>
+					<mat-option value="two">5000-10000 km</mat-option>
+					<mat-option value="two">10000-20000 km</mat-option>
+					<mat-option value="two">20000-30000 km</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field class="form_element">
+				<mat-label>Count</mat-label>
+				<textarea matInput placeholder="10"></textarea>
+			</mat-form-field>
+
+			<div class=form_element>
+				<form appearance="fill" [formGroup]="fg_checks">
+					<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
+					<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
+				</form>
+			</div>
+
+
+			<form class=block_add [formGroup]="fg_add">
+				<button mat-button matNativeControl formControlName="fc_add" mat-icon-button aria-label="Clear" (click)="n_vehicles=1;">
+					<mat-icon>add</mat-icon>
+				</button>
+			</form>
+
+
+		</div>
+
+	</div>

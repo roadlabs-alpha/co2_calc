@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import {DemoMaterialModule} from './material-module';
 import { CompanyVehiclesComponent } from './company-vehicles/company-vehicles.component';
+
 @NgModule({
   declarations: [
     AppComponent,

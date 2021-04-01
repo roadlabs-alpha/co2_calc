@@ -1,0 +1,26 @@
+.add_vehicle_category_block{
+	background-color: #EEEEEE;
+	padding: 5px;
+	height: auto;
+	float: left;
+
+}
+
+.form_element{
+	float: left;
+	width: 18%;
+	height: 50px;
+	margin: 3px;
+
+}
+
+.block_add{
+	margin: 10px 10px;
+	float: right;
+	width: 40px;
+	height: 50px;
+}
+
+.checkbox_margin1 {
+  margin: 10px 10px;
+}

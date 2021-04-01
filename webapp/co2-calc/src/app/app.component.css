@@ -5,6 +5,7 @@
 .component_container{
 	background-color: #CCCCCC;
 	padding: 1%;
-  	width: 50%;
+  	width: 100%;
   	margin: 5px;
+  	float: left;
 }
