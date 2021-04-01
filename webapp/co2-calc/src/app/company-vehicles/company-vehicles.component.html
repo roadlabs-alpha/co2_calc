@@ -3,7 +3,7 @@
 	Currently, you have {{n_vehicles}} vehicles!
 	<br>
 	<br>
-	Add Vehicle Category
+	Add a Vehicle Category
 	<br>
 
 	<div class=add_vehicle_category_block>
@@ -15,51 +15,76 @@
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
 			<mat-label>Select Vehicle Class</mat-label>
 			<mat-select matNativeControl formControlName="fc_vehicleclass">
-				<mat-option value="one">Compact</mat-option>
-				<mat-option value="two">Executive</mat-option>
-				<mat-option value="two">Transporter</mat-option>
+				<mat-option value="Compact">Compact</mat-option>
+				<mat-option value="Executive">Executive</mat-option>
+				<mat-option value="Transporter">Transporter</mat-option>
 			</mat-select>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
 			<mat-label>Vehicle Propulsion</mat-label>
 			<mat-select matNativeControl formControlName="fc_vehicleprop">
-				<mat-option value="one">Electric</mat-option>
-				<mat-option value="two">Gasoline</mat-option>
-				<mat-option value="two">Diesel</mat-option>
+				<mat-option value="Electric">Electric</mat-option>
+				<mat-option value="Gasoline">Gasoline</mat-option>
+				<mat-option value="Diesel">Diesel</mat-option>
 			</mat-select>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
 			<mat-label>Mileage (Year)</mat-label>
 			<mat-select matNativeControl formControlName="fc_mileage">
-				<mat-option value="one"><5000 km</mat-option>
-					<mat-option value="two">5000-10000 km</mat-option>
-					<mat-option value="two">10000-20000 km</mat-option>
-					<mat-option value="two">20000-30000 km</mat-option>
+				<mat-option value="5"><5000 km</mat-option>
+					<mat-option value="5-10">5000-10000 km</mat-option>
+					<mat-option value="10-20">10000-20000 km</mat-option>
+					<mat-option value="20-30">20000-30000 km</mat-option>
 				</mat-select>
 			</mat-form-field>
 
-			<mat-form-field class="form_element">
+			<mat-form-field [formGroup]="fg_vehicleclass" class="form_element">
 				<mat-label>Count</mat-label>
-				<textarea matInput placeholder="10"></textarea>
+				<textarea matInput placeholder="10" formControlName="fc_count"></textarea>
 			</mat-form-field>
 
 			<div class=form_element>
-				<form appearance="fill" [formGroup]="fg_checks">
+				<form appearance="fill" [formGroup]="fg_vehicleclass">
 					<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
 					<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
 				</form>
 			</div>
 
 
-			<form class=block_add [formGroup]="fg_add">
-				<button mat-button matNativeControl formControlName="fc_add" mat-icon-button aria-label="Clear" (click)="n_vehicles=1;">
+			<form class=block_add>
+				<button mat-button mat-icon-button aria-label="Clear" (click)="add_vehicle_group();">
 					<mat-icon>add</mat-icon>
 				</button>
 			</form>
 
 
+		</div>
+
+		<div class=vehicle_groups_container *ngIf="vehicle_groups.length==0">
+			You have no vehicle groups yet!
+		</div>
+		<div class=vehicle_groups_container *ngIf="vehicle_groups.length>0">
+			<tr>
+				<th> </th>
+				<th>Vehicle class</th>
+				<th>Propulsion</th>
+				<th>Mileage</th>
+				<th>Count</th>
+				<th>Private use</th>
+				<th>Pool car</th>
+			</tr>
+
+			<tr  *ngFor = "let vg of vehicle_groups;  let i = index">
+				<td>Vehicle group {{i}}</td>
+				<td>{{vg.vehicleclass}}</td>
+				<td>{{vg.vehicleprop}}</td>
+				<td>{{vg.mileage}}</td>
+				<td>{{vg.count}}</td>
+				<td>{{vg.is_poolcar}}</td>
+				<td>{{vg.is_private_use}}</td>
+			</tr>
 		</div>
 
 	</div>

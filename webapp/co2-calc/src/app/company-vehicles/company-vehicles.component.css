@@ -3,6 +3,17 @@
 	padding: 5px;
 	height: auto;
 	float: left;
+	margin: 2px;
+
+}
+
+
+.vehicle_groups_container{
+	background-color: #EEEEEE;
+	padding: 5px;
+	height: auto;
+	float: left;
+	margin: 2px;
 
 }
 
@@ -23,4 +34,15 @@
 
 .checkbox_margin1 {
   margin: 10px 10px;
+}
+
+
+th{
+	margin: 10px;
+	padding: 15px;
+}
+
+td{
+	margin: 10px;
+	padding: 15px;
 }
