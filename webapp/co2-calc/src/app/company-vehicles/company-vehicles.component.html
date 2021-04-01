@@ -9,7 +9,7 @@
 	<div class=add_vehicle_category_block>
 
 		<div>
-			<h3>Vehicle Group {{vgn}}</h3>
+			<h3>{{vgn}}</h3>
 		</div>
 
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
@@ -74,16 +74,22 @@
 				<th>Count</th>
 				<th>Private use</th>
 				<th>Pool car</th>
+				<th> </th>
 			</tr>
 
-			<tr  *ngFor = "let vg of vehicle_groups;  let i = index">
-				<td>Vehicle group {{i}}</td>
+			<tr  *ngFor = "let vg of vehicle_groups; let i = index">
+				<td>{{vg.vgn}}</td>
 				<td>{{vg.vehicleclass}}</td>
 				<td>{{vg.vehicleprop}}</td>
 				<td>{{vg.mileage}}</td>
 				<td>{{vg.count}}</td>
 				<td>{{vg.is_poolcar}}</td>
 				<td>{{vg.is_private_use}}</td>
+				<td><form class=block_add>
+				<button mat-button mat-icon-button aria-label="Clear" (click)="delete_vehicle_group(i);">
+					<mat-icon>clear</mat-icon>
+				</button>
+			</form></td>
 			</tr>
 		</div>
 
