@@ -1,0 +1,28 @@
+
+
+
+
+<div class=component_container>
+	<h2>Company Properties</h2>
+
+
+	<mat-form-field class="form-field">
+		<mat-label>Input the number of employees!</mat-label>
+		<input matInput type="text" [(ngModel)]="n_employees">
+		<button mat-button *ngIf="n_employees" matSuffix mat-icon-button aria-label="Clear" (click)="n_employees=''">
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+	<br>
+	<mat-form-field class="form-field">
+		<mat-label>Input your address!</mat-label>
+		<input matInput type="text" [(ngModel)]="company_address">
+		<button mat-button *ngIf="company_address" matSuffix mat-icon-button aria-label="Clear" (click)="company_address=''">
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+
+
+	<br>
+	<button mat-raised-button color="accent">Save</button>
+</div>

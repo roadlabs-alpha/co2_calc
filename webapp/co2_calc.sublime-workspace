@@ -1,0 +1,403 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"cac",
+				"calc_co2"
+			],
+			[
+				"calc",
+				"calc_distances"
+			],
+			[
+				"B",
+				"Business_Trips"
+			],
+			[
+				"pub",
+				"public_transport_km"
+			],
+			[
+				"pool_car",
+				"pool_car"
+			],
+			[
+				"comp",
+				"company_car_cost"
+			],
+			[
+				"bus",
+				"business_trips_per_year"
+			],
+			[
+				"company",
+				"company_car_km"
+			],
+			[
+				"private",
+				"private_car"
+			],
+			[
+				"bike",
+				"bike_km"
+			],
+			[
+				"priv",
+				"private_car_co2"
+			],
+			[
+				"pr",
+				"private_car_co2"
+			],
+			[
+				"com",
+				"company_car_co2"
+			],
+			[
+				"cam",
+				"calc_communting_co2"
+			],
+			[
+				"ca",
+				"calc_communting_cost"
+			],
+			[
+				"tr",
+				"transport_price_per_km"
+			],
+			[
+				"n",
+				"n_employees"
+			],
+			[
+				"do",
+				"do_tco"
+			],
+			[
+				"c",
+				"consumption"
+			],
+			[
+				"em",
+				"emissions_per_km"
+			],
+			[
+				"year",
+				"yearly_mileage"
+			],
+			[
+				"yea",
+				"yearly_mileage"
+			],
+			[
+				"val",
+				"value_loss"
+			],
+			[
+				"res",
+				"residual_value"
+			],
+			[
+				"out",
+				"output"
+			],
+			[
+				"Y",
+				"You"
+			],
+			[
+				"filter",
+				"filter_dests"
+			],
+			[
+				"des",
+				"destination"
+			],
+			[
+				"sta",
+				"station_knowledge"
+			],
+			[
+				"stat",
+				"station_name"
+			],
+			[
+				"T",
+				"TRAM"
+			],
+			[
+				"time",
+				"time_to_show"
+			],
+			[
+				"tie",
+				"time_to_show"
+			],
+			[
+				"LEV",
+				"LEVEL_Y1"
+			],
+			[
+				"sc",
+				"schmutz_level"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc"
+	],
+	"file_history":
+	[
+		"/home/lukas/Projekte/Roadlabs/co2_calc/style.css",
+		"/home/lukas/Arduino/libraries/DHT_sensor_library/DHT_U.cpp",
+		"/home/lukas/Arduino/libraries/DHT_sensor_library/DHT.cpp",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/index.html",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/ps2hpgl.py",
+		"/home/lukas/Projekte/nikoplotting/.gitignore",
+		"/home/lukas/Downloads/attachment.dat",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/__init__.py",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/output/test.t",
+		"/home/lukas/Projekte/diss/repair_texlive_fonterror.sh",
+		"/run/media/lukas/468e757a-715d-488b-a558-df158585d6de/BKP_FTM/H/AutomotiveCLoud/Stakeholderanalyse/latexoutput/networks/i_19_standalone.log",
+		"/run/media/lukas/468e757a-715d-488b-a558-df158585d6de/BKP_FTM/automotiveCloud/Analytics/General_State/src/general_state.py",
+		"/run/media/lukas/468e757a-715d-488b-a558-df158585d6de/BKP_FTM/automotiveCloud/dt_access/dt_access_flask_entry.py",
+		"/home/lukas/Projekte/pragha/README",
+		"/home/lukas/Projekte/pragha/AUTHORS",
+		"/home/lukas/Projekte/pragha/plugins/dlna-renderer/pragha-dlna-renderer-plugin.c",
+		"/home/lukas/Projekte/pragha/autogen.sh",
+		"/home/lukas/Projekte/pragha/configure.ac",
+		"/home/lukas/Projekte/pragha/Makefile",
+		"/home/lukas/Projekte/pragha/Makefile.am",
+		"/home/lukas/Projekte/pragha/src/pragha",
+		"/home/lukas/Documents/DIENSTE",
+		"/home/lukas/Projekte/pragha/FAQ",
+		"/home/lukas/Projekte/pragha/NEWS",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/plotter.py",
+		"/home/lukas/Music/neu/More our sites.txt",
+		"/home/lukas/Projekte/nikoplotting/README",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/data/linie_kurven.ps",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/+",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/out.hpgl",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/x",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl/work.fs",
+		"/home/lukas/Downloads/pstoedit-3.75/src/drvhpgl.cpp",
+		"/home/lukas/Projekte/nikoplotting/ps2hpgl_2/ps2hpgl/wolke.ps",
+		"/home/lukas/Projekte/nikoplotting/work2.py",
+		"/home/lukas/Downloads/Telegram Desktop/work2.py",
+		"/home/lukas/mntpoint/home/pi/rgbmatrix/monitor/main_monitor.py",
+		"/home/lukas/mntpoint/home/pi/rgbmatrix/monitor/camera_test.py",
+		"/home/lukas/mntpoint/home/pi/face_recognition/examples/haarcasc_on_raspberry_pi.py",
+		"/home/lukas/Projekte/diss/duden_spellcheck.sh",
+		"/home/lukas/Projekte/diss/library.bib",
+		"/home/lukas/Projekte/diss/images_crop_copy.sh",
+		"/home/lukas/Skripte/mount_ladepi.sh",
+		"/home/lukas/Skripte/umount_ladepi.sh",
+		"/home/lukas/Skripte/mount_ladepi.desktop",
+		"/home/lukas/Skripte/umount_ladepi.desktop",
+		"/home/lukas/Projekte/mapmyrunapi/src/mapapi_example.py",
+		"/home/lukas/ladepi/externalSSD/aufgeladen/Yoko_Hirota_-_Schoenberg_-_Piano_Music_(2019)_Hi-Res/rar_txt_fil[1].",
+		"/run/media/lukas/468e757a-715d-488b-a558-df158585d6de/BKP_FTM/automotiveCloud/dt_daemon2/daemon.py",
+		"/run/media/lukas/468e757a-715d-488b-a558-df158585d6de/BKP_LUKAS/Rachmaninoff_-_Symphonies_&_Orchestral_Music_(2021)_Hi-Res/More our sites.txt",
+		"/home/lukas/mntpoint/home/pi/ubahn_monitor/module_led.py",
+		"/home/lukas/mntpoint/home/pi/rgbmatrix/monitor/module_mvg.py",
+		"/home/lukas/mntpoint/home/pi/ubahn_monitor/ubahn_monitor.py",
+		"/home/lukas/mntpoint/home/pi/ubahn_monitor/module_weather.py",
+		"/home/lukas/mntpoint/home/pi/ubahn_monitor/module_mvg.py"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"pullTime",
+			" delayMicroseconds(10)",
+			" delayMicroseconds(10); // Delay a bit to let sensor pull data line low.",
+			"// Now s",
+			"public_tranport",
+			"console",
+			"total_yearly_cost",
+			"phev",
+			"share",
+			"print",
+			"spli",
+			"splie",
+			"print (.+)\\n",
+			"capture",
+			"Joining",
+			"Das",
+			"place",
+			"unterstein",
+			"UML",
+			"print (.+)\\n",
+			"print (.+\\n)",
+			"print (\\D+\\n)",
+			"print (\\D*) \\n",
+			"print (\\D+) \\n",
+			"print (+)",
+			"merkle",
+			"Lang",
+			"Berg",
+			"Markou",
+			"Prasad",
+			"Heimes",
+			"%",
+			"\\%",
+			"textColor",
+			"img_height"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"public_transport",
+			"print(\\1)\\n",
+			"print()\\n",
+			"print(\\1)",
+			"\\%"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "co2_calc.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 370.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

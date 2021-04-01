@@ -2,8 +2,217 @@
 
 <!DOCTYPE html>
 <html>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
 
 <script>
+
+// Constants -----------------------------------------------------------------
+avg_bt_pP_pDay = 0.3
+business_days = 250 //per year
+
+// Modal shares
+commuting_shares={
+  "bike": {"share": 0.22, "avg_dist": 8},
+  "car": {"share": 0.52, "avg_dist": 42},
+  "company_car": {"share": 0.11, "avg_dist": 42},
+  "public_transport": {"share": 0.15, "avg_dist": 50}
+}
+
+business_trip_shares={
+  "bike": {"share": 0.1, "avg_dist": 4},
+  "private_car": {"share": 0.1, "avg_dist": 75},
+  "company_car": {"share": 0.2, "avg_dist": 75},
+  "pool_car": {"share": 0.5, "avg_dist": 38},
+  "public_transport": {"share": 0.055, "avg_dist": 31},
+  "plane": {"share": 0.015, "avg_dist": 4280},
+  "train": {"share": 0.03, "avg_dist": 554.8}
+}
+
+// Prices in €
+energy_price={
+  "gasoline": 1.46, //€ per l
+  "diesel": 1.26, //€ per l
+  "bev": 0.3 // € per kWh
+}
+
+transport_price_per_km={
+  "public_transport": 0.13,
+  "train": 0.15,
+  "car": 0.3,
+  "plane": 0.2,
+  "bike": 0.3
+}
+
+transport_price_monthly={
+  "jobrad": 15,
+  "public_transport": 60
+}
+
+// Eminssions in kg per km
+emissions_per_km={
+  "public_transport": 0.1,
+  "plane": 0.2113,
+  "gasoline": 0.2,
+  "pedelec": 0.004,
+  "train": 0.0356,
+  "bike": 0
+}
+
+// Emissions per energy
+emissions_per_energy={
+  "gasoline": 2.33, //per l
+  "diesel": 2.6, //per l
+  "bev": 0.5 //german mix, per kWh
+}
+
+// Vehicle Tech
+const vehicle_tech = {
+  GAS: "gasoline",
+  DIESEL: "diesel",
+  BEV: "bev",
+  PHEV: "phev"
+}
+
+// ---------------------------------------------------------------------------
+
+
+
+// Base Classes --------------------------------------------------------------
+
+class Commuting{
+  constructor(){
+    this.car_km = 0
+    this.private_car = 0;
+    this.company_car = 0;
+    this.bike = 0;
+    this.public_transport = 0;
+  }
+
+  calc_communting_distances(n_employees){
+
+    this.bike_km = n_employees * commuting_shares["bike"]["share"] * commuting_shares["bike"]["avg_dist"] * business_days
+    this.private_car_km = n_employees * commuting_shares["car"]["share"] * commuting_shares["car"]["avg_dist"] * business_days
+    this.company_car_km = n_employees * commuting_shares["company_car"]["share"] * commuting_shares["company_car"]["avg_dist"] * business_days
+    this.public_transport_km = n_employees * commuting_shares["public_transport"]["share"] * commuting_shares["public_transport"]["avg_dist"] * business_days
+    console.log("km: ", this.public_transport_km)
+  }
+
+  calc_communting_co2(){
+    this.bike_co2 = this.bike_km * emissions_per_km["bike"]
+    this.private_car_co2 = this.private_car_km * emissions_per_km["gasoline"]
+    this.company_car_co2 = this.company_car_km * emissions_per_km["gasoline"]
+    this.public_transport_co2 = this.public_transport_km * emissions_per_km["public_transport"]
+  }
+
+  calc_communting_cost(){
+    this.bike_cost = this.bike_km * transport_price_per_km["bike"]
+    this.private_car_cost = this.private_car_km * transport_price_per_km["car"]
+    this.company_car_cost = this.company_car_km * transport_price_per_km["car"]
+    this.public_transport_cost = this.public_transport_km * transport_price_per_km["public_transport"]
+  }
+
+  calc(n_employees){
+    this.calc_communting_distances(n_employees)
+    this.calc_communting_co2()
+    this.calc_communting_cost()
+  }
+}
+
+
+class Business_Trips{
+  constructor(n_employees){
+
+    this.business_trips_per_year = n_employees* avg_bt_pP_pDay * business_days
+
+
+    this.company_car_km = 0
+    this.pool_car_km=0
+    this.public_transport_km=0
+    this.bike_km=0
+    this.plane_km=0
+    this.train_km=0
+    this.private_car_km=0
+  }
+
+  calc_distances(){
+    this.company_car_km = this.business_trips_per_year * business_trip_shares["company_car"]["share"]* business_trip_shares["company_car"]["avg_dist"]
+    this.public_transport_km = this.business_trips_per_year * business_trip_shares["public_transport"]["share"]* business_trip_shares["public_transport"]["avg_dist"]
+    this.bike_km = this.business_trips_per_year * business_trip_shares["bike"]["share"]* business_trip_shares["bike"]["avg_dist"]
+    this.plane_km = this.business_trips_per_year * business_trip_shares["plane"]["share"]* business_trip_shares["plane"]["avg_dist"]
+    this.train_km = this.business_trips_per_year * business_trip_shares["train"]["share"]* business_trip_shares["train"]["avg_dist"]
+    this.private_car_km = this.business_trips_per_year * business_trip_shares["private_car"]["share"]* business_trip_shares["private_car"]["avg_dist"]
+  }
+
+  calc_co2(){
+    this.bike_co2 = this.bike_km * emissions_per_km["bike"]
+    this.public_transport_co2 = this.public_transport_km * emissions_per_km["public_transport"]
+    this.train_co2 = this.train_km * emissions_per_km["train"]
+    this.plane_co2 = this.plane_km * emissions_per_km["plane"]
+    this.private_car_co2 = this.private_car_km * emissions_per_km["gasoline"]
+  }
+
+  calc(){
+    this.calc_distances()
+    this.calc_co2()
+  }
+
+
+}
+
+
+class Vehicle{
+  constructor(tech, new_price, residual_value){
+    this.writeoff_period = 3 // years
+    this.workshop_cost = 720 //€/year
+    this.fixcost = 1200 //€/year
+
+  switch (tech){
+    case vehicle_tech.GAS: this.consumption=7
+    case ehicle_tech.DIESEL: this.consumption = 6
+    case ehicle_tech.BEV: this.consumption = 16
+  }
+
+    this.consumption = 6 // l/100km or kWh/100km
+
+    this.tech = tech
+  
+    this.emissions_per_km = emissions_per_km[tech]
+
+    this.new_price = new_price
+    this.residual_value  = residual_value
+
+    this.total_yearly_cost = -1
+    this.total_cost_per_km = -1
+    this.total_yearly_co2 = -1
+    this.total_co2_per_km = -1
+
+  }
+
+  do_tco(yearly_mileage){
+
+    var value_loss = 0
+    var yearly_loss=0
+    var energy_cost_yearly=0
+
+    this.yearly_mileage = yearly_mileage
+
+    value_loss = this.new_price - this.residual_value
+    yearly_loss = value_loss / this.writeoff_period
+
+    energy_cost_yearly = yearly_mileage * this.consumption / 100 * energy_price[this.tech]
+
+    this.total_yearly_cost = this.workshop_cost + this.fixcost + yearly_loss + energy_cost_yearly
+    this.total_cost_per_km = this.total_yearly_cost / yearly_mileage
+    this.total_yearly_co2 = yearly_mileage * this.consumption / 100 * emissions_per_km[this.tech]
+    this.total_co2_per_km = this.total_yearly_co2 / yearly_mileage
+
+  }
+
+}
+// ---------------------------------------------------------------------------
+
 function calculate_co2() {
 
 	n_employees = parseInt(document.getElementById("number_employes").value)
@@ -14,32 +223,98 @@ function calculate_co2() {
 
 	console.log(cost_saved)
 
-  document.getElementById("result").innerHTML = String(cost_saved)+"€";
+  communting = new Commuting()
+  communting.calc(n_employees)
+
+  businesstrips = new Business_Trips(n_employees)
+  businesstrips.calc()
+
+  console.log("com dist bike: ", communting.bike_km)
+  console.log("commuting co2 company car: ", communting.company_car_co2, "kg/year")
+  console.log("commuting co2 private car: ", communting.private_car_co2, "kg/year")
+
+  icev_cheap = new Vehicle(vehicle_tech.GAS, 35000, 15000)
+  icev_cheap.do_tco(25000)
+
+  document.getElementById("result").innerHTML = String(icev_cheap.total_yearly_cost)+"€";
+
+  // Map results
+  document.getElementById("res_bike_co2").innerHTML = String(communting.bike_co2);
+  document.getElementById("res_company_car_co2").innerHTML = String(communting.company_car_co2);
+  document.getElementById("res_private_car_co2").innerHTML = String(communting.private_car_co2);
+  document.getElementById("res_public_transport_co2").innerHTML = String(communting.public_transport_co2);
+
+  document.getElementById("res_bt_bike_co2").innerHTML = String(businesstrips.bike_co2)
+  document.getElementById("res_bt_private_car_co2").innerHTML = String(businesstrips.public_transport_co2);
+  document.getElementById("res_bt_public_transport_co2").innerHTML = String(businesstrips.private_car_co2);
+  document.getElementById("res_bt_train_co2").innerHTML = String(businesstrips.train_co2);
+  document.getElementById("res_bt_plane_co2").innerHTML = String(businesstrips.plane_co2);
 }
-    </script>
+
+</script>
 
 
 <head>
-<style>
-.button {
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 14px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-
-.button1 {background-color: #4CAF50;} /* Green */
-.button2 {background-color: #008CBA;} /* Blue */
-</style>
 </head>
 <body>
 
 <h1>Roadlabs CO2-Calculator: Save using Mobility-Management</h1>
+
+<div class="slidecontainer">
+  Anzahl Mitarbeiter
+  <input type="range" min="1" max="1000" value="300" class="slider" id="myRange">
+
+  <h2>Pendeln</h2>
+  Fahrrad
+  <input type="range" min="0" max="100" value="22" class="slider" id="p_bike">
+  Eigenes Fahrzeug
+  <input type="range" min="0" max="100" value="52" class="slider" id="p_own_car">
+  Dienstwagen
+  <input type="range" min="0" max="100" value="11" class="slider" id="p_company_car">
+  ÖPNV
+  <input type="range" min="0" max="100" value="15" class="slider" id="p_public_transport">
+
+  <h2>Dienstfahrten</h2>
+  Fahrrad
+  <input type="range" min="0" max="100" value="10" class="slider" id="bt_bike">
+  Eigenes Fahrzeug
+  <input type="range" min="0" max="100" value="10" class="slider" id="bt_own_car">
+  Dienstwagen
+  <input type="range" min="0" max="100" value="20" class="slider" id="bt_company_car">
+  Poolfahrzeug
+  <input type="range" min="0" max="100" value="50" class="slider" id="bt_pool_car">
+  ÖPNV
+  <input type="range" min="0" max="100" value="5.5" class="slider" id="bt_public_transport">
+  Bahn
+  <input type="range" min="0" max="100" value="3" class="slider" id="bt_bahn">
+  Flugzeug
+  <input type="range" min="0" max="100" value="1.5" class="slider" id="bt_plane">
+
+  <h2>Zusammensetzung Fahrzeugpool</h2>
+  ICEV "günstig"
+  <input type="range" min="0" max="100" value="50" class="slider" id="pool_icev_cheap">
+  ICEV "teuer"
+  <input type="range" min="0" max="100" value="10" class="slider" id="pool_icev_expensive">
+  Transporter ICEV
+  <input type="range" min="0" max="100" value="40" class="slider" id="pool_icev_transporter">
+  Elektro "günstig"
+  <input type="range" min="0" max="100" value="50" class="slider" id="pool_e_cheap">
+  Elektro "teuer"
+  <input type="range" min="0" max="100" value="10" class="slider" id="pool_e_expensive">
+  Elektro Transporter
+  <input type="range" min="0" max="100" value="40" class="slider" id="pool_e_transporter">
+
+  <h2>Zusammensetzung Dienstwagenflotte</h2>
+  ICEV "günstig"
+  <input type="range" min="0" max="100" value="80" class="slider" id="cc_icev_cheap">
+  ICEV "teuer"
+  <input type="range" min="0" max="100" value="20" class="slider" id="cc_icev_expensive">
+  Elektro "günstig"
+  <input type="range" min="0" max="100" value="0" class="slider" id="cc_e_cheap">
+  Elektro "teuer"
+  <input type="range" min="0" max="100" value="0" class="slider" id="cc_e_expensive">
+
+</div>
 
 <p>
   <label >Number of employees</label>
@@ -49,6 +324,23 @@ function calculate_co2() {
 
   <p>
   Result:  <span id="result"></span>
+
+
+
+<h2>Results</h2>
+<h3>Commuting</h3>
+Bike: <span id="res_bike_co2"></span> kg co2/year <br>
+Company Car: <span id="res_company_car_co2"></span> kg co2/year <br>
+Priate Car: <span id="res_private_car_co2"></span> kg co2/year <br>
+Public Transport: <span id="res_public_transport_co2"></span> kg co2/year <br>
+
+<h3>Business Trips and Travel</h3>
+Bike: <span id="res_bt_bike_co2"></span> kg co2/year <br>
+Priate Car: <span id="res_bt_private_car_co2"></span> kg co2/year <br>
+Public Transport: <span id="res_bt_public_transport_co2"></span> kg co2/year <br>
+Train: <span id="res_bt_train_co2"></span> kg co2/year <br>
+Plane: <span id="res_bt_plane_co2"></span> kg co2/year <br>
+
 </body>
 </html>
 

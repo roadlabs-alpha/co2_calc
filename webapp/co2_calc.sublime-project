@@ -1,0 +1,11 @@
+{
+	"folders":
+	[
+		{
+			"path": "webapp/co2-calc"
+		},
+		{
+			"path": "co2-calc/src/app"
+		}
+	]
+}
