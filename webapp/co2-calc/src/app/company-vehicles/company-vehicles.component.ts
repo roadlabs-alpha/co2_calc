@@ -18,7 +18,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 	is_private_use = false;
 	is_pool_car = false;
-	n_vehicles=0;
+	n_total_vehicles=0;
 	vgn=0;
 
 	vehicle_groupsaaa=[{
@@ -52,27 +52,40 @@ export class CompanyVehiclesComponent implements OnInit{
 
 	add_vehicle_group(): void{
 
-		console.log("add vehicle group")
-		console.log(this.fg_vehicleclass.value.fc_vehicleclass);
-		console.log(this.fg_vehicleclass.value.fc_vehicleprop);
-		console.log(this.fg_vehicleclass.value.fc_mileage);
-		console.log(this.fg_vehicleclass.value.fc_count);
-		console.log(this.fg_vehicleclass.value.fc_poolcar);
-		console.log(this.fg_vehicleclass.value.fc_privateuse);
+		// console.log("add vehicle group")
+		// console.log(this.fg_vehicleclass.value.fc_vehicleclass);
+		// console.log(this.fg_vehicleclass.value.fc_vehicleprop);
+		// console.log(this.fg_vehicleclass.value.fc_mileage);
+		// console.log(this.fg_vehicleclass.value.fc_count);
+		// console.log(this.fg_vehicleclass.value.fc_poolcar);
+		// console.log(this.fg_vehicleclass.value.fc_privateuse);
 
 		var vg = new VehicleGroup();
-		vg.is_private_use = this.fg_vehicleclass.value.fc_vehicleclass;
-		vg.is_poolcar = this.fg_vehicleclass.value.fc_vehicleprop;
-		vg.vehicleclass = this.fg_vehicleclass.value.fc_mileage;
-		vg.vehicleprop = this.fg_vehicleclass.value.fc_count;
-		vg.mileage = this.fg_vehicleclass.value.fc_poolcar;
-		vg.count = this.fg_vehicleclass.value.fc_privateuse;
+		vg.vehicleclass = this.fg_vehicleclass.value.fc_vehicleclass;
+		vg.vehicleprop = this.fg_vehicleclass.value.fc_vehicleprop;
+		vg.mileage = this.fg_vehicleclass.value.fc_mileage;
+		vg.count = this.fg_vehicleclass.value.fc_count;
+		vg.is_poolcar = this.fg_vehicleclass.value.fc_poolcar;
+		vg.is_private_use = this.fg_vehicleclass.value.fc_privateuse;
 		//var vg = "as";
 		this.vehicle_groups.push(vg);
 
+		this.calc_total_vehicle_count()
+
+	}
+
+	calc_total_vehicle_count(): void{
+
+		this.n_total_vehicles=0;
+		for (var i=0; i<this.vehicle_groups.length; i++){
+
+			console.log(parseInt("3"));
+			console.log(typeof(this.vehicle_groups[i].count));
+			console.log(Number(this.vehicle_groups[i].count));
+			
+			this.n_total_vehicles += Number(this.vehicle_groups[i].count);
 		
-
-
+		}
 		console.log(this.vehicle_groups);
 
 	}
@@ -86,6 +99,6 @@ class VehicleGroup{
 	vehicleprop=0;
 	mileage=0;
 	count=0;
-	
+
 	constructor() { }
 }
