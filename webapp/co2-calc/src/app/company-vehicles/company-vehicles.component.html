@@ -1,9 +1,11 @@
 <div class=component_container>
 	<h2>Company Vehicles</h2>
-	Currently, you have {{n_total_vehicles}} vehicles!
+	Please input the cars associated with your company. We think of company cars, cars in a pool, transport vehicles or personally assigned vehicles.
+	<br>
+	Currently, you have <b>{{n_total_vehicles}}</b> vehicles associated with your company!
 	<br>
 	<br>
-	Add a Vehicle Category
+	Add a Vehicle Group
 	<br>
 
 	<div class=add_vehicle_category_block>
@@ -33,16 +35,16 @@
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
 			<mat-label>Mileage (Year)</mat-label>
 			<mat-select matNativeControl formControlName="fc_mileage">
-				<mat-option value="5"><5000 km</mat-option>
-					<mat-option value="5-10">5000-10000 km</mat-option>
-					<mat-option value="10-20">10000-20000 km</mat-option>
-					<mat-option value="20-30">20000-30000 km</mat-option>
+				<mat-option value="<5000 km"><5000 km</mat-option>
+					<mat-option value="5000-10000 km">5000-10000 km</mat-option>
+					<mat-option value="10000-20000 km">10000-20000 km</mat-option>
+					<mat-option value="20000-30000 km">20000-30000 km</mat-option>
 				</mat-select>
 			</mat-form-field>
 
-			<mat-form-field [formGroup]="fg_vehicleclass" class="form_element">
+			<mat-form-field class="form_element" [formGroup]="fg_vehicleclass">
 				<mat-label>Count</mat-label>
-				<textarea matInput placeholder="10" formControlName="fc_count"></textarea>
+				<input matInput type="text" placeholder="1" formControlName="fc_count">
 			</mat-form-field>
 
 			<div class=form_element>
@@ -68,32 +70,32 @@
 		<div class=vehicle_groups_container *ngIf="vehicle_groups.length>0">
 
 			<table id=customers>
-			<tr>
-				<th> </th>
-				<th>Vehicle class</th>
-				<th>Propulsion</th>
-				<th>Mileage</th>
-				<th>Count</th>
-				<th>Private use</th>
-				<th>Pool car</th>
-				<th> </th>
-			</tr>
+				<tr>
+					<th> </th>
+					<th>Vehicle class</th>
+					<th>Propulsion</th>
+					<th>Mileage</th>
+					<th>Count</th>
+					<th>Private use</th>
+					<th>Pool car</th>
+					<th> </th>
+				</tr>
 
-			<tr  *ngFor = "let vg of vehicle_groups; let i = index">
-				<td>{{vg.vgn}}</td>
-				<td>{{vg.vehicleclass}}</td>
-				<td>{{vg.vehicleprop}}</td>
-				<td>{{vg.mileage}}</td>
-				<td>{{vg.count}}</td>
-				<td>{{vg.is_poolcar}}</td>
-				<td>{{vg.is_private_use}}</td>
-				<td><form class=block_add>
-				<button mat-button mat-icon-button aria-label="Clear" (click)="delete_vehicle_group(i);">
-					<mat-icon>clear</mat-icon>
-				</button>
-			</form></td>
-			</tr>
-		</table>
+				<tr  *ngFor = "let vg of vehicle_groups; let i = index">
+					<td>{{vg.vgn}}</td>
+					<td>{{vg.vehicleclass}}</td>
+					<td>{{vg.vehicleprop}}</td>
+					<td>{{vg.mileage}}</td>
+					<td>{{vg.count}}</td>
+					<td>{{vg.is_poolcar}}</td>
+					<td>{{vg.is_private_use}}</td>
+					<td><form class=block_add>
+						<button mat-button mat-icon-button aria-label="Clear" (click)="delete_vehicle_group(i);">
+							<mat-icon>clear</mat-icon>
+						</button>
+					</form></td>
+				</tr>
+			</table>
 		</div>
 
 	</div>
