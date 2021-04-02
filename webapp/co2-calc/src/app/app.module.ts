@@ -19,13 +19,15 @@ import { MatButtonModule } from '@angular/material/button';
 import {DemoMaterialModule} from './material-module';
 import { CompanyVehiclesComponent } from './company-vehicles/company-vehicles.component';
 import { CompanyBusinesstripsComponent } from './company-businesstrips/company-businesstrips.component';
+import { Co2CostCalcComponent } from './co2-cost-calc/co2-cost-calc.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CompanyPropertiesComponent,
     CompanyVehiclesComponent,
-    CompanyBusinesstripsComponent
+    CompanyBusinesstripsComponent,
+    Co2CostCalcComponent
   ],
   imports: [
     BrowserModule,
