@@ -1,0 +1,22 @@
+#vehicle_results_table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+}
+
+#vehicle_results_table td, #vehicle_results_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#vehicle_results_table tr:nth-child(even){background-color: #f6f6f6;}
+
+#vehicle_results_table tr:hover {background-color: #ccc;}
+
+#vehicle_results_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #86ba87;
+  color: black;
+}

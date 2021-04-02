@@ -17,18 +17,18 @@
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
 			<mat-label>Select Vehicle Class</mat-label>
 			<mat-select matNativeControl formControlName="fc_vehicleclass">
-				<mat-option value="compact">Compact</mat-option>
-				<mat-option value="executive">Executive</mat-option>
-				<mat-option value="transporter">Transporter</mat-option>
+				<mat-option style="color:#333" value="compact">Compact</mat-option>
+				<mat-option style="color:#333" value="executive">Executive</mat-option>
+				<mat-option style="color:#333" value="transporter">Transporter</mat-option>
 			</mat-select>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
 			<mat-label>Vehicle Propulsion</mat-label>
 			<mat-select matNativeControl formControlName="fc_vehicleprop">
-				<mat-option value="Electric">Electric</mat-option>
-				<mat-option value="Gasoline">Gasoline</mat-option>
-				<mat-option value="Diesel">Diesel</mat-option>
+				<mat-option style="color:#333" value="electric">Electric</mat-option>
+				<mat-option style="color:#333" value="gasoline">Gasoline</mat-option>
+				<mat-option style="color:#333" value="diesel">Diesel</mat-option>
 			</mat-select>
 		</mat-form-field>
 
@@ -36,7 +36,7 @@
 			<mat-label>Mileage (Year)</mat-label>
 			<mat-select matNativeControl formControlName="fc_mileage">
 
-				<mat-option *ngFor="let mc of mileage_classes" value={{mc.id}}>{{mc.name}}</mat-option>
+				<mat-option style="color:#333" *ngFor="let mc of mileage_classes" value={{mc.id}}>{{mc.name}}</mat-option>
 				<!--mat-option value="<5000 km"><5000 km</mat-option>
 				<mat-option value="5000-10000 km">5000-10000 km</mat-option>
 				<mat-option value="10000-20000 km">10000-20000 km</mat-option>
@@ -101,6 +101,4 @@
 			<br>
 			<button mat-raised-button  color="accent" (click)="save_vehicle_groups();">Save vehicle groups</button>
 		</div>
-
-
 	</div>

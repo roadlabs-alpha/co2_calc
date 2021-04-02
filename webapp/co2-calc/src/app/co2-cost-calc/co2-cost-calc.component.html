@@ -5,4 +5,19 @@
 
 	<button mat-raised-button class="buttons"color="accent" (click)="calc_all();">Calculate!</button>
 
+	<table id="vehicle_results_table" *ngIf="show_vehicle_results_table">
+		<tr>
+			<th>Vehicle Group</th>
+			<th>Total CO<sub>2</sub></th>
+			<th>Total cost</th>
+
+		</tr>
+		<tr *ngFor="let vg of state.vehicle_groups_user">
+			<td>{{vg.vgn}}</td>
+			<td>{{vg.vg_total_co2}} kg</td>
+			<td>{{vg.vg_total_cost}} €</td>
+
+		</tr>
+	</table>
+
 </div>

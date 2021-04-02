@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatFormFieldControl} from "@angular/material/form-field"
 import { FormControl, FormGroup } from '@angular/forms'
 import { StateService } from '../state.service';
+import { DataService, Data} from '../data.service';
 
 
 
@@ -36,7 +37,7 @@ export class CompanyVehiclesComponent implements OnInit{
 	fg_vehicleclass = new FormGroup({
 		fc_vehicleclass: new FormControl('compact'),
 		fc_vehicleprop: new FormControl('electric'),
-		fc_mileage: new FormControl([]),
+		fc_mileage: new FormControl("0"),
 		fc_poolcar: new FormControl(false),
 		fc_privateuse: new FormControl(false),
 		fc_count: new FormControl(1),
@@ -78,12 +79,11 @@ export class CompanyVehiclesComponent implements OnInit{
 		// console.log(this.fg_vehicleclass.value.fc_privateuse);
 
 		var vgn = this.generate_vehicle_group_name(0);
-		var vg = new VehicleGroup(vgn);
+		var milage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value;
+		var vg = new VehicleGroup(vgn, milage, this.fg_vehicleclass.value.fc_vehicleprop, this.fg_vehicleclass.value.fc_vehicleclass);
 		
-		vg.vehicleclass = this.fg_vehicleclass.value.fc_vehicleclass;
-		vg.vehicleprop = this.fg_vehicleclass.value.fc_vehicleprop;
 
-		vg.mileage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value
+		//vg.mileage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value
 		vg.mileage_name = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].name
 		
 		vg.count = this.fg_vehicleclass.value.fc_count;
@@ -124,13 +124,151 @@ export class VehicleGroup{
 	vgn="";
 	is_private_use=0;
 	is_poolcar=0;
-	vehicleclass=0;
-	vehicleprop=0;
-	mileage: Array<Number>=[];
+	vehicleclass="";
+	vehicleprop="";
+	mileage: Array<number>=[];
 	mileage_name="";
 	count=0;
+	mean_mileage=0;
+	vg_total_co2=0;
+	vg_total_cost=0;
 
-	constructor(vgn: string) { 
+	vehicle: Vehicle;
+
+	// group cost and co2 values, to be estimated
+
+	constructor(vgn: string, milage: Array<number>, tech: string, veh_class: string) { //vgn = vehicle group name 
 		this.vgn=vgn
+		this.vehicleprop = tech;
+		this.vehicleclass = veh_class;
+		this.vehicle = new Vehicle(String(this.vehicleprop), String(this.vehicleclass))
+
+
+
+		this.mileage = milage;
+		this.mean_mileage = (this.mileage[0] + this.mileage[1])/2
+		this.vehicle.do_tco(this.mean_mileage)
 	}
+
+
+	calculate_vg_co2(): number{
+		//console.log("total_yearly_co2: ", this.vehicle.total_yearly_co2)
+		//console.log(this.vehicle.total_co2_per_km, this.mean_mileage, this.count)
+		this.vg_total_co2 = this.vehicle.total_co2_per_km * this.mean_mileage * this.count
+		return this.vg_total_co2
+
+	}
+
+	calculate_vg_cost(): number{
+		this.vg_total_cost =  this.vehicle.total_cost_per_km * this.mean_mileage * this.count
+		return this.vg_total_cost
+	}
+
+
+
+}
+
+
+
+
+export class Vehicle{
+
+	writeoff_period=0;
+	workshop_cost=0;
+	fixcost=0;
+	consumption=0;
+	tech: string;
+	emissions_per_km=-1;
+	new_price: number=0;
+	residual_value: number=0;
+	yearly_mileage: number=0;
+	total_yearly_cost
+	total_cost_per_km=-1;
+	total_yearly_co2
+	total_co2_per_km=-1;
+
+	data = new Data();
+	dataService
+
+
+	constructor(tech: string, vehicle_class: string){
+
+		this.dataService = new DataService()
+
+		this.getData()
+
+		this.writeoff_period = 3 // years
+		this.workshop_cost = 720 //€/year
+		this.fixcost = 1200 //€/year
+
+		if (tech=="electric"){
+			this.tech="bev";
+		}else{
+			this.tech = tech;
+		}
+
+		
+
+
+
+		var epk =  this.data.emissions_per_km.get(this.tech)
+		if (epk != undefined){
+			this.emissions_per_km = epk;
+		}
+
+
+
+		var vehicle_class_detail = this.data.vehicle_class.get(vehicle_class)
+		if (vehicle_class_detail != undefined){
+			this.new_price = vehicle_class_detail.price_new
+			this.residual_value  = vehicle_class_detail.residual_value3y
+
+			if (this.tech == "bev"){
+				this.consumption = vehicle_class_detail.e_consumption;
+			}
+			else{
+				this.consumption = vehicle_class_detail.consumption;
+			}
+		}
+
+		this.total_yearly_cost = -1
+		this.total_cost_per_km = -1
+		this.total_yearly_co2 = -1
+		this.total_co2_per_km = -1
+
+
+	}
+
+	do_tco(yearly_mileage: number){
+
+		var value_loss = 0
+		var yearly_loss=0
+		var energy_cost_yearly=0
+
+		this.yearly_mileage = yearly_mileage
+
+		value_loss = this.new_price - this.residual_value
+		yearly_loss = value_loss / this.writeoff_period
+
+		
+		var ep = this.data.energy_price.get(this.tech)
+		if (ep != undefined){
+			energy_cost_yearly = yearly_mileage * this.consumption / 100 * ep
+		}
+
+		this.total_yearly_cost = this.workshop_cost + this.fixcost + yearly_loss + energy_cost_yearly
+		this.total_cost_per_km = this.total_yearly_cost / yearly_mileage
+		
+		var epe = this.data.emissions_per_energy.get(this.tech)
+		if (epe != undefined){
+			this.total_yearly_co2 = yearly_mileage * this.consumption / 100 * epe
+		}
+		this.total_co2_per_km = this.total_yearly_co2 / yearly_mileage
+
+	}
+
+	getData(): void {
+		this.dataService.getData().subscribe(dat => this.data = dat);
+	}
+
 }
