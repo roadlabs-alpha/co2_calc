@@ -84,6 +84,10 @@ export class Data{
 			PHEV: "phev"
 		}
 
+		vehicle_class= new Map<string, Vehicle_Price>();
+
+	
+
 
 		constructor() {
 			this.emissions_per_km.set('public_transport', 0.1);
@@ -101,6 +105,18 @@ export class Data{
 			this.energy_price.set("gasoline", 1.46) 	//€ per l
 			this.energy_price.set("diesel", 1.26) 		//€ per l
 			this.energy_price.set("bev", 0.3) 			// € per kWh
+
+			this.vehicle_class.set("compact", {"price_new": 30000, "residual_value3y": 15000, "consumption": 6, "e_consumption": 12})
+			this.vehicle_class.set("executive", {"price_new": 55000, "residual_value3y": 30000, "consumption": 7, "e_consumption": 16})
+			this.vehicle_class.set("transporter", {"price_new": 40000, "residual_value3y": 15000, "consumption": 8, "e_consumption": 20})
 		}
 
+}
+
+class Vehicle_Price{
+
+	price_new=0;
+	residual_value3y=0;
+	consumption=-1;
+	e_consumption=-1;
 }

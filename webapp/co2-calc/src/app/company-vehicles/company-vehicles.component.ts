@@ -27,8 +27,8 @@ export class CompanyVehiclesComponent implements OnInit{
 
 
 	fg_vehicleclass = new FormGroup({
-		fc_vehicleclass: new FormControl('Compact'),
-		fc_vehicleprop: new FormControl('Electric'),
+		fc_vehicleclass: new FormControl('compact'),
+		fc_vehicleprop: new FormControl('electric'),
 		fc_mileage: new FormControl("5000-10000 km"),
 		fc_poolcar: new FormControl(false),
 		fc_privateuse: new FormControl(false),

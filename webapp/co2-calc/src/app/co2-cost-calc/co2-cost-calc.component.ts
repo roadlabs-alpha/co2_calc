@@ -56,7 +56,7 @@ export class Co2CostCalcComponent implements OnInit {
 		var epk_pt = this.data.emissions_per_km.get("public_transport");
 
 		if (epk_bike != undefined && epk_gas!= undefined && epk_pt!= undefined){
-		
+
 			this.bike_co2 = this.bike_km * epk_bike;
 			this.private_car_co2 = this.private_car_km * epk_gas;
 			this.company_car_co2 = this.company_car_km * epk_gas;
@@ -76,10 +76,21 @@ export class Co2CostCalcComponent implements OnInit {
 	// Vehicles ----------------------------------------------------------
 	calc_vehicles(): void{
 		for(var i=0; i < this.state.vehicle_groups_user.length; i++){
-			console.log("asd")
+			console.log("Doing vehicle group", i)
+
+			var vehicle = new Vehicle(String(this.state.vehicle_groups_user[i].vehicleprop), String(this.state.vehicle_groups_user[i].vehicleclass))
+			vehicle.do_tco(20000)
+			//console.log(vehicle.total_yearly_co2)
+			//console.log("Co2 per km: ", vehicle.total_co2_per_km, " kg/km.")
+			//console.log("Cost per km: ", vehicle.total_cost_per_km, " €/km.")
+
 		}
 	}
 
+
+	calc_all(): void{
+		this.calc_vehicles()
+	}
 
 
 
@@ -104,8 +115,8 @@ class Vehicle{
 	consumption=0;
 	tech: string;
 	emissions_per_km
-	new_price: number;
-	residual_value
+	new_price: number=0;
+	residual_value: number=0;
 	yearly_mileage: number=0;
 	total_yearly_cost
 	total_cost_per_km
@@ -113,8 +124,12 @@ class Vehicle{
 	total_co2_per_km
 
 	data = new Data();
+	dataService
 
-	constructor(tech: string, new_price: number, residual_value: number, private dataService: DataService){
+
+	constructor(tech: string, vehicle_class: string){
+
+		this.dataService = new DataService()
 
 		this.getData()
 
@@ -122,27 +137,42 @@ class Vehicle{
 		this.workshop_cost = 720 //€/year
 		this.fixcost = 1200 //€/year
 
-		switch (tech){
-			case this.data.vehicle_tech.GAS: this.consumption=7
-			break;
-			case this.data.vehicle_tech.DIESEL: this.consumption = 6
-			break;
-			case this.data.vehicle_tech.BEV: this.consumption = 16
-			break;
+		if (tech=="electric"){
+			this.tech="bev";
+		}else if(tech == "Diesel"){
+			this.tech = "diesel"
+		}else if(tech == "Gasoline"){
+			this.tech = "gasoline"
+		}else{
+			this.tech = tech;
 		}
 
-		this.consumption = 6 // l/100km or kWh/100km
+		
 
-		this.tech = tech
+
 
 		this.emissions_per_km = this.data.emissions_per_km.get(this.tech)
-		this.new_price = new_price
-		this.residual_value  = residual_value
+
+
+
+		var vehicle_class_detail = this.data.vehicle_class.get(vehicle_class)
+		if (vehicle_class_detail != undefined){
+			this.new_price = vehicle_class_detail.price_new
+			this.residual_value  = vehicle_class_detail.residual_value3y
+
+			if (this.tech == "bev"){
+				this.consumption = vehicle_class_detail.e_consumption;
+			}
+			else{
+				this.consumption = vehicle_class_detail.consumption;
+			}
+		}
 
 		this.total_yearly_cost = -1
 		this.total_cost_per_km = -1
 		this.total_yearly_co2 = -1
 		this.total_co2_per_km = -1
+
 
 	}
 
@@ -166,9 +196,10 @@ class Vehicle{
 		this.total_yearly_cost = this.workshop_cost + this.fixcost + yearly_loss + energy_cost_yearly
 		this.total_cost_per_km = this.total_yearly_cost / yearly_mileage
 		
-		var epk = this.data.emissions_per_km.get(this.tech)
+		var epk = this.data.emissions_per_energy.get(this.tech)
 		if (epk != undefined){
 			this.total_yearly_co2 = yearly_mileage * this.consumption / 100 * epk
+			console.log("total y co2: ", yearly_mileage, this.consumption, epk)
 		}
 		this.total_co2_per_km = this.total_yearly_co2 / yearly_mileage
 
