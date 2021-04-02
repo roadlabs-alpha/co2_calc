@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatFormFieldControl} from "@angular/material/form-field"
 import { FormControl, FormGroup } from '@angular/forms'
+import { StateService } from '../state.service';
 
 
 
@@ -35,7 +36,7 @@ export class CompanyVehiclesComponent implements OnInit{
 		fc_add: new FormControl(false),
 	});
 
-	constructor() { }
+	constructor(private stateService: StateService) { }
 
 	ngOnInit(): void {
 	}
@@ -94,6 +95,12 @@ export class CompanyVehiclesComponent implements OnInit{
 		this.calc_total_vehicle_count();
 	}
 
+	save_vehicle_groups(): void{
+		this.stateService.state.vehicle_groups_user = this.vehicle_groups
+		console.log("Saved vehicle groups: ", this.vehicle_groups)
+
+	}
+
 	calc_total_vehicle_count(): void{
 
 		this.n_total_vehicles=0;
@@ -103,7 +110,7 @@ export class CompanyVehiclesComponent implements OnInit{
 	}
 }
 
-class VehicleGroup{
+export class VehicleGroup{
 	vgn="";
 	is_private_use=0;
 	is_poolcar=0;

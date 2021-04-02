@@ -57,7 +57,9 @@ export class CompanyBusinesstripsComponent implements OnInit {
 	}
 
 	save_value_set(): void{
-		
+		this.stateService.state.bt_value_set_user = this.fg_bt.value;
+		console.log(this.fg_bt.value)
+
 	}
 
 
