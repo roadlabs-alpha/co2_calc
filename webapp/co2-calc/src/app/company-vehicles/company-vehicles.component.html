@@ -35,10 +35,12 @@
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element">
 			<mat-label>Mileage (Year)</mat-label>
 			<mat-select matNativeControl formControlName="fc_mileage">
-				<mat-option value="<5000 km"><5000 km</mat-option>
-					<mat-option value="5000-10000 km">5000-10000 km</mat-option>
-					<mat-option value="10000-20000 km">10000-20000 km</mat-option>
-					<mat-option value="20000-30000 km">20000-30000 km</mat-option>
+
+				<mat-option *ngFor="let mc of mileage_classes" value={{mc.id}}>{{mc.name}}</mat-option>
+				<!--mat-option value="<5000 km"><5000 km</mat-option>
+				<mat-option value="5000-10000 km">5000-10000 km</mat-option>
+				<mat-option value="10000-20000 km">10000-20000 km</mat-option>
+				<mat-option value="20000-30000 km">20000-30000 km</mat-option-->
 				</mat-select>
 			</mat-form-field>
 
@@ -85,7 +87,7 @@
 					<td>{{vg.vgn}}</td>
 					<td>{{vg.vehicleclass}}</td>
 					<td>{{vg.vehicleprop}}</td>
-					<td>{{vg.mileage}}</td>
+					<td>{{vg.mileage_name}}</td>
 					<td>{{vg.count}}</td>
 					<td>{{vg.is_poolcar}}</td>
 					<td>{{vg.is_private_use}}</td>
@@ -96,8 +98,8 @@
 					</form></td>
 				</tr>
 			</table>
-					<br>
-		<button mat-raised-button  color="accent" (click)="save_vehicle_groups();">Save vehicle groups</button>
+			<br>
+			<button mat-raised-button  color="accent" (click)="save_vehicle_groups();">Save vehicle groups</button>
 		</div>
 
 

@@ -14,12 +14,17 @@ export class Co2CostCalcComponent implements OnInit {
 	state = new State();
 	data = new Data();
 
+	mileage_convert = {
+		
+	}
+
+
+
 	ngOnInit(): void {
 
 		this.getState();
 		this.getData();
 	}
-
 
 
 
@@ -79,6 +84,9 @@ export class Co2CostCalcComponent implements OnInit {
 			console.log("Doing vehicle group", i)
 
 			var vehicle = new Vehicle(String(this.state.vehicle_groups_user[i].vehicleprop), String(this.state.vehicle_groups_user[i].vehicleclass))
+			
+			this.state.vehicle_groups_user[i].mileage
+
 			vehicle.do_tco(20000)
 			//console.log(vehicle.total_yearly_co2)
 			//console.log("Co2 per km: ", vehicle.total_co2_per_km, " kg/km.")

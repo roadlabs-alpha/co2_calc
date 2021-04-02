@@ -20,6 +20,13 @@ export class CompanyVehiclesComponent implements OnInit{
 	is_private_use = false;
 	is_pool_car = false;
 	n_total_vehicles=0;
+
+	mileage_classes = [
+		{"id":0, "name": "<5000 km", "value":[0,5000]},
+		{"id":1,"name": "5000-10000 km", "value":[5000, 10000]},
+		{"id":2,"name": "10000-20000 km", "value":[10000,20000]},
+		{"id":3,"name": "20000-30000 km", "value":[20000,30000]}
+	];
 	
 
 	vehicle_groups: Array<VehicleGroup>=[];
@@ -29,7 +36,7 @@ export class CompanyVehiclesComponent implements OnInit{
 	fg_vehicleclass = new FormGroup({
 		fc_vehicleclass: new FormControl('compact'),
 		fc_vehicleprop: new FormControl('electric'),
-		fc_mileage: new FormControl("5000-10000 km"),
+		fc_mileage: new FormControl([]),
 		fc_poolcar: new FormControl(false),
 		fc_privateuse: new FormControl(false),
 		fc_count: new FormControl(1),
@@ -75,7 +82,10 @@ export class CompanyVehiclesComponent implements OnInit{
 		
 		vg.vehicleclass = this.fg_vehicleclass.value.fc_vehicleclass;
 		vg.vehicleprop = this.fg_vehicleclass.value.fc_vehicleprop;
-		vg.mileage = this.fg_vehicleclass.value.fc_mileage;
+
+		vg.mileage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value
+		vg.mileage_name = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].name
+		
 		vg.count = this.fg_vehicleclass.value.fc_count;
 		vg.is_poolcar = this.fg_vehicleclass.value.fc_poolcar;
 		vg.is_private_use = this.fg_vehicleclass.value.fc_privateuse;
@@ -116,7 +126,8 @@ export class VehicleGroup{
 	is_poolcar=0;
 	vehicleclass=0;
 	vehicleprop=0;
-	mileage=0;
+	mileage: Array<Number>=[];
+	mileage_name="";
 	count=0;
 
 	constructor(vgn: string) { 
