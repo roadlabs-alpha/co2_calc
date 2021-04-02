@@ -46,11 +46,7 @@ export class Data{
 	}
 
 	// Prices in €
-	energy_price={
-		"gasoline": 1.46, //€ per l
-		"diesel": 1.26, //€ per l
-		"bev": 0.3 // € per kWh
-	}
+	energy_price = new Map<string, number>();
 
 	transport_price_per_km={
 		"public_transport": 0.13,
@@ -66,32 +62,45 @@ export class Data{
 	}
 
 	// Eminssions in kg per km
-	emissions_per_km={
-		"public_transport": 0.1,
-		"plane": 0.2113,
-		"gasoline": 0.2,
-		"pedelec": 0.004,
-		"train": 0.0356,
-		"bike": 0
-	}
+	// emissions_per_km={
+		// 	"public_transport": 0.1,
+		// 	"plane": 0.2113,
+		// 	"gasoline": 0.2,
+		// 	"pedelec": 0.004,
+		// 	"train": 0.0356,
+		// 	"bike": 0
+		// }
 
-	// Emissions per energy
-	emissions_per_energy={
-		"gasoline": 2.33, //per l
-		"diesel": 2.6, //per l
-		"bev": 0.5 //german mix, per kWh
-	}
+		emissions_per_km = new Map<string, number>();
 
-	// Vehicle Tech
-	vehicle_tech = {
-		GAS: "gasoline",
-		DIESEL: "diesel",
-		BEV: "bev",
-		PHEV: "phev"
-	}
+		emissions_per_energy = new Map<string, number>();
 
 
-	constructor() { }
+		// Vehicle Tech
+		vehicle_tech = {
+			GAS: "gasoline",
+			DIESEL: "diesel",
+			BEV: "bev",
+			PHEV: "phev"
+		}
 
+
+		constructor() {
+			this.emissions_per_km.set('public_transport', 0.1);
+			this.emissions_per_km.set('plane', 0.2113); 
+			this.emissions_per_km.set('gasoline', 0.2); 
+			this.emissions_per_km.set('pedelec', 0.004); 
+			this.emissions_per_km.set('train', 0.0356); 
+			this.emissions_per_km.set('bike', 0); 
+
+
+			this.emissions_per_energy.set("gasoline", 2.33) //per l
+			this.emissions_per_energy.set("diesel",2.6) //per l
+			this.emissions_per_energy.set("bev",0.5) //german mix, per kWh)
+
+			this.energy_price.set("gasoline", 1.46) 	//€ per l
+			this.energy_price.set("diesel", 1.26) 		//€ per l
+			this.energy_price.set("bev", 0.3) 			// € per kWh
+		}
 
 }
