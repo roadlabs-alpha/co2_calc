@@ -4,12 +4,50 @@
 	<h2>Business Trips</h2>
 
 	Business trips refer to trips, which are not made by any car. We refer to business trips, that are done by local public transport, train or plane.
+	<br>
+	If a value is unknown, leave it empty. We estimate it for you!
 
-
+	<br>
+	<br>
 	
 
+	<mat-form-field class="form_element" [formGroup]="fg_bt">
+		<mat-label>Enter number of trips per public transport/year</mat-label>
+		<input matInput type="text" placeholder="1" formControlName="fc_number_pt">
+	</mat-form-field>
 
+	<mat-form-field class="form_element" [formGroup]="fg_bt">
+		<mat-label>Enter number of trips per train/year</mat-label>
+		<input matInput type="text" placeholder="1" formControlName="fc_number_train">
+	</mat-form-field>
 
+	<mat-form-field class="form_element" [formGroup]="fg_bt">
+		<mat-label>Enter number of trips per plane/year</mat-label>
+		<input matInput type="text" placeholder="1" formControlName="fc_number_plane">
+	</mat-form-field>
+
+	<br>
+
+	<mat-form-field class="form_element" [formGroup]="fg_bt">
+		<mat-label>Enter average distance of trips per public transport</mat-label>
+		<input matInput type="text" placeholder="1" formControlName="fc_dist_pt">
+	</mat-form-field>
+
+	<mat-form-field class="form_element" [formGroup]="fg_bt">
+		<mat-label>Enter average distance of trips per train</mat-label>
+		<input matInput type="text" placeholder="1" formControlName="fc_dist_train">
+	</mat-form-field>
+
+	<mat-form-field class="form_element" [formGroup]="fg_bt">
+		<mat-label>Enter average distance of trips per plane</mat-label>
+		<input matInput type="text" placeholder="1" formControlName="fc_dist_plane">
+	</mat-form-field>
+
+	<br>
+	<br>
+
+	<button mat-raised-button class="buttons" color="accent" (click)="estimate_missing();">Estimate missing values on the base of {{state.n_employees}} employees!</button>
+	<button mat-raised-button class="buttons"color="accent" (click)="save_value_set();">Save value set</button>
 
 
 </div>

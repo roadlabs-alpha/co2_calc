@@ -7,22 +7,40 @@
 
 
 	<mat-form-field class="form-field">
-		<mat-label>Input the number of employees!</mat-label>
+		<mat-label>Input the number of employees</mat-label>
 		<input matInput type="text" [(ngModel)]="n_employees">
 		<button mat-button *ngIf="n_employees" matSuffix mat-icon-button aria-label="Clear" (click)="n_employees=''">
 			<mat-icon>close</mat-icon>
 		</button>
 	</mat-form-field>
 	<br>
+	<h3>Address</h3>
+	<br>
 	<mat-form-field class="form-field">
-		<mat-label>Input your address!</mat-label>
-		<input matInput type="text" [(ngModel)]="company_address">
-		<button mat-button *ngIf="company_address" matSuffix mat-icon-button aria-label="Clear" (click)="company_address=''">
+		<mat-label>Input your street</mat-label>
+		<input matInput type="text" [(ngModel)]="company_address_street">
+		<button mat-button *ngIf="company_address_street" matSuffix mat-icon-button aria-label="Clear" (click)="company_address_street=''">
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+
+	<mat-form-field class="form-field-small">
+		<mat-label>Input your zip code</mat-label>
+		<input matInput type="text" [(ngModel)]="company_address_zip">
+		<button mat-button *ngIf="company_address_zip" matSuffix mat-icon-button aria-label="Clear" (click)="company_address_zip=''">
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+
+	<mat-form-field class="form-field">
+		<mat-label>Input your city</mat-label>
+		<input matInput type="text" [(ngModel)]="company_address_city">
+		<button mat-button *ngIf="company_address_city" matSuffix mat-icon-button aria-label="Clear" (click)="company_address_city=''">
 			<mat-icon>close</mat-icon>
 		</button>
 	</mat-form-field>
 
 
 	<br>
-	<button mat-raised-button color="accent">Save</button>
+	<button mat-raised-button color="accent" (click)="save_data_to_state();">Save</button>
 </div>
