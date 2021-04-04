@@ -16,6 +16,8 @@ import { DataService, Data} from '../data.service';
 
 export class CompanyVehiclesComponent implements OnInit{
 
+	change_detected=true;
+
 
 
 	is_private_use = false;
@@ -94,6 +96,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 		this.calc_total_vehicle_count();
 		this.vgn=this.generate_vehicle_group_name(1);
+		this.change_detected = true;
 
 	}
 
@@ -103,11 +106,13 @@ export class CompanyVehiclesComponent implements OnInit{
 		this.vehicle_groups.splice(vgi,1);
 		this.vgn=this.generate_vehicle_group_name(0);
 		this.calc_total_vehicle_count();
+		this.change_detected = true;
 	}
 
 	save_vehicle_groups(): void{
 		this.stateService.state.vehicle_groups_user = this.vehicle_groups
 		console.log("Saved vehicle groups: ", this.vehicle_groups)
+		this.change_detected = false
 
 	}
 

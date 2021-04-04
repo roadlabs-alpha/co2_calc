@@ -11,6 +11,8 @@ import { FormControl, FormGroup } from '@angular/forms'
 })
 export class CompanyBusinesstrips2Component implements OnInit {
 
+	change_detected=true;
+
 
 	fg_bt_group = new FormGroup({
 		fc_transportmode: new FormControl("2"),
@@ -60,6 +62,7 @@ export class CompanyBusinesstrips2Component implements OnInit {
 			this.fg_bt_group.value.fc_count,
 			this.dist_classes[this.fg_bt_group.value.fc_dist_per_trip].value,
 			this.dist_classes[this.fg_bt_group.value.fc_dist_per_trip].name))
+		this.change_detected =true;
 	}
 
 	estimate_groups(){
@@ -84,11 +87,13 @@ export class CompanyBusinesstrips2Component implements OnInit {
 
 		console.log("del element", vgi)
 		this.bt_groups.splice(vgi,1);
+		this.change_detected = true;
 	}
 
 	save_bt_groups(){
 		this.stateService.state.bt_groups_user = this.bt_groups
 		console.log("Saved bt groups: ", this.bt_groups)
+		this.change_detected = false
 
 	}
 

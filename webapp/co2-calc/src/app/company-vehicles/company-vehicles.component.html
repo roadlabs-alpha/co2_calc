@@ -99,6 +99,8 @@
 				</tr>
 			</table>
 			<br>
+			<span *ngIf="change_detected" style="color: red;">Save your vehicles!</span>
+			<br>
 			<button mat-raised-button  color="accent" (click)="save_vehicle_groups();">Save vehicle groups</button>
 		</div>
 	</div>

@@ -73,7 +73,8 @@
 		</table>
 		<br>
 
-		
+		<span *ngIf="change_detected" style="color: red;">Save your business trip groups!</span>
+		<br>
 		<button mat-raised-button  color="accent" (click)="save_bt_groups();">Save business trip groups</button>
 	</div>
 
