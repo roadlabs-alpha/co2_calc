@@ -77,10 +77,10 @@
 			<th>Cost in €</th>
 		</tr>
 
-		<tr *ngFor="let bt of bt_results_table">
-			<td>{{bt.name}}</td>
-			<td>{{bt.co2 | number:".0-2"}} kg</td>
-			<td>{{bt.cost | currency:"EUR"}}</td>
+		<tr *ngFor="let bt of state.bt_groups_user">
+			<td>{{bt.btg_name}}</td>
+			<td>{{bt.btg_co2 | number:".0-2"}} kg</td>
+			<td>{{bt.btg_cost | currency:"EUR"}}</td>
 		</tr>
 	</table>
 </div>

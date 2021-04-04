@@ -5,7 +5,35 @@
 		[
 			[
 				"bt",
-				"bt_value_set_user"
+				"bt_groups_user\tproperty"
+			],
+			[
+				"mode",
+				"mode_classes\tproperty"
+			],
+			[
+				"get",
+				"getState\tmethod"
+			],
+			[
+				"btg",
+				"btg_name\tproperty"
+			],
+			[
+				"c",
+				"constructor\tkeyword"
+			],
+			[
+				"n",
+				"n_veh_private_use\tlocal var"
+			],
+			[
+				"is",
+				"is_private_use\tproperty"
+			],
+			[
+				"orga",
+				"orga_results"
 			],
 			[
 				"epk_",
@@ -72,10 +100,6 @@
 				"private_car_co2"
 			],
 			[
-				"c",
-				"company-vehicles.component\tscript"
-			],
-			[
 				"com",
 				"company-vehicles\tdirectory"
 			],
@@ -118,10 +142,6 @@
 			[
 				"total",
 				"total_bt"
-			],
-			[
-				"n",
-				"n_employees\tproperty"
 			],
 			[
 				"s",
@@ -260,67 +280,81 @@
 	"buffers":
 	[
 		{
-			"file": "co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.ts",
+			"contents": "import { Component, OnInit } from '@angular/core';\nimport { StateService, State} from '../state.service';\nimport { DataService, Data} from '../data.service';\nimport { FormControl, FormGroup } from '@angular/forms'\n\n\n@Component({\n\tselector: 'app-company-businesstrips2',\n\ttemplateUrl: './company-businesstrips2.component.html',\n\tstyleUrls: ['./company-businesstrips2.component.css', \"../app.component.css\"],\n})\nexport class CompanyBusinesstrips2Component implements OnInit {\n\n\n\tfg_bt_group = new FormGroup({\n\t\tfc_transportmode: new FormControl(\"2\"),\n\t\tfc_dist_per_trip: new FormControl(\"2\"),\n\t\tfc_count: new FormControl(1),\n\t\tfc_add: new FormControl(false),\n\t});\n\n\tbt_groups: Array<Bt_Group>=[]\n\n\tstate = new State();\n\tdata = new Data();\n\n\n\tmode_classes=[\n\t{\"id\":0, \"name\":\"Walking\", \"value\": \"walking\"},\n\t{\"id\":1, \"name\":\"Bike\", \"value\": \"bike\"},\n\t{\"id\":2, \"name\":\"Public Transport\", \"value\": \"pt\"},\n\t{\"id\":3, \"name\":\"Train\", \"value\": \"train\"},\n\t{\"id\":4, \"name\":\"Plane\", \"value\": \"plane\"},]\n\n\tdist_classes=[\n\t{\"id\":0, \"name\": \"0-5 km\", \"value\":[0,5]},\n\t{\"id\":1, \"name\": \"5-10 km\", \"value\":[5,10]},\n\t{\"id\":2, \"name\": \"10-20 km\", \"value\":[10,20]},\n\t{\"id\":3, \"name\": \"20-50 km\", \"value\":[20,50]},\n\t{\"id\":4, \"name\": \"50-200 km\", \"value\":[50,200]},\n\t{\"id\":5, \"name\": \"200-500 km\", \"value\":[200,500]},\n\t{\"id\":6, \"name\": \"500-1000 km\", \"value\":[500,1000]},\n\t{\"id\":7, \"name\": \"100-10000 km\", \"value\":[1000,10000]},\n\t]\n\n\tconstructor(private stateService: StateService, private dataService: DataService) { }\n\n\tngOnInit(): void {\n\t\tthis.getData()\n\t\tthis.getState()\n\t}\n\n\n\tadd_bt_group(){\n\n\t\tthis.bt_groups.push(new Bt_Group(\n\t\t\tthis.mode_classes[this.fg_bt_group.value.fc_transportmode].name,\n\t\t\tthis.mode_classes[this.fg_bt_group.value.fc_transportmode].name,\n\t\t\tthis.fg_bt_group.value.fc_count,\n\t\t\tthis.dist_classes[this.fg_bt_group.value.fc_dist_per_trip].value,\n\t\t\tthis.dist_classes[this.fg_bt_group.value.fc_dist_per_trip].name))\n\t}\n\n\testimate_groups(){\n\n\t\tvar total_bt = this.data.n_workdays_year * this.state.n_employees * this.data.bt_pP_pY\n\t\tvar fc_number_pt = (total_bt * this.data.business_trip_shares.public_transport.share)\n\t\tvar fc_number_train = (total_bt * this.data.business_trip_shares.train.share)\n\t\tvar fc_number_plane = (total_bt * this.data.business_trip_shares.plane.share)\n\t\tvar fc_dist_pt = (total_bt * this.data.business_trip_shares.public_transport.share * this.data.business_trip_shares.public_transport.avg_dist)\n\t\tvar fc_dist_train = (total_bt * this.data.business_trip_shares.train.share * this.data.business_trip_shares.train.avg_dist)\n\t\tvar fc_dist_plane = (total_bt * this.data.business_trip_shares.plane.share * this.data.business_trip_shares.plane.avg_dist)\n\n\t\tthis.bt_groups=[\n\t\tnew Bt_Group(\"bt_est_pt\", \"pt\", fc_number_pt, [fc_dist_pt/fc_number_pt, fc_dist_pt/fc_number_pt], String(fc_dist_pt/fc_number_pt)),\n\t\tnew Bt_Group(\"bt_est_train\", \"train\", fc_number_train, [fc_dist_train/fc_number_train, fc_dist_train/fc_number_train], String(fc_dist_train/fc_number_train)),\n\t\tnew Bt_Group(\"bt_est_plane\", \"plane\", fc_number_plane, [fc_dist_plane/fc_number_plane, fc_dist_plane/fc_number_plane], String(fc_dist_plane/fc_number_plane))\n\t\t]\n\n\t}\n\n\tdelete_bt_group(vgi: number): void{\n\n\t\tconsole.log(\"del element\", vgi)\n\t\tthis.bt_groups.splice(vgi,1);\n\t}\n\n\tsave_bt_groups(){\n\t\tthis.stateService.state.bt_groups_user = this.bt_groups\n\t\tconsole.log(\"Saved bt groups: \", this.bt_groups)\n\n\t}\n\n\n\n\tgetState(): void {\n\t\tthis.stateService.getState().subscribe(st => this.state = st);\n\t}\n\n\tgetData(): void {\n\t\tthis.dataService.getData().subscribe(dat => this.data = dat);\n\t}\n}\n\n\n\nexport class Bt_Group{\n\n\tbtg_name=\"\";\n\tbtg_mode=\"\";\n\tbtg_trip_count=0;\n\tbtg_avg_distance: Array<number>=[]\n\tbtg_avg_distance_name=\"\"\n\n\tconstructor(name: string, mode: string, count: number, dist: Array<number>, dist_name: string){\n\n\t\tthis.btg_name=name;\n\t\tthis.btg_mode=mode;\n\t\tthis.btg_trip_count=count;\n\t\tthis.btg_avg_distance=dist;\n\t\tthis.btg_avg_distance_name=dist_name;\n\n\t}\n}",
+			"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.ts",
+			"file_size": 3969,
+			"file_write_time": 132620218089242370,
 			"settings":
 			{
-				"buffer_size": 4160,
+				"buffer_size": 3969,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"contents": "import { Injectable } from '@angular/core';\nimport { Observable, of } from 'rxjs';\nimport { VehicleGroup } from './company-vehicles/company-vehicles.component';\nimport { Bt_Group } from './company-businesstrips2/company-businesstrips2.component';\n\n@Injectable({\n\tprovidedIn: 'root'\n})\nexport class StateService {\n\n\tconstructor() { }\n\n\tstate = new State()\n\n\n\tgetState(): Observable<State> {\n\t\tconst st = of(this.state);\n\t\treturn st;\n\t}\n\n\n}\n\n\n\nexport class State{\n\n\tn_employees=0;\n\n\tbt_value_set_user: BT_VALUE_SET_USER;\n\n\tvehicle_groups_user: Array<VehicleGroup>=[];\n\t\n\tbt_groups_user: Array<Bt_Group>=[];\n\n\tconstructor() { \n\t\tthis.bt_value_set_user = new BT_VALUE_SET_USER()\n\t}\n\t\n}\n\n\n\nclass BT_VALUE_SET_USER{\n\t\n\tbt_dist_pt=0;\n\tbt_dist_train=0;\n\tbt_dist_plane =0;\n\n\tconstructor(){}\n}",
 			"file": "co2-calc/src/app/state.service.ts",
+			"file_size": 783,
+			"file_write_time": 132620216846218872,
 			"settings":
 			{
-				"buffer_size": 658,
+				"buffer_size": 783,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "co2-calc/src/app/company-businesstrips/company-businesstrips.component.spec.ts",
+			"contents": ".add_bt_category_block{\n\tbackground-color: #EEEEEE;\n\tpadding: 5px;\n\theight: auto;\n\tfloat: left;\n\tmargin: 2px;\n\twidth: 80%;\n\n}\n.bt_groups_container{\n\tbackground-color: #EEEEEE;\n\tpadding: 5px;\n\theight: auto;\n\twidth: 80%;\n\tfloat: left;\n\tmargin: 2px;\n\n}\n\n.form_element{\n\tfloat: left;\n\twidth: 29%;\n\theight: 50px;\n\tmargin: 3px;\n\n}\n\n\n\n\n#bt_groups {\n  font-family: Arial, Helvetica, sans-serif;\n  border-collapse: collapse;\n  width: 100%;\n}\n\n#bt_groups td, #bt_groups th {\n  border: 1px solid #ddd;\n  padding: 8px;\n}\n\n#bt_groups tr:nth-child(even){background-color: #f6f6f6;}\n\n#bt_groups tr:hover {background-color: #ccc;}\n\n#bt_groups th {\n  padding-top: 12px;\n  padding-bottom: 12px;\n  text-align: left;\n  background-color: #86ba87;\n  color: black;\n}\n\n.my-mat-option{\n\tcolor:#eee;\n}",
+			"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.css",
+			"file_size": 775,
+			"file_write_time": 132620197739341524,
 			"settings":
 			{
-				"buffer_size": 725,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "import { Component, OnInit, SimpleChanges } from '@angular/core';\nimport {MatFormFieldControl} from \"@angular/material/form-field\"\nimport { FormControl, FormGroup } from '@angular/forms'\nimport { StateService, State} from '../state.service';\nimport { DataService, Data} from '../data.service';\n\n@Component({\n\tselector: 'app-company-businesstrips',\n\ttemplateUrl: './company-businesstrips.component.html',\n\tstyleUrls: ['./company-businesstrips.component.css', \"../app.component.css\"],\n})\nexport class CompanyBusinesstripsComponent implements OnInit {\n\n\n\tfg_bt = new FormGroup({\n\t\tfc_number_pt: new FormControl(0),\n\t\tfc_number_train: new FormControl(0),\n\t\tfc_number_plane: new FormControl(0),\n\n\t\tfc_dist_pt: new FormControl(0),\n\t\tfc_dist_train: new FormControl(0),\n\t\tfc_dist_plane: new FormControl(0),\n\t});\n\n\ttotal_bt = 0;\n\n\tconstructor(private stateService: StateService, private dataService: DataService) { }\n\n\tstate = new State();\n\tdata = new Data();\n\n\tngOnInit(): void {\n\t\tthis.getState();\n\t\tthis.getData();\n\t\tthis.estimate_missing()\n\n\t\tthis.stateService.getState().subscribe(st=> console.log(\"subs\"));\n\n\t\t//this.fg_bt.valueChanges.subscribe(val =>{this.estimate_missing()});\n\t}\n\n\n\n\testimate_missing(): void{\n\t\tthis.total_bt = this.data.n_workdays_year * this.state.n_employees * this.data.bt_pP_pY;\n\t\tthis.fg_bt.setValue({\n\t\t\t\"fc_number_pt\": this.total_bt * this.data.business_trip_shares.public_transport.share, \n\t\t\t\"fc_number_train\": this.total_bt * this.data.business_trip_shares.train.share, \n\t\t\t\"fc_number_plane\": this.total_bt * this.data.business_trip_shares.plane.share, \n\t\t\t\"fc_dist_pt\": this.total_bt * this.data.business_trip_shares.public_transport.share * this.data.business_trip_shares.public_transport.avg_dist, \n\t\t\t\"fc_dist_train\": this.total_bt * this.data.business_trip_shares.train.share * this.data.business_trip_shares.train.avg_dist, \n\t\t\t\"fc_dist_plane\": this.total_bt * this.data.business_trip_shares.plane.share * this.data.business_trip_shares.plane.avg_dist})\n\n\n\t\t//console.log(\"We estitmate a total of \", this.total_bt, \"business trips per year.\")\n\n\t}\n\n\tsave_value_set(): void{\n\t\tthis.stateService.state.bt_value_set_user. = this.fg_bt.value;\n\t\t//console.log(this.fg_bt.value)\n\n\t}\n\n\n\tgetState(): void {\n\t\tthis.stateService.getState().subscribe(st => this.state = st);\n\t}\n\n\tgetData(): void {\n\t\tthis.dataService.getData().subscribe(dat => this.data = dat);\n\t}\n\n}\n",
-			"file": "co2-calc/src/app/company-businesstrips/company-businesstrips.component.ts",
-			"file_size": 2389,
-			"file_write_time": 132619992537782568,
-			"settings":
-			{
-				"buffer_size": 2390,
+				"buffer_size": 775,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.html",
+			"contents": "<div class=\"component_container\">\n\n\n\t<h2>Business Trips</h2>\n\n\tBusiness trips refer to trips, which are not made by any car. We refer to business trips, that are done by local public transport, train or plane.\n\t<br>\n\tIf your business trip share is unknown, we estimate it for you!\n\n\n\t<div class=\"add_bt_category_block\">\n\n\t\t<h3>Add Business trip group</h3>\n\n\n\t\t<mat-form-field appearance=\"fill\" [formGroup]=\"fg_bt_group\" class=\"form_element\">\n\t\t\t<mat-label>Mode of Transport</mat-label>\n\t\t\t<mat-select matNativeControl formControlName=\"fc_transportmode\">\n\t\t\t\t<mat-option style=\"color:#333\" *ngFor=\"let mode of mode_classes\" value={{mode.id}}>{{mode.name}}</mat-option>\n\t\t\t</mat-select>\n\t\t</mat-form-field>\n\n\t\t<mat-form-field appearance=\"fill\" [formGroup]=\"fg_bt_group\" class=\"form_element\">\n\t\t\t<mat-label>Average distance per trip</mat-label>\n\t\t\t<mat-select matNativeControl formControlName=\"fc_dist_per_trip\">\n\t\t\t\t<mat-option style=\"color:#333\" *ngFor=\"let cl of dist_classes\" value={{cl.id}}>{{cl.name}}</mat-option>\n\t\t\t</mat-select>\n\t\t</mat-form-field>\n\n\t\t<mat-form-field class=\"form_element\" [formGroup]=\"fg_bt_group\">\n\t\t\t<mat-label>Trips per year</mat-label>\n\t\t\t<input matInput type=\"text\" placeholder=\"1\" formControlName=\"fc_count\">\n\t\t</mat-form-field>\n\n\t\t<form class=block_add>\n\t\t\t<button mat-button mat-icon-button aria-label=\"Clear\" (click)=\"add_bt_group();\">\n\t\t\t\t<mat-icon>add</mat-icon>\n\t\t\t</button>\n\t\t</form>\n\n\n\n\t</div>\n\n\n\n\t<div class=bt_groups_container *ngIf=\"bt_groups.length==0\">\n\t\tYou have no business trip groups yet! <br>\n\t\t<button mat-raised-button class=\"buttons\" color=\"accent\" (click)=\"estimate_groups();\">Estimate missing values on the base of {{state.n_employees}} employees!</button>\n\t</div>\n\t<div class=bt_groups_container *ngIf=\"bt_groups.length>0\">\n\n\t\t<table id=bt_groups>\n\t\t\t<tr>\n\t\t\t\t<th>Mode</th>\n\t\t\t\t<th>Average distance</th>\n\t\t\t\t<th>Trip count per year</th>\n\t\t\t\t<th> </th>\n\t\t\t</tr>\n\n\n\t\t\t<tr  *ngFor = \"let btg of bt_groups; let i = index\">\n\t\t\t\t<td>{{btg.btg_mode}}</td>\n\t\t\t\t<td>{{btg.btg_avg_distance_name}}</td>\n\t\t\t\t<td>{{btg.btg_trip_count}}</td>\n\t\t\t\t<td><form class=block_add>\n\t\t\t\t\t<button mat-button mat-icon-button aria-label=\"Clear\" (click)=\"delete_bt_group(i);\">\n\t\t\t\t\t\t<mat-icon>clear</mat-icon>\n\t\t\t\t\t</button>\n\t\t\t\t</form></td>\n\t\t\t</tr>\n\t\t</table>\n\t\t<br>\n\n\t\t\n\t\t<button mat-raised-button  color=\"accent\" (click)=\"save_bt_groups();\">Save business trip groups</button>\n\t</div>\n\n\n\n\n</div>\n",
+			"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.html",
+			"file_size": 2424,
+			"file_write_time": 132620217475080632,
 			"settings":
 			{
-				"buffer_size": 523,
+				"buffer_size": 2424,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.css",
-			"settings":
-			{
-				"buffer_size": 485,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
+			"contents": "import { Component, OnInit } from '@angular/core';\nimport {MatFormFieldControl} from \"@angular/material/form-field\"\nimport { FormControl, FormGroup } from '@angular/forms'\nimport { StateService } from '../state.service';\nimport { DataService, Data} from '../data.service';\n\n\n\n@Component({\n\tselector: 'app-company-vehicles',\n\ttemplateUrl: './company-vehicles.component.html',\n\tstyleUrls: ['./company-vehicles.component.css', \"../app.component.css\"],\n})\n\n\n\nexport class CompanyVehiclesComponent implements OnInit{\n\n\n\n\tis_private_use = false;\n\tis_pool_car = false;\n\tn_total_vehicles=0;\n\n\tmileage_classes = [\n\t\t{\"id\":0, \"name\": \"<5000 km\", \"value\":[0,5000]},\n\t\t{\"id\":1,\"name\": \"5000-10000 km\", \"value\":[5000, 10000]},\n\t\t{\"id\":2,\"name\": \"10000-20000 km\", \"value\":[10000,20000]},\n\t\t{\"id\":3,\"name\": \"20000-30000 km\", \"value\":[20000,30000]}\n\t];\n\t\n\n\tvehicle_groups: Array<VehicleGroup>=[];\n\tvgn=this.generate_vehicle_group_name(0);\n\n\n\tfg_vehicleclass = new FormGroup({\n\t\tfc_vehicleclass: new FormControl('compact'),\n\t\tfc_vehicleprop: new FormControl('electric'),\n\t\tfc_mileage: new FormControl(\"0\"),\n\t\tfc_poolcar: new FormControl(false),\n\t\tfc_privateuse: new FormControl(false),\n\t\tfc_count: new FormControl(1),\n\t\tfc_add: new FormControl(false),\n\t});\n\n\tconstructor(private stateService: StateService) { }\n\n\tngOnInit(): void {\n\t}\n\n\tgenerate_vehicle_group_name(idx_add: number): string{\n\n\t\tvar fist_guess = \"Vehicle group \"+String(this.vehicle_groups.length+1)\n\n\t\tvar vgns=[];\n\t\tfor (var i=0; i<this.vehicle_groups.length; i++){\n\t\t\tvgns.push(this.vehicle_groups[i].vgn)\n\t\t}\n\n\t\tvar idx=0;\n\t\twhile (vgns.includes(fist_guess)){\n\t\t\tfist_guess = \"Vehicle group \"+String(this.vehicle_groups.length+1+idx+idx_add)\n\t\t\tidx+=1;\n\t\t}\n\n\t\treturn fist_guess\n\t}\n\n\n\tadd_vehicle_group(): void{\n\n\t\t// console.log(\"add vehicle group\")\n\t\t// console.log(this.fg_vehicleclass.value.fc_vehicleclass);\n\t\t// console.log(this.fg_vehicleclass.value.fc_vehicleprop);\n\t\t// console.log(this.fg_vehicleclass.value.fc_mileage);\n\t\t// console.log(this.fg_vehicleclass.value.fc_count);\n\t\t// console.log(this.fg_vehicleclass.value.fc_poolcar);\n\t\t// console.log(this.fg_vehicleclass.value.fc_privateuse);\n\n\t\tvar vgn = this.generate_vehicle_group_name(0);\n\t\tvar milage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value;\n\t\tvar vg = new VehicleGroup(vgn, milage, this.fg_vehicleclass.value.fc_vehicleprop, this.fg_vehicleclass.value.fc_vehicleclass);\n\t\t\n\n\t\t//vg.mileage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value\n\t\tvg.mileage_name = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].name\n\t\t\n\t\tvg.count = this.fg_vehicleclass.value.fc_count;\n\t\tvg.is_poolcar = this.fg_vehicleclass.value.fc_poolcar;\n\t\tvg.is_private_use = this.fg_vehicleclass.value.fc_privateuse;\n\t\t//var vg = \"as\";\n\t\tthis.vehicle_groups.push(vg);\n\n\t\tthis.calc_total_vehicle_count();\n\t\tthis.vgn=this.generate_vehicle_group_name(1);\n\n\t}\n\n\tdelete_vehicle_group(vgi: number): void{\n\n\t\tconsole.log(\"del element\", vgi)\n\t\tthis.vehicle_groups.splice(vgi,1);\n\t\tthis.vgn=this.generate_vehicle_group_name(0);\n\t\tthis.calc_total_vehicle_count();\n\t}\n\n\tsave_vehicle_groups(): void{\n\t\tthis.stateService.state.vehicle_groups_user = this.vehicle_groups\n\t\tconsole.log(\"Saved vehicle groups: \", this.vehicle_groups)\n\n\t}\n\n\tcalc_total_vehicle_count(): void{\n\n\t\tthis.n_total_vehicles=0;\n\t\tfor (var i=0; i<this.vehicle_groups.length; i++){\n\t\t\tthis.n_total_vehicles += Number(this.vehicle_groups[i].count);\n\t\t}\n\t}\n}\n\nexport class VehicleGroup{\n\tvgn=\"\";\n\tis_private_use=0;\n\tis_poolcar=0;\n\tvehicleclass=\"\";\n\tvehicleprop=\"\";\n\tmileage: Array<number>=[];\n\tmileage_name=\"\";\n\tcount=0;\n\tmean_mileage=0;\n\tvg_total_co2=0;\n\tvg_total_cost=0;\n\n\tvehicle: Vehicle;\n\n\t// group cost and co2 values, to be estimated\n\n\tconstructor(vgn: string, milage: Array<number>, tech: string, veh_class: string) { //vgn = vehicle group name \n\t\tthis.vgn=vgn\n\t\tthis.vehicleprop = tech;\n\t\tthis.vehicleclass = veh_class;\n\t\tthis.vehicle = new Vehicle(String(this.vehicleprop), String(this.vehicleclass))\n\n\n\n\t\tthis.mileage = milage;\n\t\tthis.mean_mileage = (this.mileage[0] + this.mileage[1])/2\n\t\tthis.vehicle.do_tco(this.mean_mileage)\n\t}\n\n\n\tcalculate_vg_co2(): number{\n\t\t//console.log(\"total_yearly_co2: \", this.vehicle.total_yearly_co2)\n\t\t//console.log(this.vehicle.total_co2_per_km, this.mean_mileage, this.count)\n\t\tthis.vg_total_co2 = this.vehicle.total_co2_per_km * this.mean_mileage * this.count\n\t\treturn this.vg_total_co2\n\n\t}\n\n\tcalculate_vg_cost(): number{\n\t\tthis.vg_total_cost =  this.vehicle.total_cost_per_km * this.mean_mileage * this.count\n\t\treturn this.vg_total_cost\n\t}\n\n\n\n}\n\n\n\n\nexport class Vehicle{\n\n\twriteoff_period=0;\n\tworkshop_cost=0;\n\tfixcost=0;\n\tconsumption=0;\n\ttech: string;\n\temissions_per_km=-1;\n\tnew_price: number=0;\n\tresidual_value: number=0;\n\tyearly_mileage: number=0;\n\ttotal_yearly_cost\n\ttotal_cost_per_km=-1;\n\ttotal_yearly_co2\n\ttotal_co2_per_km=-1;\n\n\tdata = new Data();\n\tdataService\n\n\n\tconstructor(tech: string, vehicle_class: string){\n\n\t\tthis.dataService = new DataService()\n\n\t\tthis.getData()\n\n\t\tthis.writeoff_period = 3 // years\n\t\tthis.workshop_cost = 720 //€/year\n\t\tthis.fixcost = 1200 //€/year\n\n\t\tif (tech==\"electric\"){\n\t\t\tthis.tech=\"bev\";\n\t\t}else{\n\t\t\tthis.tech = tech;\n\t\t}\n\n\t\t\n\n\n\n\t\tvar epk =  this.data.emissions_per_km.get(this.tech)\n\t\tif (epk != undefined){\n\t\t\tthis.emissions_per_km = epk;\n\t\t}\n\n\n\n\t\tvar vehicle_class_detail = this.data.vehicle_class.get(vehicle_class)\n\t\tif (vehicle_class_detail != undefined){\n\t\t\tthis.new_price = vehicle_class_detail.price_new\n\t\t\tthis.residual_value  = vehicle_class_detail.residual_value3y\n\n\t\t\tif (this.tech == \"bev\"){\n\t\t\t\tthis.consumption = vehicle_class_detail.e_consumption;\n\t\t\t}\n\t\t\telse{\n\t\t\t\tthis.consumption = vehicle_class_detail.consumption;\n\t\t\t}\n\t\t}\n\n\t\tthis.total_yearly_cost = -1\n\t\tthis.total_cost_per_km = -1\n\t\tthis.total_yearly_co2 = -1\n\t\tthis.total_co2_per_km = -1\n\n\n\t}\n\n\tdo_tco(yearly_mileage: number){\n\n\t\tvar value_loss = 0\n\t\tvar yearly_loss=0\n\t\tvar energy_cost_yearly=0\n\n\t\tthis.yearly_mileage = yearly_mileage\n\n\t\tvalue_loss = this.new_price - this.residual_value\n\t\tyearly_loss = value_loss / this.writeoff_period\n\n\t\t\n\t\tvar ep = this.data.energy_price.get(this.tech)\n\t\tif (ep != undefined){\n\t\t\tenergy_cost_yearly = yearly_mileage * this.consumption / 100 * ep\n\t\t}\n\n\t\tthis.total_yearly_cost = this.workshop_cost + this.fixcost + yearly_loss + energy_cost_yearly\n\t\tthis.total_cost_per_km = this.total_yearly_cost / yearly_mileage\n\t\t\n\t\tvar epe = this.data.emissions_per_energy.get(this.tech)\n\t\tif (epe != undefined){\n\t\t\tthis.total_yearly_co2 = yearly_mileage * this.consumption / 100 * epe\n\t\t}\n\t\tthis.total_co2_per_km = this.total_yearly_co2 / yearly_mileage\n\n\t}\n\n\tgetData(): void {\n\t\tthis.dataService.getData().subscribe(dat => this.data = dat);\n\t}\n\n}",
 			"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.ts",
+			"file_size": 6762,
+			"file_write_time": 132618662290377788,
 			"settings":
 			{
 				"buffer_size": 6758,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "import { ComponentFixture, TestBed } from '@angular/core/testing';\n\nimport { CompanyBusinesstrips2Component } from './company-businesstrips2.component';\n\ndescribe('CompanyBusinesstrips2Component', () => {\n  let component: CompanyBusinesstrips2Component;\n  let fixture: ComponentFixture<CompanyBusinesstrips2Component>;\n\n  beforeEach(async () => {\n    await TestBed.configureTestingModule({\n      declarations: [ CompanyBusinesstrips2Component ]\n    })\n    .compileComponents();\n  });\n\n  beforeEach(() => {\n    fixture = TestBed.createComponent(CompanyBusinesstrips2Component);\n    component = fixture.componentInstance;\n    fixture.detectChanges();\n  });\n\n  it('should create', () => {\n    expect(component).toBeTruthy();\n  });\n});\n",
+			"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.spec.ts",
+			"file_size": 732,
+			"file_write_time": 132620180664616977,
+			"settings":
+			{
+				"buffer_size": 732,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "co2-calc/src/app/app.component.html",
+			"settings":
+			{
+				"buffer_size": 279,
 				"line_ending": "Unix"
 			}
 		}
@@ -362,29 +396,28 @@
 	"expanded_folders":
 	[
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/webapp/co2-calc",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/co2-cost-calc",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-businesstrips",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-properties",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-vehicles"
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app"
 	],
 	"file_history":
 	[
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-businesstrips/company-businesstrips.component.ts",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/angular.json",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.ts",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/state.service.ts",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/data.service.ts",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-vehicles/company-vehicles.component.html",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-businesstrips/company-businesstrips.component.ts",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-vehicles/company-vehicles.component.spec.ts",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.html",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.css",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-vehicles/company-vehicles.component.ts",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-vehicles/company-vehicles.component.html",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-vehicles/company-vehicles.component.css",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/index.html",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/app.component.html",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.html",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-properties/company-properties.component.ts",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-properties/company-properties.component.css",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-properties/company-properties.component.html",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-businesstrips/company-businesstrips.component.css",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/app.component.css",
-		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/state.service.ts",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-businesstrips/company-businesstrips.component.html",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/app.module.ts",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/material-module.ts",
@@ -461,6 +494,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"train",
+			"customers",
+			"vg",
 			"td",
 			"customers",
 			"business_days",
@@ -507,6 +543,9 @@
 		"regex": true,
 		"replace_history":
 		[
+			"plane",
+			"bt_groups",
+			"btg",
 			"th",
 			"vehicle_results_table",
 			"n_workdays_year",
@@ -525,97 +564,29 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 6,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.ts",
+					"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4160,
+						"buffer_size": 3969,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3675,
-								3675
+								587,
+								587
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1239.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "co2-calc/src/app/state.service.ts",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 658,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								557,
-								557
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"typescript_plugin_format_options":
-							{
-								"convertTabsToSpaces": false,
-								"indentSize": 4,
-								"tabSize": 4
-							},
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "co2-calc/src/app/company-businesstrips/company-businesstrips.component.spec.ts",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 725,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
 							"typescript_plugin_format_options":
 							{
 								"convertTabsToSpaces": false,
@@ -632,20 +603,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "co2-calc/src/app/company-businesstrips/company-businesstrips.component.ts",
+					"buffer": 1,
+					"file": "co2-calc/src/app/state.service.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2390,
+						"buffer_size": 783,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2205,
-								2205
+								583,
+								583
 							]
 						],
 						"settings":
@@ -661,27 +632,55 @@
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 372.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.html",
+					"buffer": 2,
+					"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.css",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 523,
+						"buffer_size": 775,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								523,
-								523
+								775,
+								775
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2424,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2073,
+								2073
 							]
 						],
 						"settings":
@@ -692,41 +691,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "co2-calc/src/app/co2-cost-calc/co2-cost-calc.component.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 485,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								110,
-								110
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
+					"buffer": 4,
 					"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.ts",
 					"semi_transient": false,
 					"settings":
@@ -738,8 +707,8 @@
 						"selection":
 						[
 							[
-								3512,
-								3512
+								3284,
+								3284
 							]
 						],
 						"settings":
@@ -755,10 +724,75 @@
 							"use_tab_stops": false
 						},
 						"translation.x": 0.0,
+						"translation.y": 675.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "co2-calc/src/app/company-businesstrips2/company-businesstrips2.component.spec.ts",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "co2-calc/src/app/app.component.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 279,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								178,
+								178
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

@@ -6,6 +6,7 @@
 	Business trips refer to trips, which are not made by any car. We refer to business trips, that are done by local public transport, train or plane.
 	<br>
 	If your business trip share is unknown, we estimate it for you!
+	<br>
 
 
 	<div class="add_bt_category_block">
@@ -60,7 +61,7 @@
 
 
 			<tr  *ngFor = "let btg of bt_groups; let i = index">
-				<td>{{btg.btg_mode}}</td>
+				<td>{{btg.btg_mode_name}}</td>
 				<td>{{btg.btg_avg_distance_name}}</td>
 				<td>{{btg.btg_trip_count}}</td>
 				<td><form class=block_add>

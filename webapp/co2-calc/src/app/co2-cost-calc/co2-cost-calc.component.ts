@@ -52,13 +52,13 @@ export class Co2CostCalcComponent implements OnInit {
 		this.bike_km = this.state.n_employees * this.data.commuting_shares["bike"]["share"] * this.data.commuting_shares["bike"]["avg_dist"] * this.data.n_workdays_year
 		this.private_car_km = this.state.n_employees * this.data.commuting_shares["car"]["share"] * this.data.commuting_shares["car"]["avg_dist"] * this.data.n_workdays_year
 		this.company_car_km = this.state.n_employees * this.data.commuting_shares["company_car"]["share"] * this.data.commuting_shares["company_car"]["avg_dist"] * this.data.n_workdays_year
-		this.public_transport_km = this.state.n_employees * this.data.commuting_shares["public_transport"]["share"] * this.data.commuting_shares["public_transport"]["avg_dist"] * this.data.n_workdays_year
+		this.public_transport_km = this.state.n_employees * this.data.commuting_shares["pt"]["share"] * this.data.commuting_shares["pt"]["avg_dist"] * this.data.n_workdays_year
 		
 
 		// emissions
 		var epk_bike =this.data.emissions_per_km.get("bike");
 		var epk_gas = this.data.emissions_per_km.get("gasoline");
-		var epk_pt = this.data.emissions_per_km.get("public_transport");
+		var epk_pt = this.data.emissions_per_km.get("pt");
 
 		if (epk_bike != undefined && epk_gas!= undefined && epk_pt!= undefined){
 
@@ -71,7 +71,7 @@ export class Co2CostCalcComponent implements OnInit {
 		// cost
 		var tpk_bike = this.data.transport_price_per_km.get("bike");
 		var tpk_car = this.data.transport_price_per_km.get("car");
-		var tpk_pt = this.data.transport_price_per_km.get("public_transport");
+		var tpk_pt = this.data.transport_price_per_km.get("pt");
 
 		if (tpk_bike != undefined && tpk_car!= undefined && tpk_pt!= undefined){
 			this.bike_cost = this.bike_km * tpk_bike;
@@ -83,10 +83,10 @@ export class Co2CostCalcComponent implements OnInit {
 
 
 		this.commuting_results_table=[
-		{"name":"Bike", "cost": this.bike_cost, "co2":this.bike_co2},
-		{"name":"Private Car", "cost": this.private_car_cost, "co2":this.private_car_co2},
-		{"name":"Company Car", "cost": this.company_car_cost, "co2":this.company_car_co2},
-		{"name":"Public_transport", "cost": this.public_transport_cost, "co2":this.public_transport_co2},
+			{"name":"Bike", "cost": this.bike_cost, "co2":this.bike_co2},
+			{"name":"Private Car", "cost": this.private_car_cost, "co2":this.private_car_co2},
+			{"name":"Company Car", "cost": this.company_car_cost, "co2":this.company_car_co2},
+			{"name":"Public Transport", "cost": this.public_transport_cost, "co2":this.public_transport_co2},
 		];
 
 
@@ -127,36 +127,47 @@ export class Co2CostCalcComponent implements OnInit {
 	bt_results_table=[{"name":"", "cost": 0, "co2":0}];
 
 	calc_bt(): void{
-		console.log("bts: ", this.state.bt_value_set_user);
 
-		// co2
-		var epk_train =this.data.emissions_per_km.get("train");
-		var epk_plane = this.data.emissions_per_km.get("plane");
-		var epk_pt = this.data.emissions_per_km.get("public_transport");
 
-		if (epk_train != undefined && epk_plane!= undefined && epk_pt!= undefined){
-			this.bt_pt_co2 = this.state.bt_value_set_user.bt_dist_pt * epk_pt;
-			this.bt_train_co2 = this.state.bt_value_set_user.bt_dist_train * epk_train;
-			this.bt_plane_co2 = this.state.bt_value_set_user.bt_dist_plane * epk_plane;
+		for(var i=0; i < this.state.bt_groups_user.length; i++){
+			console.log("Doing bt group", i)
+
+			console.log("Co2/year of bt group in kg ", i, ": ",this.state.bt_groups_user[i].calculate_btg_co2())
+			console.log("Cost/year of bt group in € ", i, ": ",this.state.bt_groups_user[i].calculate_btg_cost())
+
 		}
 
 
-		// Cost
-		var tpk_train =this.data.transport_price_per_km.get("train");
-		var tpk_plane = this.data.transport_price_per_km.get("plane");
-		var tpk_pt = this.data.transport_price_per_km.get("public_transport");
+		// console.log("bts: ", this.state.bt_value_set_user);
 
-		if (tpk_train != undefined && tpk_plane!= undefined && tpk_pt!= undefined){
-			this.bt_pt_cost = this.state.bt_value_set_user.bt_dist_pt * tpk_pt;
-			this.bt_train_cost = this.state.bt_value_set_user.bt_dist_train * tpk_train;
-			this.bt_plane_cost = this.state.bt_value_set_user.bt_dist_plane * tpk_plane;
-		}
+		// // co2
+		// var epk_train =this.data.emissions_per_km.get("train");
+		// var epk_plane = this.data.emissions_per_km.get("plane");
+		// var epk_pt = this.data.emissions_per_km.get("public_transport");
 
-		this.bt_results_table=[
-		{"name": "Public Transport", "co2": this.bt_pt_co2, "cost": this.bt_pt_cost},
-		{"name": "Train", "co2": this.bt_train_co2, "cost": this.bt_train_cost},
-		{"name": "Plane", "co2": this.bt_plane_co2, "cost": this.bt_plane_cost},
-		]
+		// if (epk_train != undefined && epk_plane!= undefined && epk_pt!= undefined){
+		// 	this.bt_pt_co2 = this.state.bt_value_set_user.bt_dist_pt * epk_pt;
+		// 	this.bt_train_co2 = this.state.bt_value_set_user.bt_dist_train * epk_train;
+		// 	this.bt_plane_co2 = this.state.bt_value_set_user.bt_dist_plane * epk_plane;
+		// }
+
+
+		// // Cost
+		// var tpk_train =this.data.transport_price_per_km.get("train");
+		// var tpk_plane = this.data.transport_price_per_km.get("plane");
+		// var tpk_pt = this.data.transport_price_per_km.get("public_transport");
+
+		// if (tpk_train != undefined && tpk_plane!= undefined && tpk_pt!= undefined){
+		// 	this.bt_pt_cost = this.state.bt_value_set_user.bt_dist_pt * tpk_pt;
+		// 	this.bt_train_cost = this.state.bt_value_set_user.bt_dist_train * tpk_train;
+		// 	this.bt_plane_cost = this.state.bt_value_set_user.bt_dist_plane * tpk_plane;
+		// }
+
+		// this.bt_results_table=[
+		// {"name": "Public Transport", "co2": this.bt_pt_co2, "cost": this.bt_pt_cost},
+		// {"name": "Train", "co2": this.bt_train_co2, "cost": this.bt_train_cost},
+		// {"name": "Plane", "co2": this.bt_plane_co2, "cost": this.bt_plane_cost},
+		// ]
 	}
 
 
@@ -179,8 +190,8 @@ export class Co2CostCalcComponent implements OnInit {
 		for (var i=0; i<this.commuting_results_table.length;i++){
 			this.orga_results["co2"] += this.commuting_results_table[i]["co2"]
 		}
-		for (var i=0; i<this.bt_results_table.length;i++){
-			this.orga_results["co2"] += this.bt_results_table[i]["co2"]
+		for (var i=0; i<this.state.bt_groups_user.length;i++){
+			this.orga_results["co2"] += this.state.bt_groups_user[i].calculate_btg_co2()
 		}
 		for (var i=0; i<this.state.vehicle_groups_user.length;i++){
 			this.orga_results["co2"] += this.state.vehicle_groups_user[i].calculate_vg_co2()
@@ -223,8 +234,9 @@ export class Co2CostCalcComponent implements OnInit {
 
 
 			
-		for (var i=0; i<this.bt_results_table.length;i++){
-			this.orga_results["cost"] += this.bt_results_table[i]["cost"]
+		// Business trip cost
+		for (var i=0; i<this.state.bt_groups_user.length;i++){
+			this.orga_results["cost"] += this.state.bt_groups_user[i].calculate_btg_cost()
 		}
 
 
