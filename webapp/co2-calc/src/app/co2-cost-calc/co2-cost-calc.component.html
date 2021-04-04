@@ -5,19 +5,83 @@
 
 	<button mat-raised-button class="buttons"color="accent" (click)="calc_all();">Calculate!</button>
 
-	<table id="vehicle_results_table" *ngIf="show_vehicle_results_table">
+
+<div *ngIf="show_orga_results_table">
+	<h3>Total Results for your Organisation</h3>
+
+	<table>
+		<tr>
+			<th>CO<sub>2</sub> Emissions in kg</th>
+			<th>Cost in €</th>
+		</tr>
+
+		<tr>
+			<td>{{orga_results.co2}}</td>
+			<td>{{orga_results.cost}} kg</td>
+		</tr>
+	</table>
+</div>
+
+
+	
+
+<div *ngIf="show_commuting_results_table">
+	<h3>Commuting</h3>
+	<table id="vehicle_results_table">
+		<tr>
+			<th>Mode</th>
+			<th>CO<sub>2</sub> Emissions in kg</th>
+			<th>Cost in €</th>
+		</tr>
+
+		<tr *ngFor="let bt of commuting_results_table">
+			<td>{{bt.name}}</td>
+			<td>{{bt.co2}} kg</td>
+			<td>{{bt.cost}} €</td>
+		</tr>
+	</table>
+</div>
+<p>
+
+
+
+<div *ngIf="show_vehicle_results_table">
+	<h3>Vehicles of the organisation</h3>
+
+	<table id="vehicle_results_table">
 		<tr>
 			<th>Vehicle Group</th>
-			<th>Total CO<sub>2</sub></th>
-			<th>Total cost</th>
+			<th>Total CO<sub>2</sub> Emissions in kg</th>
+			<th>Total cost in €</th>
 
 		</tr>
 		<tr *ngFor="let vg of state.vehicle_groups_user">
 			<td>{{vg.vgn}}</td>
-			<td>{{vg.vg_total_co2}} kg</td>
-			<td>{{vg.vg_total_cost}} €</td>
+			<td>{{vg.vg_total_co2}} in kg</td>
+			<td>{{vg.vg_total_cost}} in €</td>
 
 		</tr>
 	</table>
+</div>
+<p>
+
+
+<div *ngIf="show_bt_results_table">
+	<h3>Business Trip Results</h3>
+
+	<table id="vehicle_results_table">
+		<tr>
+			<th>Business trip mode</th>
+			<th>CO<sub>2</sub> Emissions in kg</th>
+			<th>Cost in €</th>
+		</tr>
+
+		<tr *ngFor="let bt of bt_results_table">
+			<td>{{bt.name}}</td>
+			<td>{{bt.co2}} kg</td>
+			<td>{{bt.cost}} €</td>
+		</tr>
+	</table>
+</div>
 
 </div>

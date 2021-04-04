@@ -52,13 +52,15 @@ export class CompanyBusinesstripsComponent implements OnInit {
 			"fc_dist_plane": this.total_bt * this.data.business_trip_shares.plane.share * this.data.business_trip_shares.plane.avg_dist})
 
 
-		console.log("We estitmate a total of ", this.total_bt, "business trips per year.")
+		//console.log("We estitmate a total of ", this.total_bt, "business trips per year.")
 
 	}
 
 	save_value_set(): void{
-		this.stateService.state.bt_value_set_user = this.fg_bt.value;
-		console.log(this.fg_bt.value)
+		this.stateService.state.bt_value_set_user.bt_dist_pt = this.fg_bt.value.fc_dist_pt;
+		this.stateService.state.bt_value_set_user.bt_dist_train = this.fg_bt.value.fc_dist_train;
+		this.stateService.state.bt_value_set_user.bt_dist_plane = this.fg_bt.value.fc_dist_plane;
+		//console.log(this.fg_bt.value)
 
 	}
 
