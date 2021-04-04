@@ -20,6 +20,7 @@ import {DemoMaterialModule} from './material-module';
 import { CompanyVehiclesComponent } from './company-vehicles/company-vehicles.component';
 import { CompanyBusinesstripsComponent } from './company-businesstrips/company-businesstrips.component';
 import { Co2CostCalcComponent } from './co2-cost-calc/co2-cost-calc.component';
+import { CompanyBusinesstrips2Component } from './company-businesstrips2/company-businesstrips2.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { Co2CostCalcComponent } from './co2-cost-calc/co2-cost-calc.component';
     CompanyPropertiesComponent,
     CompanyVehiclesComponent,
     CompanyBusinesstripsComponent,
-    Co2CostCalcComponent
+    Co2CostCalcComponent,
+    CompanyBusinesstrips2Component
   ],
   imports: [
     BrowserModule,

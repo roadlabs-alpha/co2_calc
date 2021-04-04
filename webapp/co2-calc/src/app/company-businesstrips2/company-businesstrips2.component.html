@@ -1,0 +1,82 @@
+<div class="component_container">
+
+
+	<h2>Business Trips</h2>
+
+	Business trips refer to trips, which are not made by any car. We refer to business trips, that are done by local public transport, train or plane.
+	<br>
+	If your business trip share is unknown, we estimate it for you!
+
+
+	<div class="add_bt_category_block">
+
+		<h3>Add Business trip group</h3>
+
+
+		<mat-form-field appearance="fill" [formGroup]="fg_bt_group" class="form_element">
+			<mat-label>Mode of Transport</mat-label>
+			<mat-select matNativeControl formControlName="fc_transportmode">
+				<mat-option style="color:#333" *ngFor="let mode of mode_classes" value={{mode.id}}>{{mode.name}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" [formGroup]="fg_bt_group" class="form_element">
+			<mat-label>Average distance per trip</mat-label>
+			<mat-select matNativeControl formControlName="fc_dist_per_trip">
+				<mat-option style="color:#333" *ngFor="let cl of dist_classes" value={{cl.id}}>{{cl.name}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="form_element" [formGroup]="fg_bt_group">
+			<mat-label>Trips per year</mat-label>
+			<input matInput type="text" placeholder="1" formControlName="fc_count">
+		</mat-form-field>
+
+		<form class=block_add>
+			<button mat-button mat-icon-button aria-label="Clear" (click)="add_bt_group();">
+				<mat-icon>add</mat-icon>
+			</button>
+		</form>
+
+
+
+	</div>
+
+
+
+	<div class=bt_groups_container *ngIf="bt_groups.length==0">
+		You have no business trip groups yet! <br>
+		<button mat-raised-button class="buttons" color="accent" (click)="estimate_groups();">Estimate missing values on the base of {{state.n_employees}} employees!</button>
+	</div>
+	<div class=bt_groups_container *ngIf="bt_groups.length>0">
+
+		<table id=bt_groups>
+			<tr>
+				<th>Mode</th>
+				<th>Average distance</th>
+				<th>Trip count per year</th>
+				<th> </th>
+			</tr>
+
+
+			<tr  *ngFor = "let btg of bt_groups; let i = index">
+				<td>{{btg.btg_mode}}</td>
+				<td>{{btg.btg_avg_distance_name}}</td>
+				<td>{{btg.btg_trip_count}}</td>
+				<td><form class=block_add>
+					<button mat-button mat-icon-button aria-label="Clear" (click)="delete_bt_group(i);">
+						<mat-icon>clear</mat-icon>
+					</button>
+				</form></td>
+			</tr>
+		</table>
+		<br>
+
+		
+		<button mat-raised-button  color="accent" (click)="save_bt_groups();">Save business trip groups</button>
+	</div>
+
+
+
+
+</div>
