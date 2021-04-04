@@ -191,10 +191,18 @@ export class Co2CostCalcComponent implements OnInit {
 
 		// sum up the cost -----------------------------------------------------
 		var n_veh_private_use = 0;
+		var km_veh_private_use=0;
 		for (var i=0; i<this.state.vehicle_groups_user.length;i++){
 			this.orga_results["cost"] += this.state.vehicle_groups_user[i].calculate_vg_cost()
 			if (this.state.vehicle_groups_user[i].is_private_use == 1){
 				n_veh_private_use += this.state.vehicle_groups_user[i].count
+				
+
+				var vg_km_veh_private_use = n_veh_private_use * this.data.commuting_shares["company_car"]["avg_dist"] * this.data.n_workdays_year
+				if (vg_km_veh_private_use > this.state.vehicle_groups_user[i].mean_mileage){
+					vg_km_veh_private_use = this.state.vehicle_groups_user[i].mean_mileage
+				}
+				km_veh_private_use+=vg_km_veh_private_use
 			}
 		}
 
@@ -207,7 +215,10 @@ export class Co2CostCalcComponent implements OnInit {
 		var tpk_car = this.data.transport_price_per_km.get("car");
 
 		if (tpk_car != undefined){
-			this.orga_results["cost"] += n_veh_private_use * this.data.commuting_shares["company_car"]["avg_dist"] * this.data.n_workdays_year * tpk_car
+			var ggg = km_veh_private_use * tpk_car
+			console.log("cost of private use: ", ggg)
+			console.log("km of private use: ", km_veh_private_use)
+			this.orga_results["cost"] += ggg
 		}
 
 
@@ -222,6 +233,10 @@ export class Co2CostCalcComponent implements OnInit {
 
 
 	calc_all(): void{
+		this.orga_results = {
+		"cost": 0,
+		"co2": 0
+	}
 		this.show_vehicle_results_table=true;
 		this.show_bt_results_table=true;
 		this.show_commuting_results_table=true;

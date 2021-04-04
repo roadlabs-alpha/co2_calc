@@ -8,19 +8,20 @@
 
 <div *ngIf="show_orga_results_table">
 	<h3>Total Results for your Organisation</h3>
-
-	<table>
+ 
+	<table id="vehicle_results_table">
 		<tr>
 			<th>CO<sub>2</sub> Emissions in kg</th>
 			<th>Cost in €</th>
 		</tr>
 
 		<tr>
-			<td>{{orga_results.co2}}</td>
-			<td>{{orga_results.cost}} kg</td>
+			<td>{{orga_results.co2  | number:".0-2"}} kg</td>
+			<td>{{orga_results.cost | currency:"EUR"}} </td>
 		</tr>
 	</table>
 </div>
+<p>
 
 
 	
@@ -36,8 +37,8 @@
 
 		<tr *ngFor="let bt of commuting_results_table">
 			<td>{{bt.name}}</td>
-			<td>{{bt.co2}} kg</td>
-			<td>{{bt.cost}} €</td>
+			<td>{{bt.co2 | number:".0-2"}} kg</td>
+			<td>{{bt.cost | currency:"EUR"}}</td>
 		</tr>
 	</table>
 </div>
@@ -57,8 +58,8 @@
 		</tr>
 		<tr *ngFor="let vg of state.vehicle_groups_user">
 			<td>{{vg.vgn}}</td>
-			<td>{{vg.vg_total_co2}} in kg</td>
-			<td>{{vg.vg_total_cost}} in €</td>
+			<td>{{vg.vg_total_co2 | number:".0-2"}} in kg</td>
+			<td>{{vg.vg_total_cost | currency:"EUR"}}</td>
 
 		</tr>
 	</table>
@@ -78,8 +79,8 @@
 
 		<tr *ngFor="let bt of bt_results_table">
 			<td>{{bt.name}}</td>
-			<td>{{bt.co2}} kg</td>
-			<td>{{bt.cost}} €</td>
+			<td>{{bt.co2 | number:".0-2"}} kg</td>
+			<td>{{bt.cost | currency:"EUR"}}</td>
 		</tr>
 	</table>
 </div>
