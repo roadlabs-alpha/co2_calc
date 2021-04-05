@@ -21,6 +21,12 @@ import { CompanyVehiclesComponent } from './company-vehicles/company-vehicles.co
 import { CompanyBusinesstripsComponent } from './company-businesstrips/company-businesstrips.component';
 import { Co2CostCalcComponent } from './co2-cost-calc/co2-cost-calc.component';
 import { CompanyBusinesstrips2Component } from './company-businesstrips2/company-businesstrips2.component';
+import { CompanyCommutingComponent } from './company-commuting/company-commuting.component';
+
+// import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+// //import * as PlotlyJS from 'plotly.js';
+// import { PlotlyModule } from 'angular-plotly.js';
+// PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -29,7 +35,8 @@ import { CompanyBusinesstrips2Component } from './company-businesstrips2/company
     CompanyVehiclesComponent,
     CompanyBusinesstripsComponent,
     Co2CostCalcComponent,
-    CompanyBusinesstrips2Component
+    CompanyBusinesstrips2Component,
+    CompanyCommutingComponent
   ],
   imports: [
     BrowserModule,

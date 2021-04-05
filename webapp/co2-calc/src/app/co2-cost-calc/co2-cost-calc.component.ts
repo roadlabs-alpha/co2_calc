@@ -136,38 +136,6 @@ export class Co2CostCalcComponent implements OnInit {
 			console.log("Cost/year of bt group in € ", i, ": ",this.state.bt_groups_user[i].calculate_btg_cost())
 
 		}
-
-
-		// console.log("bts: ", this.state.bt_value_set_user);
-
-		// // co2
-		// var epk_train =this.data.emissions_per_km.get("train");
-		// var epk_plane = this.data.emissions_per_km.get("plane");
-		// var epk_pt = this.data.emissions_per_km.get("public_transport");
-
-		// if (epk_train != undefined && epk_plane!= undefined && epk_pt!= undefined){
-		// 	this.bt_pt_co2 = this.state.bt_value_set_user.bt_dist_pt * epk_pt;
-		// 	this.bt_train_co2 = this.state.bt_value_set_user.bt_dist_train * epk_train;
-		// 	this.bt_plane_co2 = this.state.bt_value_set_user.bt_dist_plane * epk_plane;
-		// }
-
-
-		// // Cost
-		// var tpk_train =this.data.transport_price_per_km.get("train");
-		// var tpk_plane = this.data.transport_price_per_km.get("plane");
-		// var tpk_pt = this.data.transport_price_per_km.get("public_transport");
-
-		// if (tpk_train != undefined && tpk_plane!= undefined && tpk_pt!= undefined){
-		// 	this.bt_pt_cost = this.state.bt_value_set_user.bt_dist_pt * tpk_pt;
-		// 	this.bt_train_cost = this.state.bt_value_set_user.bt_dist_train * tpk_train;
-		// 	this.bt_plane_cost = this.state.bt_value_set_user.bt_dist_plane * tpk_plane;
-		// }
-
-		// this.bt_results_table=[
-		// {"name": "Public Transport", "co2": this.bt_pt_co2, "cost": this.bt_pt_cost},
-		// {"name": "Train", "co2": this.bt_train_co2, "cost": this.bt_train_cost},
-		// {"name": "Plane", "co2": this.bt_plane_co2, "cost": this.bt_plane_cost},
-		// ]
 	}
 
 
@@ -201,37 +169,39 @@ export class Co2CostCalcComponent implements OnInit {
 
 
 		// sum up the cost -----------------------------------------------------
-		var n_veh_private_use = 0;
-		var km_veh_private_use=0;
-		for (var i=0; i<this.state.vehicle_groups_user.length;i++){
-			this.orga_results["cost"] += this.state.vehicle_groups_user[i].calculate_vg_cost()
-			if (this.state.vehicle_groups_user[i].is_private_use == 1){
-				n_veh_private_use += this.state.vehicle_groups_user[i].count
+		// var n_veh_private_use = 0;
+		// var km_veh_private_use=0;
+		// for (var i=0; i<this.state.vehicle_groups_user.length;i++){
+		// 	this.orga_results["cost"] += this.state.vehicle_groups_user[i].calculate_vg_cost()
+		// 	if (this.state.vehicle_groups_user[i].is_private_use == 1){
+		// 		n_veh_private_use += this.state.vehicle_groups_user[i].count
 				
 
-				var vg_km_veh_private_use = n_veh_private_use * this.data.commuting_shares["company_car"]["avg_dist"] * this.data.n_workdays_year
-				if (vg_km_veh_private_use > this.state.vehicle_groups_user[i].mean_mileage){
-					vg_km_veh_private_use = this.state.vehicle_groups_user[i].mean_mileage
-				}
-				km_veh_private_use+=vg_km_veh_private_use
-			}
-		}
+		// 		var vg_km_veh_private_use = n_veh_private_use * this.data.commuting_shares["company_car"]["avg_dist"] * this.data.n_workdays_year
+		// 		if (vg_km_veh_private_use > this.state.vehicle_groups_user[i].mean_mileage){
+		// 			vg_km_veh_private_use = this.state.vehicle_groups_user[i].mean_mileage
+		// 		}
+		// 		km_veh_private_use+=vg_km_veh_private_use
+		// 	}
+		// }
 
-		// if more vehicles with private use than employees, set this count to n employees
-		if (n_veh_private_use > this.state.n_employees){
-			n_veh_private_use =  this.state.n_employees;
-		}
+		// // if more vehicles with private use than employees, set this count to n employees
+		// if (n_veh_private_use > this.state.n_employees){
+		// 	n_veh_private_use =  this.state.n_employees;
+		// }
 
-		// commuting with business company_car_cost		// cost
-		var tpk_car = this.data.transport_price_per_km.get("car");
+		// // commuting with business company_car_cost		// cost
+		// var tpk_car = this.data.transport_price_per_km.get("car");
 
-		if (tpk_car != undefined){
-			var ggg = km_veh_private_use * tpk_car
-			console.log("cost of private use: ", ggg)
-			console.log("km of private use: ", km_veh_private_use)
-			this.orga_results["cost"] += ggg
-		}
+		// if (tpk_car != undefined){
+		// 	var ggg = km_veh_private_use * tpk_car
+		// 	console.log("cost of private use: ", ggg)
+		// 	console.log("km of private use: ", km_veh_private_use)
+		// 	this.orga_results["cost"] += ggg
+		// }
 
+		// all cost of company cars in commuting
+		this.orga_results["cost"] += this.company_car_cost
 
 			
 		// Business trip cost

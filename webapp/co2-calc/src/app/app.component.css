@@ -13,4 +13,16 @@
 
 .buttons{
 	margin: 5px;
+	float: left;
+}
+
+
+.add_category_block{
+	background-color: #EEEEEE;
+	padding: 5px;
+	height: auto;
+	float: left;
+	margin: 2px;
+	width: 80%;
+
 }

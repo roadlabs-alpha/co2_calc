@@ -1,4 +1,12 @@
-.bt_groups_container{
+.form_element{
+	float: left;
+	width: 29%;
+	height: 50px;
+	margin: 3px;
+
+}
+
+.comm_groups_container{
 	background-color: #EEEEEE;
 	padding: 5px;
 	height: auto;
@@ -8,33 +16,22 @@
 
 }
 
-.form_element{
-	float: left;
-	width: 29%;
-	height: 50px;
-	margin: 3px;
-
-}
-
-
-
-
-#bt_groups {
+#comm_groups {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
-#bt_groups td, #bt_groups th {
+#comm_groups td, #comm_groups th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-#bt_groups tr:nth-child(even){background-color: #f6f6f6;}
+#comm_groups tr:nth-child(even){background-color: #f6f6f6;}
 
-#bt_groups tr:hover {background-color: #ccc;}
+#comm_groups tr:hover {background-color: #ccc;}
 
-#bt_groups th {
+#comm_groups th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
