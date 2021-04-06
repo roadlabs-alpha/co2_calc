@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService, State} from '../state.service';
 import { DataService, Data} from '../data.service';
-
+import { EChartsOption } from 'echarts';
 @Component({
 	selector: 'app-co2-cost-calc',
 	templateUrl: './co2-cost-calc.component.html',
@@ -18,6 +18,96 @@ export class Co2CostCalcComponent implements OnInit {
 	show_bt_results_table=false;
 	show_commuting_results_table=false;
 	show_orga_results_table=false;
+
+	chart_commuting: EChartsOption={
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'shadow',
+			},
+		},
+		xAxis: {
+			type: 'category',
+			data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+		},
+		yAxis: [{
+			type: 'value',
+			name: "co2",
+			id: "0"
+		},
+		{
+			type: 'value',
+			name: "cost",
+			id: "1"
+		}],
+		series: [
+		{
+			data: [820, 932, 901, 934, 1290, 1330, 1320],
+			type: 'bar',
+			yAxisId: "1"
+		},
+		],
+	};
+
+	chart_vehicles: EChartsOption={
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'shadow',
+			},
+		},
+		xAxis: {
+			type: 'category',
+			data: [],
+		},
+		yAxis: [{
+			type: 'value',
+			name: "co2",
+			id: "0"
+		},
+		{
+			type: 'value',
+			name: "cost",
+			id: "1"
+		}],
+		series: [
+		{
+			data: [],
+			type: 'bar',
+			yAxisId: "1"
+		},
+		],
+	};
+
+	chart_bt: EChartsOption={
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'shadow',
+			},
+		},
+		xAxis: {
+			type: 'category',
+			data: [],
+		},
+		yAxis: [{
+			type: 'value',
+			name: "co2",
+			id: "0"
+		},
+		{
+			type: 'value',
+			name: "cost",
+			id: "1"
+		}],
+		series: [
+		{
+			data: [],
+			type: 'bar',
+			yAxisId: "1"
+		},
+		],
+	};
 
 
 	ngOnInit(): void {
@@ -44,46 +134,21 @@ export class Co2CostCalcComponent implements OnInit {
 	company_car_cost = 0;
 	public_transport_cost = 0;
 
-	commuting_results_table=[{"name":"", "cost": 0, "co2":0}];
 	
 	calc_communting(): void{	
 
-		// // distances
-		// this.bike_km = this.state.n_employees * this.data.commuting_shares["bike"]["share"] * this.data.commuting_shares["bike"]["avg_dist"] * this.data.n_workdays_year
-		// this.private_car_km = this.state.n_employees * this.data.commuting_shares["car"]["share"] * this.data.commuting_shares["car"]["avg_dist"] * this.data.n_workdays_year
-		// this.company_car_km = this.state.n_employees * this.data.commuting_shares["company_car"]["share"] * this.data.commuting_shares["company_car"]["avg_dist"] * this.data.n_workdays_year
-		// this.public_transport_km = this.state.n_employees * this.data.commuting_shares["pt"]["share"] * this.data.commuting_shares["pt"]["avg_dist"] * this.data.n_workdays_year
-		
+		this.reset_charts()
 
-		// // emissions
-		// var epk_bike =this.data.emissions_per_km.get("bike");
-		// var epk_gas = this.data.emissions_per_km.get("gasoline");
-		// var epk_pt = this.data.emissions_per_km.get("pt");
-
-		// if (epk_bike != undefined && epk_gas!= undefined && epk_pt!= undefined){
-
-		// 	this.bike_co2 = this.bike_km * epk_bike;
-		// 	this.private_car_co2 = this.private_car_km * epk_gas;
-		// 	this.company_car_co2 = this.company_car_km * epk_gas;
-		// 	this.public_transport_co2 = this.public_transport_km * epk_pt;
-		// }
-
-		// // cost
-		// var tpk_bike = this.data.transport_price_per_km.get("bike");
-		// var tpk_car = this.data.transport_price_per_km.get("car");
-		// var tpk_pt = this.data.transport_price_per_km.get("pt");
-
-		// if (tpk_bike != undefined && tpk_car!= undefined && tpk_pt!= undefined){
-		// 	this.bike_cost = this.bike_km * tpk_bike;
-		// 	this.private_car_cost = this.private_car_km * tpk_car
-		// 	this.company_car_cost = this.company_car_km * tpk_car
-		// 	this.public_transport_cost = this.public_transport_km * tpk_pt
-
-		// }
-
+		var chart_cat = [];
+		var chart_data_co2 = [];
+		var chart_data_cost = [];
 		// Loop over all saved vehicle groups
 		for(var i=0; i < this.state.commuting_groups_user.length; i++){
 			console.log("Doing vehicle group", i)
+
+			chart_cat.push(this.state.commuting_groups_user[i].mode_name)
+			chart_data_co2.push(this.state.commuting_groups_user[i].calculate_co2())
+			chart_data_cost.push(this.state.commuting_groups_user[i].calculate_cost())
 
 			console.log("Co2/year of group in kg ", i, ": ",this.state.commuting_groups_user[i].calculate_co2())
 			console.log("Cost/year of group in € ", i, ": ",this.state.commuting_groups_user[i].calculate_cost())
@@ -91,13 +156,25 @@ export class Co2CostCalcComponent implements OnInit {
 		}
 
 
-		// this.commuting_results_table=[
-		// 	{"name":"Bike", "cost": this.bike_cost, "co2":this.bike_co2},
-		// 	{"name":"Private Car", "cost": this.private_car_cost, "co2":this.private_car_co2},
-		// 	{"name":"Company Car", "cost": this.company_car_cost, "co2":this.company_car_co2},
-		// 	{"name":"Public Transport", "cost": this.public_transport_cost, "co2":this.public_transport_co2},
-		// ];
+		this.chart_commuting.xAxis={
+			"type": "category",
+			"data": chart_cat
+		}
+		this.chart_commuting.series=[{
+			"type": "bar",
+			name: "CO2",
+			"data": chart_data_co2,
+			yAxisId: "0"
+		},
+		{
+			"type": "bar",
+			name: "Cost",
+			"data": chart_data_cost,
+			yAxisId: "1"
+		}]
 
+
+		console.log(this.chart_commuting)
 
 	}
 
@@ -108,14 +185,40 @@ export class Co2CostCalcComponent implements OnInit {
 	// Vehicles ----------------------------------------------------------
 	calc_vehicles(): void{
 
+		var chart_veh_cat = [];
+		var chart_veh_data_co2 = [];
+		var chart_veh_data_cost = [];
+
 		// Loop over all saved vehicle groups
 		for(var i=0; i < this.state.vehicle_groups_user.length; i++){
 			console.log("Doing vehicle group", i)
+
+			chart_veh_cat.push(this.state.vehicle_groups_user[i].vgn)
+			chart_veh_data_co2.push(this.state.vehicle_groups_user[i].calculate_vg_co2())
+			chart_veh_data_cost.push(this.state.vehicle_groups_user[i].calculate_vg_cost())
 
 			console.log("Co2/year of group in kg ", i, ": ",this.state.vehicle_groups_user[i].calculate_vg_co2())
 			console.log("Cost/year of group in € ", i, ": ",this.state.vehicle_groups_user[i].calculate_vg_cost())
 
 		}
+
+		this.chart_vehicles.xAxis={
+			"type": "category",
+			"data": chart_veh_cat
+		}
+		this.chart_vehicles.series=[{
+			"type": "bar",
+			name: "CO2",
+			"data": chart_veh_data_co2,
+			yAxisId: "0"
+		},
+		{
+			"type": "bar",
+			name: "Cost",
+			"data": chart_veh_data_cost,
+			yAxisId: "1"
+		}]
+
 	}
 
 
@@ -137,14 +240,39 @@ export class Co2CostCalcComponent implements OnInit {
 
 	calc_bt(): void{
 
+		var chart_bt_cat = [];
+		var chart_bt_data_co2 = [];
+		var chart_bt_data_cost = [];
+
 
 		for(var i=0; i < this.state.bt_groups_user.length; i++){
 			console.log("Doing bt group", i)
 
+			chart_bt_cat.push(this.state.bt_groups_user[i].btg_mode_name)
+			chart_bt_data_co2.push(this.state.bt_groups_user[i].calculate_btg_co2())
+			chart_bt_data_cost.push(this.state.bt_groups_user[i].calculate_btg_cost())
+
+
 			console.log("Co2/year of bt group in kg ", i, ": ",this.state.bt_groups_user[i].calculate_btg_co2())
 			console.log("Cost/year of bt group in € ", i, ": ",this.state.bt_groups_user[i].calculate_btg_cost())
-
 		}
+
+		this.chart_bt.xAxis={
+			"type": "category",
+			"data": chart_bt_cat
+		}
+		this.chart_bt.series=[{
+			"type": "bar",
+			name: "CO2",
+			"data": chart_bt_data_co2,
+			yAxisId: "0"
+		},
+		{
+			"type": "bar",
+			name: "Cost",
+			"data": chart_bt_data_cost,
+			yAxisId: "1"
+		}]
 	}
 
 
@@ -179,41 +307,12 @@ export class Co2CostCalcComponent implements OnInit {
 
 
 		// sum up the cost -----------------------------------------------------
-		// var n_veh_private_use = 0;
-		// var km_veh_private_use=0;
-		// for (var i=0; i<this.state.vehicle_groups_user.length;i++){
-		// 	this.orga_results["cost"] += this.state.vehicle_groups_user[i].calculate_vg_cost()
-		// 	if (this.state.vehicle_groups_user[i].is_private_use == 1){
-		// 		n_veh_private_use += this.state.vehicle_groups_user[i].count
-				
 
-		// 		var vg_km_veh_private_use = n_veh_private_use * this.data.commuting_shares["company_car"]["avg_dist"] * this.data.n_workdays_year
-		// 		if (vg_km_veh_private_use > this.state.vehicle_groups_user[i].mean_mileage){
-		// 			vg_km_veh_private_use = this.state.vehicle_groups_user[i].mean_mileage
-		// 		}
-		// 		km_veh_private_use+=vg_km_veh_private_use
-		// 	}
-		// }
-
-		// // if more vehicles with private use than employees, set this count to n employees
-		// if (n_veh_private_use > this.state.n_employees){
-		// 	n_veh_private_use =  this.state.n_employees;
-		// }
-
-		// // commuting with business company_car_cost		// cost
-		// var tpk_car = this.data.transport_price_per_km.get("car");
-
-		// if (tpk_car != undefined){
-		// 	var ggg = km_veh_private_use * tpk_car
-		// 	console.log("cost of private use: ", ggg)
-		// 	console.log("km of private use: ", km_veh_private_use)
-		// 	this.orga_results["cost"] += ggg
-		// }
 
 		// all cost of company cars in commuting
 		this.orga_results["cost"] += this.company_car_cost
 
-			
+
 		// Business trip cost
 		for (var i=0; i<this.state.bt_groups_user.length;i++){
 			this.orga_results["cost"] += this.state.bt_groups_user[i].calculate_btg_cost()
@@ -231,9 +330,9 @@ export class Co2CostCalcComponent implements OnInit {
 
 	calc_all(): void{
 		this.orga_results = {
-		"cost": 0,
-		"co2": 0
-	}
+			"cost": 0,
+			"co2": 0
+		}
 		this.show_vehicle_results_table=true;
 		this.show_bt_results_table=true;
 		this.show_commuting_results_table=true;
@@ -245,6 +344,97 @@ export class Co2CostCalcComponent implements OnInit {
 	}
 
 
+	reset_charts(): void{
+		this.chart_commuting={
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'shadow',
+			},
+		},
+		xAxis: {
+			type: 'category',
+			data: [],
+		},
+		yAxis: [{
+			type: 'value',
+			name: "co2",
+			id: "0"
+		},
+		{
+			type: 'value',
+			name: "cost",
+			id: "1"
+		}],
+		series: [
+		{
+			data: [],
+			type: 'bar',
+			yAxisId: "1"
+		},
+		],
+	};
+
+	this.chart_vehicles={
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'shadow',
+			},
+		},
+		xAxis: {
+			type: 'category',
+			data: [],
+		},
+		yAxis: [{
+			type: 'value',
+			name: "co2",
+			id: "0"
+		},
+		{
+			type: 'value',
+			name: "cost",
+			id: "1"
+		}],
+		series: [
+		{
+			data: [],
+			type: 'bar',
+			yAxisId: "1"
+		},
+		],
+	};
+
+	this.chart_bt={
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: {
+				type: 'shadow',
+			},
+		},
+		xAxis: {
+			type: 'category',
+			data: [],
+		},
+		yAxis: [{
+			type: 'value',
+			name: "co2",
+			id: "0"
+		},
+		{
+			type: 'value',
+			name: "cost",
+			id: "1"
+		}],
+		series: [
+		{
+			data: [],
+			type: 'bar',
+			yAxisId: "1"
+		},
+		],
+	};
+	}
 
 	getState(): void {
 		this.stateService.getState().subscribe(st => this.state = st);

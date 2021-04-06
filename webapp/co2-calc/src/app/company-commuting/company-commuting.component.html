@@ -29,6 +29,13 @@
 			</mat-select>
 		</mat-form-field>
 
+		<span *ngIf="value_fc_dist_per_daycommute==8">
+		<mat-form-field class="form_element_small" [formGroup]="fg_commuting">
+			<mat-label>Enter distance in km</mat-label>
+			<input matInput type="text" placeholder="1" formControlName="fc_custom_dist">
+		</mat-form-field>
+		</span>
+
 		<mat-form-field class="form_element_small" [formGroup]="fg_commuting">
 			<mat-label>Share</mat-label>
 			<input matInput type="text" placeholder="1" formControlName="fc_share">
@@ -46,13 +53,21 @@
 	<div class=comm_groups_container *ngIf="commuting_groups.length==0">
 		You have no commuting groups yet! <br>
 
-		<div class=form_element>
-			<form appearance="fill" [formGroup]="fg_commuting">
-				<mat-checkbox formControlName="fc_company_car_commuting" >Company cars do commute</mat-checkbox><br>
-				<mat-checkbox formControlName="fc_pool_car_commuting">Poolvehicles do commute</mat-checkbox>
-			</form>
-		</div>		
-		<button mat-raised-button class="buttons" color="accent" (click)="estimate_groups();">Estimate missing values on the base of {{state.n_employees}} employees!</button>
+		<div class="vertical_groups_container">
+
+			<div class=form_element>
+				<form appearance="fill" [formGroup]="fg_commuting">
+					<mat-checkbox formControlName="fc_company_car_commuting" >Company cars do commute</mat-checkbox><br>
+					<mat-checkbox formControlName="fc_pool_car_commuting">Poolvehicles do commute</mat-checkbox>
+				</form>
+			</div>
+
+		</div>
+
+		<div class="vertical_groups_container">
+			<button mat-raised-button class="buttons" color="accent" (click)="estimate_groups();">Estimate missing values on the base of {{state.n_employees}} employees!</button>
+		</div>
+
 	</div>
 
 

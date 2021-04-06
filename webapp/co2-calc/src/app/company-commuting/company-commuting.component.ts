@@ -34,6 +34,7 @@ export class CompanyCommutingComponent implements OnInit {
 	{"id":5, "name": "200-500 km", "value":[200,500]},
 	{"id":6, "name": "500-1000 km", "value":[500,1000]},
 	{"id":7, "name": "1000-10000 km", "value":[1000,10000]},
+	{"id":8, "name": "custom", "value":[-1,-1]},
 	]
 
 	commuting_groups: Array<Commute_Group>=[]
@@ -43,9 +44,12 @@ export class CompanyCommutingComponent implements OnInit {
 		fc_pool_car_commuting: new FormControl(false),
 		fc_transportmode: new FormControl("2"),
 		fc_dist_per_daycommute: new FormControl("2"),
+		fc_custom_dist: new FormControl(0),
 		fc_share: new FormControl(0.5),
 		fc_home_office_share: new FormControl(0),
 	});
+
+	value_fc_dist_per_daycommute=0
 
 	constructor(private stateService: StateService, private dataService: DataService) { }
 
@@ -55,6 +59,14 @@ export class CompanyCommutingComponent implements OnInit {
 	ngOnInit(): void {
 		this.getData()
 		this.getState()
+
+		var test = this.fg_commuting.get("fc_dist_per_daycommute")
+		if (test!= null){
+			test.valueChanges.subscribe(val => {
+				this.value_fc_dist_per_daycommute = val
+				console.log(val)
+			});
+		}
 	}
 
 	add_comm_group(): void{
@@ -63,14 +75,24 @@ export class CompanyCommutingComponent implements OnInit {
 
 		var count = n_total_commutes * this.fg_commuting.value.fc_share
 
+		var dist: Array<number>=[];
+		var dist_name=""
+		if (this.fg_commuting.value.fc_dist_per_daycommute < 8){
+			dist = this.dist_classes[this.fg_commuting.value.fc_dist_per_daycommute].value
+			dist_name = this.dist_classes[this.fg_commuting.value.fc_dist_per_daycommute].name
+		}else if(this.fg_commuting.value.fc_dist_per_daycommute == 8){
+			dist = [this.fg_commuting.value.fc_custom_dist, this.fg_commuting.value.fc_custom_dist]
+			dist_name = String(this.fg_commuting.value.fc_custom_dist)+" km"
+		}
+
 		this.commuting_groups.push(
 			new Commute_Group(
 				this.mode_classes[this.fg_commuting.value.fc_transportmode].value,
 				this.mode_classes[this.fg_commuting.value.fc_transportmode].value,
 				this.mode_classes[this.fg_commuting.value.fc_transportmode].name,
 				count,
-				this.dist_classes[this.fg_commuting.value.fc_dist_per_daycommute].value,
-				this.dist_classes[this.fg_commuting.value.fc_dist_per_daycommute].name,
+				dist,
+				dist_name,
 				this.fg_commuting.value.fc_share))
 
 	}
@@ -105,10 +127,10 @@ export class CompanyCommutingComponent implements OnInit {
 			var dist_bike = (n_total_commutes * this.data.commuting_shares.bike.share * this.data.commuting_shares.bike.avg_dist)
 
 			this.commuting_groups=[
-			new Commute_Group("bt_est_pt", "pt", "Public Transport", number_pt, [dist_pt/number_pt, dist_pt/number_pt], String(dist_pt/number_pt)+ " km", this.data.commuting_shares.pt.share),
-			new Commute_Group("bt_est_car", "train", "Car", number_car, [dist_car/number_car, dist_car/number_car], String(dist_car/number_car)+ " km", this.data.commuting_shares.car.share),
-			new Commute_Group("bt_est_company_car","car", "Company Car", number_company_car, [dist_company_car/number_company_car, dist_company_car/number_company_car], String(dist_company_car/number_company_car) + " km", this.data.commuting_shares.company_car.share),
-			new Commute_Group("bt_est_bike","bike", "Bike", number_bike, [dist_bike/number_bike, dist_bike/number_bike], String(dist_bike/number_bike) + " km", this.data.commuting_shares.bike.share)
+			new Commute_Group("Estimated PT", "pt", "Public Transport", number_pt, [dist_pt/number_pt, dist_pt/number_pt], String(dist_pt/number_pt)+ " km", this.data.commuting_shares.pt.share),
+			new Commute_Group("Estiamted Car", "train", "Car", number_car, [dist_car/number_car, dist_car/number_car], String(dist_car/number_car)+ " km", this.data.commuting_shares.car.share),
+			new Commute_Group("Estimated Company Car","car", "Company Car", number_company_car, [dist_company_car/number_company_car, dist_company_car/number_company_car], String(dist_company_car/number_company_car) + " km", this.data.commuting_shares.company_car.share),
+			new Commute_Group("Estimated Bike","bike", "Bike", number_bike, [dist_bike/number_bike, dist_bike/number_bike], String(dist_bike/number_bike) + " km", this.data.commuting_shares.bike.share)
 			]
 		}else{
 
@@ -121,9 +143,9 @@ export class CompanyCommutingComponent implements OnInit {
 			var dist_bike = (n_total_commutes * this.data.commuting_shares.bike.share * this.data.commuting_shares.bike.avg_dist)
 
 			this.commuting_groups=[
-			new Commute_Group("bt_est_pt", "pt", "Public Transport", number_pt, [dist_pt/number_pt, dist_pt/number_pt], String(dist_pt/number_pt)+ " km", this.data.commuting_shares.pt.share),
-			new Commute_Group("bt_est_car", "train", "Car", number_car, [dist_car/number_car, dist_car/number_car], String(dist_car/number_car)+ " km", this.data.commuting_shares.company_car.share + this.data.commuting_shares.car.share),
-			new Commute_Group("bt_est_bike","bike", "Bike", number_bike, [dist_bike/number_bike, dist_bike/number_bike], String(dist_bike/number_bike) + " km", this.data.commuting_shares.bike.share)
+			new Commute_Group("Estimated PT", "pt", "Public Transport", number_pt, [dist_pt/number_pt, dist_pt/number_pt], String(dist_pt/number_pt)+ " km", this.data.commuting_shares.pt.share),
+			new Commute_Group("Estimated Car", "train", "Car", number_car, [dist_car/number_car, dist_car/number_car], String(dist_car/number_car)+ " km", this.data.commuting_shares.company_car.share + this.data.commuting_shares.car.share),
+			new Commute_Group("Estimated Bike","bike", "Bike", number_bike, [dist_bike/number_bike, dist_bike/number_bike], String(dist_bike/number_bike) + " km", this.data.commuting_shares.bike.share)
 			]
 		}
 

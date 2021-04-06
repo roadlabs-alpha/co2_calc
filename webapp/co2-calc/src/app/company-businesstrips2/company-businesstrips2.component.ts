@@ -78,10 +78,10 @@ export class CompanyBusinesstrips2Component implements OnInit {
 		var fc_dist_bike = (total_bt * this.data.business_trip_shares.bike.share * this.data.business_trip_shares.bike.avg_dist)
 
 		this.bt_groups=[
-		new Bt_Group("bt_est_pt", "pt", "Public Transport", fc_number_pt, [fc_dist_pt/fc_number_pt, fc_dist_pt/fc_number_pt], String(fc_dist_pt/fc_number_pt)+ " km"),
-		new Bt_Group("bt_est_train", "train", "Train", fc_number_train, [fc_dist_train/fc_number_train, fc_dist_train/fc_number_train], String(fc_dist_train/fc_number_train)+ " km"),
-		new Bt_Group("bt_est_plane","plane", "Plane", fc_number_plane, [fc_dist_plane/fc_number_plane, fc_dist_plane/fc_number_plane], String(fc_dist_plane/fc_number_plane) + " km"),
-		new Bt_Group("bt_est_bike","bike", "Bike", fc_number_bike, [fc_dist_bike/fc_number_bike, fc_dist_bike/fc_number_bike], String(fc_dist_bike/fc_number_bike) + " km")
+		new Bt_Group("Estimate PT", "pt", "Public Transport", fc_number_pt, [fc_dist_pt/fc_number_pt, fc_dist_pt/fc_number_pt], String(fc_dist_pt/fc_number_pt)+ " km"),
+		new Bt_Group("Estimate Train", "train", "Train", fc_number_train, [fc_dist_train/fc_number_train, fc_dist_train/fc_number_train], String(fc_dist_train/fc_number_train)+ " km"),
+		new Bt_Group("Estimate Plane","plane", "Plane", fc_number_plane, [fc_dist_plane/fc_number_plane, fc_dist_plane/fc_number_plane], String(fc_dist_plane/fc_number_plane) + " km"),
+		new Bt_Group("Estimate Bike","bike", "Bike", fc_number_bike, [fc_dist_bike/fc_number_bike, fc_dist_bike/fc_number_bike], String(fc_dist_bike/fc_number_bike) + " km")
 		]
 
 	}

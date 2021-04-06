@@ -9,9 +9,10 @@
 	<div class="vertical_groups_container">
 
 
+		
+
 		<div *ngIf="show_orga_results_table">
 			<h3>Total Results for your Organisation</h3>
-			
 			<table id="vehicle_results_table">
 				<tr>
 					<th>CO<sub>2</sub> Emissions in kg</th>
@@ -27,10 +28,13 @@
 		<p>
 
 
-			
+
 
 			<div *ngIf="show_commuting_results_table">
 				<h3>Commuting</h3>
+
+				<div echarts [options]="chart_commuting" class="chart_commuting"></div>
+
 				<table id="vehicle_results_table">
 					<tr>
 						<th>Mode</th>
@@ -44,13 +48,17 @@
 						<td>{{bt.cost | currency:"EUR"}}</td>
 					</tr>
 				</table>
-			</div>
-			<p>
+				<p>
+					<hr style="width:50%;text-align:left;margin-left:0">
+				</div>
+
 
 
 
 				<div *ngIf="show_vehicle_results_table">
 					<h3>Vehicles of the organisation</h3>
+
+					<div echarts [options]="chart_vehicles" class="chart_commuting"></div>
 
 					<table id="vehicle_results_table">
 						<tr>
@@ -66,12 +74,16 @@
 
 						</tr>
 					</table>
+					<p>
+						<hr style="width:50%;text-align:left;margin-left:0">
 				</div>
 				<p>
 
 
 					<div *ngIf="show_bt_results_table">
 						<h3>Business Trip Results</h3>
+
+						<div echarts [options]="chart_bt" class="chart_commuting"></div>
 
 						<table id="vehicle_results_table">
 							<tr>
@@ -88,6 +100,7 @@
 						</table>
 					</div>
 
-				</div>
 
+
+				</div>
 			</div>
