@@ -32,12 +32,12 @@ export class Co2CostCalcComponent implements OnInit {
 		},
 		yAxis: [{
 			type: 'value',
-			name: "co2",
+			name: "co2 in kg",
 			id: "0"
 		},
 		{
 			type: 'value',
-			name: "cost",
+			name: "cost in €",
 			id: "1"
 		}],
 		series: [
@@ -62,12 +62,12 @@ export class Co2CostCalcComponent implements OnInit {
 		},
 		yAxis: [{
 			type: 'value',
-			name: "co2",
+			name: "co2 in kg",
 			id: "0"
 		},
 		{
 			type: 'value',
-			name: "cost",
+			name: "cost in €",
 			id: "1"
 		}],
 		series: [
@@ -92,12 +92,12 @@ export class Co2CostCalcComponent implements OnInit {
 		},
 		yAxis: [{
 			type: 'value',
-			name: "co2",
+			name: "co2 in kg",
 			id: "0"
 		},
 		{
 			type: 'value',
-			name: "cost",
+			name: "cost in €",
 			id: "1"
 		}],
 		series: [
@@ -162,13 +162,13 @@ export class Co2CostCalcComponent implements OnInit {
 		}
 		this.chart_commuting.series=[{
 			"type": "bar",
-			name: "CO2",
+			name: "CO2 in kg",
 			"data": chart_data_co2,
 			yAxisId: "0"
 		},
 		{
 			"type": "bar",
-			name: "Cost",
+			name: "Cost in €",
 			"data": chart_data_cost,
 			yAxisId: "1"
 		}]
@@ -208,13 +208,13 @@ export class Co2CostCalcComponent implements OnInit {
 		}
 		this.chart_vehicles.series=[{
 			"type": "bar",
-			name: "CO2",
+			name: "CO2 in kg",
 			"data": chart_veh_data_co2,
 			yAxisId: "0"
 		},
 		{
 			"type": "bar",
-			name: "Cost",
+			name: "Cost in €",
 			"data": chart_veh_data_cost,
 			yAxisId: "1"
 		}]
@@ -263,13 +263,13 @@ export class Co2CostCalcComponent implements OnInit {
 		}
 		this.chart_bt.series=[{
 			"type": "bar",
-			name: "CO2",
+			name: "CO2 in kg",
 			"data": chart_bt_data_co2,
 			yAxisId: "0"
 		},
 		{
 			"type": "bar",
-			name: "Cost",
+			name: "Cost in €",
 			"data": chart_bt_data_cost,
 			yAxisId: "1"
 		}]
@@ -358,12 +358,12 @@ export class Co2CostCalcComponent implements OnInit {
 		},
 		yAxis: [{
 			type: 'value',
-			name: "co2",
+			name: "co2 in kg",
 			id: "0"
 		},
 		{
 			type: 'value',
-			name: "cost",
+			name: "cost in €",
 			id: "1"
 		}],
 		series: [
@@ -388,12 +388,12 @@ export class Co2CostCalcComponent implements OnInit {
 		},
 		yAxis: [{
 			type: 'value',
-			name: "co2",
+			name: "co2 in kg",
 			id: "0"
 		},
 		{
 			type: 'value',
-			name: "cost",
+			name: "cost in €",
 			id: "1"
 		}],
 		series: [
@@ -418,12 +418,12 @@ export class Co2CostCalcComponent implements OnInit {
 		},
 		yAxis: [{
 			type: 'value',
-			name: "co2",
+			name: "co2 in kg",
 			id: "0"
 		},
 		{
 			type: 'value',
-			name: "cost",
+			name: "cost in €",
 			id: "1"
 		}],
 		series: [
