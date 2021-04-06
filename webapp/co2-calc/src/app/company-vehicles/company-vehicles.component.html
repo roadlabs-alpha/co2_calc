@@ -11,7 +11,12 @@
 	<div class=add_category_block>
 
 		<div>
-			<h3>{{vgn}}</h3>
+			<!--h3>{{vgn}}</h3-->
+
+			<mat-form-field class="form_element_medium" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Vehicle Group Name</h3></mat-label>
+				<input matInput type="text" placeholder="1" formControlName="fc_vgn">
+			</mat-form-field>
 		</div>
 
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">

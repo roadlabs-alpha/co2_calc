@@ -8,6 +8,13 @@
 	margin: 2px;
 
 }
+.form_element_medium{
+	float: left;
+	width: 15%;
+	height: 50px;
+	margin: 3px;
+
+}
 
 .form_element_small{
 	float: left;

@@ -52,6 +52,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 
 	fg_vehicleclass = new FormGroup({
+		fc_vgn: new FormControl(this.vgn),
 		fc_vehicletype: new FormControl('1'),
 		fc_vehicleclass: new FormControl('compact'),
 		fc_vehicleprop: new FormControl('electric'),
@@ -132,6 +133,9 @@ export class CompanyVehiclesComponent implements OnInit{
 		// console.log(this.fg_vehicleclass.value.fc_privateuse);
 
 		var vgn = this.generate_vehicle_group_name(0);
+
+		vgn = this.fg_vehicleclass.value.fc_vgn
+
 		var milage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value;
 		var vg = new VehicleGroup(vgn, milage, this.vehicle_types[this.fg_vehicleclass.value.fc_vehicletype].value, this.fg_vehicleclass.value.fc_vehicleprop, this.fg_vehicleclass.value.fc_vehicleclass);
 		
@@ -147,6 +151,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 		this.calc_total_vehicle_count();
 		this.vgn=this.generate_vehicle_group_name(1);
+		this.fg_vehicleclass.controls.fc_vgn.setValue(this.vgn)
 		this.change_detected = true;
 
 	}
