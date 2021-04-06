@@ -45,3 +45,10 @@
 .my-mat-option{
 	color:#eee;
 }
+
+.block_add{
+	margin: 10px 10px;
+	float: right;
+	width: 40px;
+	height: 50px;
+}

@@ -16,18 +16,35 @@ export class CompanyCommutingComponent implements OnInit {
 
 	change_detected=true;
 
-	dist_classes=[{"name": "", "id": 0}]
+	mode_classes=[
+	{"id":0, "name":"Walking", "value": "walking"},
+	{"id":1, "name":"Bike", "value": "bike"},
+	{"id":2, "name":"Car", "value": "car"},
+	{"id":3, "name":"Company Car", "value": "company_car"},
+	{"id":4, "name":"Public Transport", "value": "pt"},
+	{"id":5, "name":"Train", "value": "train"},
+	{"id":6, "name":"Plane", "value": "plane"},]
 
-	mode_classes=[{"name": "", "id": 0}]
+	dist_classes=[
+	{"id":0, "name": "0-5 km", "value":[0,5]},
+	{"id":1, "name": "5-10 km", "value":[5,10]},
+	{"id":2, "name": "10-20 km", "value":[10,20]},
+	{"id":3, "name": "20-50 km", "value":[20,50]},
+	{"id":4, "name": "50-200 km", "value":[50,200]},
+	{"id":5, "name": "200-500 km", "value":[200,500]},
+	{"id":6, "name": "500-1000 km", "value":[500,1000]},
+	{"id":7, "name": "1000-10000 km", "value":[1000,10000]},
+	]
 
-	commuting_groups=[{"name": "", "mode": "", "avg_dist":"", "share":0.5}]
+	commuting_groups: Array<Commute_Group>=[]
 
 	fg_commuting = new FormGroup({
 		fc_company_car_commuting: new FormControl(false),
 		fc_pool_car_commuting: new FormControl(false),
-		fc_transportmode: new FormControl("bike"),
-		fc_dist_per_daycommute: new FormControl(15),
+		fc_transportmode: new FormControl("2"),
+		fc_dist_per_daycommute: new FormControl("2"),
 		fc_share: new FormControl(0.5),
+		fc_home_office_share: new FormControl(0),
 	});
 
 	constructor(private stateService: StateService, private dataService: DataService) { }
@@ -42,13 +59,76 @@ export class CompanyCommutingComponent implements OnInit {
 
 	add_comm_group(): void{
 
+		var n_total_commutes = this.data.n_workdays_year * this.state.n_employees -  (this.data.n_workdays_year * this.state.n_employees * this.fg_commuting.value.fc_home_office_share)
+
+		var count = n_total_commutes * this.fg_commuting.value.fc_share
+
+		this.commuting_groups.push(
+			new Commute_Group(
+				this.mode_classes[this.fg_commuting.value.fc_transportmode].value,
+				this.mode_classes[this.fg_commuting.value.fc_transportmode].value,
+				this.mode_classes[this.fg_commuting.value.fc_transportmode].name,
+				count,
+				this.dist_classes[this.fg_commuting.value.fc_dist_per_daycommute].value,
+				this.dist_classes[this.fg_commuting.value.fc_dist_per_daycommute].name,
+				this.fg_commuting.value.fc_share))
+
 	}
 
-	save_comm_groups():void{}
+	save_comm_groups():void{
+		this.stateService.state.commuting_groups_user = this.commuting_groups;
+		console.log("Saved commuting groups: ", this.commuting_groups)
+		this.change_detected = false
+	}
 
-	delete_comm_group(gi: number): void{}
+	delete_comm_group(gi: number): void{
+		console.log("del element", gi)
+		this.commuting_groups.splice(gi,1);
+		this.change_detected = true;
+	}
 
 	estimate_groups(): void{
+		var n_total_commutes = this.data.n_workdays_year * this.state.n_employees -  (this.data.n_workdays_year * this.state.n_employees * this.fg_commuting.value.fc_home_office_share)
+
+		if (this.fg_commuting.value.fc_company_car_commuting == 1){
+
+
+
+			var number_pt = (n_total_commutes * this.data.commuting_shares.pt.share)
+			var number_car = (n_total_commutes * this.data.commuting_shares.car.share)
+			var number_company_car = (n_total_commutes * this.data.commuting_shares.company_car.share)
+			var number_bike = (n_total_commutes * this.data.commuting_shares.bike.share)
+
+			var dist_pt = (n_total_commutes * this.data.commuting_shares.pt.share * this.data.commuting_shares.pt.avg_dist)
+			var dist_car = (n_total_commutes * this.data.commuting_shares.car.share * this.data.commuting_shares.car.avg_dist)
+			var dist_company_car = (n_total_commutes * this.data.commuting_shares.company_car.share * this.data.commuting_shares.company_car.avg_dist)
+			var dist_bike = (n_total_commutes * this.data.commuting_shares.bike.share * this.data.commuting_shares.bike.avg_dist)
+
+			this.commuting_groups=[
+			new Commute_Group("bt_est_pt", "pt", "Public Transport", number_pt, [dist_pt/number_pt, dist_pt/number_pt], String(dist_pt/number_pt)+ " km", this.data.commuting_shares.pt.share),
+			new Commute_Group("bt_est_car", "train", "Car", number_car, [dist_car/number_car, dist_car/number_car], String(dist_car/number_car)+ " km", this.data.commuting_shares.car.share),
+			new Commute_Group("bt_est_company_car","car", "Company Car", number_company_car, [dist_company_car/number_company_car, dist_company_car/number_company_car], String(dist_company_car/number_company_car) + " km", this.data.commuting_shares.company_car.share),
+			new Commute_Group("bt_est_bike","bike", "Bike", number_bike, [dist_bike/number_bike, dist_bike/number_bike], String(dist_bike/number_bike) + " km", this.data.commuting_shares.bike.share)
+			]
+		}else{
+
+			var number_pt = (n_total_commutes * this.data.commuting_shares.pt.share)
+			var number_car = (n_total_commutes * this.data.commuting_shares.car.share) + (n_total_commutes * this.data.commuting_shares.company_car.share)
+			var number_bike = (n_total_commutes * this.data.commuting_shares.bike.share)
+
+			var dist_pt = (n_total_commutes * this.data.commuting_shares.pt.share * this.data.commuting_shares.pt.avg_dist)
+			var dist_car = (n_total_commutes * this.data.commuting_shares.car.share * this.data.commuting_shares.car.avg_dist) + (n_total_commutes * this.data.commuting_shares.company_car.share * this.data.commuting_shares.company_car.avg_dist)
+			var dist_bike = (n_total_commutes * this.data.commuting_shares.bike.share * this.data.commuting_shares.bike.avg_dist)
+
+			this.commuting_groups=[
+			new Commute_Group("bt_est_pt", "pt", "Public Transport", number_pt, [dist_pt/number_pt, dist_pt/number_pt], String(dist_pt/number_pt)+ " km", this.data.commuting_shares.pt.share),
+			new Commute_Group("bt_est_car", "train", "Car", number_car, [dist_car/number_car, dist_car/number_car], String(dist_car/number_car)+ " km", this.data.commuting_shares.company_car.share + this.data.commuting_shares.car.share),
+			new Commute_Group("bt_est_bike","bike", "Bike", number_bike, [dist_bike/number_bike, dist_bike/number_bike], String(dist_bike/number_bike) + " km", this.data.commuting_shares.bike.share)
+			]
+		}
+
+		
+
 
 	}
 
@@ -96,7 +176,7 @@ export class Commute_Group{
 	}
 
 
-	calculate_btg_co2(): number{
+	calculate_co2(): number{
 
 		var mean_dist = (this.avg_distance[0] + this.avg_distance[1])/2
 		var epk = this.data.emissions_per_km.get(this.mode)
@@ -108,7 +188,7 @@ export class Commute_Group{
 		return this.co2
 	}
 
-	calculate_btg_cost(): number{
+	calculate_cost(): number{
 		var mean_dist = (this.avg_distance[0] + this.avg_distance[1])/2
 		var tpk = this.data.transport_price_per_km.get(this.mode)
 

@@ -2,87 +2,92 @@
 	<h2> CO<sub>2</sub> and cost calculation</h2>
 	
 
+	<div class="vertical_groups_container">
+		<button mat-raised-button class="buttons"color="accent" (click)="calc_all();">Calculate!</button>
+	</div>
 
-	<button mat-raised-button class="buttons"color="accent" (click)="calc_all();">Calculate!</button>
-
-
-<div *ngIf="show_orga_results_table">
-	<h3>Total Results for your Organisation</h3>
- 
-	<table id="vehicle_results_table">
-		<tr>
-			<th>CO<sub>2</sub> Emissions in kg</th>
-			<th>Cost in €</th>
-		</tr>
-
-		<tr>
-			<td>{{orga_results.co2  | number:".0-2"}} kg</td>
-			<td>{{orga_results.cost | currency:"EUR"}} </td>
-		</tr>
-	</table>
-</div>
-<p>
+	<div class="vertical_groups_container">
 
 
-	
+		<div *ngIf="show_orga_results_table">
+			<h3>Total Results for your Organisation</h3>
+			
+			<table id="vehicle_results_table">
+				<tr>
+					<th>CO<sub>2</sub> Emissions in kg</th>
+					<th>Cost in €</th>
+				</tr>
 
-<div *ngIf="show_commuting_results_table">
-	<h3>Commuting</h3>
-	<table id="vehicle_results_table">
-		<tr>
-			<th>Mode</th>
-			<th>CO<sub>2</sub> Emissions in kg</th>
-			<th>Cost in €</th>
-		</tr>
-
-		<tr *ngFor="let bt of commuting_results_table">
-			<td>{{bt.name}}</td>
-			<td>{{bt.co2 | number:".0-2"}} kg</td>
-			<td>{{bt.cost | currency:"EUR"}}</td>
-		</tr>
-	</table>
-</div>
-<p>
+				<tr>
+					<td>{{orga_results.co2  | number:".0-2"}} kg</td>
+					<td>{{orga_results.cost | currency:"EUR"}} </td>
+				</tr>
+			</table>
+		</div>
+		<p>
 
 
+			
 
-<div *ngIf="show_vehicle_results_table">
-	<h3>Vehicles of the organisation</h3>
+			<div *ngIf="show_commuting_results_table">
+				<h3>Commuting</h3>
+				<table id="vehicle_results_table">
+					<tr>
+						<th>Mode</th>
+						<th>CO<sub>2</sub> Emissions in kg</th>
+						<th>Cost in €</th>
+					</tr>
 
-	<table id="vehicle_results_table">
-		<tr>
-			<th>Vehicle Group</th>
-			<th>Total CO<sub>2</sub> Emissions in kg</th>
-			<th>Total cost in €</th>
-
-		</tr>
-		<tr *ngFor="let vg of state.vehicle_groups_user">
-			<td>{{vg.vgn}}</td>
-			<td>{{vg.vg_total_co2 | number:".0-2"}} in kg</td>
-			<td>{{vg.vg_total_cost | currency:"EUR"}}</td>
-
-		</tr>
-	</table>
-</div>
-<p>
+					<tr *ngFor="let bt of state.commuting_groups_user">
+						<td>{{bt.name}}</td>
+						<td>{{bt.co2 | number:".0-2"}} kg</td>
+						<td>{{bt.cost | currency:"EUR"}}</td>
+					</tr>
+				</table>
+			</div>
+			<p>
 
 
-<div *ngIf="show_bt_results_table">
-	<h3>Business Trip Results</h3>
 
-	<table id="vehicle_results_table">
-		<tr>
-			<th>Business trip mode</th>
-			<th>CO<sub>2</sub> Emissions in kg</th>
-			<th>Cost in €</th>
-		</tr>
+				<div *ngIf="show_vehicle_results_table">
+					<h3>Vehicles of the organisation</h3>
 
-		<tr *ngFor="let bt of state.bt_groups_user">
-			<td>{{bt.btg_name}}</td>
-			<td>{{bt.btg_co2 | number:".0-2"}} kg</td>
-			<td>{{bt.btg_cost | currency:"EUR"}}</td>
-		</tr>
-	</table>
-</div>
+					<table id="vehicle_results_table">
+						<tr>
+							<th>Vehicle Group</th>
+							<th>Total CO<sub>2</sub> Emissions in kg</th>
+							<th>Total cost in €</th>
 
-</div>
+						</tr>
+						<tr *ngFor="let vg of state.vehicle_groups_user">
+							<td>{{vg.vgn}}</td>
+							<td>{{vg.vg_total_co2 | number:".0-2"}} in kg</td>
+							<td>{{vg.vg_total_cost | currency:"EUR"}}</td>
+
+						</tr>
+					</table>
+				</div>
+				<p>
+
+
+					<div *ngIf="show_bt_results_table">
+						<h3>Business Trip Results</h3>
+
+						<table id="vehicle_results_table">
+							<tr>
+								<th>Business trip mode</th>
+								<th>CO<sub>2</sub> Emissions in kg</th>
+								<th>Cost in €</th>
+							</tr>
+
+							<tr *ngFor="let bt of state.bt_groups_user">
+								<td>{{bt.btg_name}}</td>
+								<td>{{bt.btg_co2 | number:".0-2"}} kg</td>
+								<td>{{bt.btg_cost | currency:"EUR"}}</td>
+							</tr>
+						</table>
+					</div>
+
+				</div>
+
+			</div>

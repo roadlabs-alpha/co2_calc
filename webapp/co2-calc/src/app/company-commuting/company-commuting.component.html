@@ -2,13 +2,17 @@
 	<h2>Employee Commuting</h2>
 
 
-
-
+	<div class="add_category_block">
+		<mat-form-field class="form_element_small" [formGroup]="fg_commuting">
+			<mat-label>Home office percentage</mat-label>
+			<input matInput type="number" placeholder="1" formControlName="fc_home_office_share">
+		</mat-form-field>
+	</div>
 
 
 	<div class="add_category_block">
 
-		<h3>Add Business trip group</h3>
+		<h3>Add commuting group</h3>
 
 
 		<mat-form-field appearance="fill" [formGroup]="fg_commuting" class="form_element">
@@ -25,7 +29,7 @@
 			</mat-select>
 		</mat-form-field>
 
-		<mat-form-field class="form_element" [formGroup]="fg_commuting">
+		<mat-form-field class="form_element_small" [formGroup]="fg_commuting">
 			<mat-label>Share</mat-label>
 			<input matInput type="text" placeholder="1" formControlName="fc_share">
 		</mat-form-field>
@@ -47,8 +51,7 @@
 				<mat-checkbox formControlName="fc_company_car_commuting" >Company cars do commute</mat-checkbox><br>
 				<mat-checkbox formControlName="fc_pool_car_commuting">Poolvehicles do commute</mat-checkbox>
 			</form>
-		</div>
-		
+		</div>		
 		<button mat-raised-button class="buttons" color="accent" (click)="estimate_groups();">Estimate missing values on the base of {{state.n_employees}} employees!</button>
 	</div>
 
@@ -65,8 +68,8 @@
 
 
 			<tr  *ngFor = "let cg of commuting_groups; let i = index">
-				<td>{{cg.mode}}</td>
-				<td>{{cg.avg_dist}}</td>
+				<td>{{cg.mode_name}}</td>
+				<td>{{cg.avg_distance_name}}</td>
 				<td>{{cg.share}}</td>
 				<td><form class=block_add>
 					<button mat-button mat-icon-button aria-label="Clear" (click)="delete_comm_group(i);">
@@ -77,9 +80,9 @@
 		</table>
 		<br>
 
-		<span *ngIf="change_detected" style="color: red;">Save your business trip groups!</span>
+		<span *ngIf="change_detected" style="color: red;">Save your commute groups!</span>
 		<br>
-		<button mat-raised-button  color="accent" (click)="save_comm_groups();">Save business trip groups</button>
+		<button mat-raised-button  color="accent" (click)="save_comm_groups();">Save commute groups</button>
 	</div>
 
 

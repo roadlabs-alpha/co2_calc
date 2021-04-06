@@ -6,6 +6,14 @@
 
 }
 
+.form_element_small{
+	float: left;
+	width: 10%;
+	height: 50px;
+	margin: 3px;
+
+}
+
 .comm_groups_container{
 	background-color: #EEEEEE;
 	padding: 5px;
@@ -41,4 +49,11 @@
 
 .my-mat-option{
 	color:#eee;
+}
+
+.block_add{
+	margin: 10px 10px;
+	float: right;
+	width: 40px;
+	height: 50px;
 }

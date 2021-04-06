@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { VehicleGroup } from './company-vehicles/company-vehicles.component';
 import { Bt_Group } from './company-businesstrips2/company-businesstrips2.component';
+import { Commute_Group} from './company-commuting/company-commuting.component';
 
-@Injectable({
+@Injectable({ 
 	providedIn: 'root'
 })
 export class StateService {
@@ -32,6 +33,8 @@ export class State{
 	vehicle_groups_user: Array<VehicleGroup>=[];
 	
 	bt_groups_user: Array<Bt_Group>=[];
+
+	commuting_groups_user: Array<Commute_Group>=[];
 
 	constructor() { 
 		this.bt_value_set_user = new BT_VALUE_SET_USER()

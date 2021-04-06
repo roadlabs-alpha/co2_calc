@@ -94,6 +94,7 @@ export class Data{
 				this.emissions_per_km.set('pt', 0.1);
 				this.emissions_per_km.set('plane', 0.2113); 
 				this.emissions_per_km.set('gasoline', 0.2); 
+				this.emissions_per_km.set('car', 0.2); 
 				this.emissions_per_km.set('pedelec', 0.004); 
 				this.emissions_per_km.set('train', 0.0356); 
 				this.emissions_per_km.set('bike', 0); 

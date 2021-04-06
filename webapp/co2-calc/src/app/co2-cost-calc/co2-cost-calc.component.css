@@ -20,3 +20,13 @@
   background-color: #86ba87;
   color: black;
 }
+
+
+.vertical_groups_container{
+  padding: 5px;
+  height: auto;
+  width: 80%;
+  float: left;
+  margin: 2px;
+
+}
