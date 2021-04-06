@@ -78,15 +78,17 @@ export class CompanyVehiclesComponent implements OnInit{
 
 		console.log("VAL: ", val)
 
-		if (val == "0"){
+		if (val == "0"){ // is BIke
 			this.vehicle_classes=[]
 
 			this.vehicle_propulsions=[
 			{"id":0, "name": "Human", "value":"human"},
 			{"id":1, "name": "Electric", "value":"electric"}]
+
+			this.fg_vehicleclass.value.fc_vehicleclass=""
 		}
 
-		if (val == "1"){
+		if (val == "1"){ // is Car
 			this.vehicle_classes=[
 			{"id":0, "name": "Compact", value:"compact"},
 			{"id":1, "name": "Executive", value:"executive"},
@@ -197,7 +199,7 @@ export class VehicleGroup{
 		this.vehicleprop = tech;
 		this.vehicleclass = veh_class;
 		this.veh_type = veh_type
-		this.vehicle = new Vehicle(String(this.vehicleprop), String(this.vehicleclass))
+		this.vehicle = new Vehicle(String(this.veh_type), String(this.vehicleprop), String(this.vehicleclass))
 
 
 
@@ -247,7 +249,7 @@ export class Vehicle{
 	dataService
 
 
-	constructor(tech: string, vehicle_class: string){
+	constructor(veh_type: string, tech: string, vehicle_class: string){
 
 		this.dataService = new DataService()
 
@@ -257,10 +259,19 @@ export class Vehicle{
 		this.workshop_cost = 720 //€/year
 		this.fixcost = 1200 //€/year
 
+
+
 		if (tech=="electric"){
 			this.tech="bev";
 		}else{
 			this.tech = tech;
+		}
+
+		if (veh_type == "bike"){
+			this.tech = "bike"
+			this.workshop_cost = 500 //€/year
+			this.fixcost = 100 //€/year
+			vehicle_class="bike"
 		}
 
 		

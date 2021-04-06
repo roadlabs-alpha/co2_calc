@@ -103,6 +103,7 @@ export class Data{
 				this.emissions_per_energy.set("gasoline", 2.33) //per l
 				this.emissions_per_energy.set("diesel",2.6) //per l
 				this.emissions_per_energy.set("bev",0.5) //german mix, per kWh)
+				this.emissions_per_energy.set("bike",0) //german mix, per kWh)
 
 				this.energy_price.set("gasoline", 1.46) 	//€ per l
 				this.energy_price.set("diesel", 1.26) 		//€ per l
@@ -111,6 +112,7 @@ export class Data{
 				this.vehicle_class.set("compact", {"price_new": 30000, "residual_value3y": 15000, "consumption": 6, "e_consumption": 12})
 				this.vehicle_class.set("executive", {"price_new": 55000, "residual_value3y": 30000, "consumption": 7, "e_consumption": 16})
 				this.vehicle_class.set("transporter", {"price_new": 40000, "residual_value3y": 15000, "consumption": 8, "e_consumption": 20})
+				this.vehicle_class.set("bike", {"price_new": 1200, "residual_value3y": 500, "consumption": 0, "e_consumption": 1})
 
 			
 				this.transport_price_per_km.set("pt", 0.13)
