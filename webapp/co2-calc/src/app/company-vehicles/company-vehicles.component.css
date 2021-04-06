@@ -9,6 +9,14 @@
 
 }
 
+.form_element_small{
+	float: left;
+	width: 10%;
+	height: 50px;
+	margin: 3px;
+
+}
+
 .form_element{
 	float: left;
 	width: 18%;
@@ -16,6 +24,8 @@
 	margin: 3px;
 
 }
+
+
 
 .block_add{
 	margin: 1px 1px;

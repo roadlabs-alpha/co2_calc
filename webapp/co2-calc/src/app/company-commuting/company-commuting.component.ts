@@ -20,7 +20,7 @@ export class CompanyCommutingComponent implements OnInit {
 	{"id":0, "name":"Walking", "value": "walking"},
 	{"id":1, "name":"Bike", "value": "bike"},
 	{"id":2, "name":"Car", "value": "car"},
-	{"id":3, "name":"Company Car", "value": "company_car"},
+	{"id":3, "name":"Company Car", "value": "car"},
 	{"id":4, "name":"Public Transport", "value": "pt"},
 	{"id":5, "name":"Train", "value": "train"},
 	{"id":6, "name":"Plane", "value": "plane"},]
@@ -84,6 +84,9 @@ export class CompanyCommutingComponent implements OnInit {
 			dist = [this.fg_commuting.value.fc_custom_dist, this.fg_commuting.value.fc_custom_dist]
 			dist_name = String(this.fg_commuting.value.fc_custom_dist)+" km"
 		}
+
+		console.log("CUSTOM DIST: ", dist)
+
 
 		this.commuting_groups.push(
 			new Commute_Group(

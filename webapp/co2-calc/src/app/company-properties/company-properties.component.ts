@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { StateService } from '../state.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { StateService } from '../state.service';
   styleUrls: ['./company-properties.component.css', "../app.component.css"]
 })
 export class CompanyPropertiesComponent implements OnInit {
+
+  @Input() instance: number=0;
 
 	n_employees = '300';
 	company_address="";

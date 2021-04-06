@@ -37,7 +37,7 @@
 		</span>
 
 		<mat-form-field class="form_element_small" [formGroup]="fg_commuting">
-			<mat-label>Share</mat-label>
+			<mat-label>Share * 100%</mat-label>
 			<input matInput type="text" placeholder="1" formControlName="fc_share">
 		</mat-form-field>
 
@@ -85,7 +85,7 @@
 			<tr  *ngFor = "let cg of commuting_groups; let i = index">
 				<td>{{cg.mode_name}}</td>
 				<td>{{cg.avg_distance_name}}</td>
-				<td>{{cg.share}}</td>
+				<td>{{cg.share | percent}}</td>
 				<td><form class=block_add>
 					<button mat-button mat-icon-button aria-label="Clear" (click)="delete_comm_group(i);">
 						<mat-icon>clear</mat-icon>
