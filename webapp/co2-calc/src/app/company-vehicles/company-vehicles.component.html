@@ -23,7 +23,7 @@
 		</div>
 
 		<div class="horizontal_100">
-			Vehicle Properties<br>
+			<b>Vehicle Properties</b><br>
 			<hr style="width:100%;text-align:left;margin-left:0">
 
 			<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
@@ -62,10 +62,7 @@
 
 		<!-- SHOW PREDEFINED VALUES -->
 		<div class="horizontal_100" *ngIf="show_custom_lease_vehicle_input==false && show_custom_buy_vehicle_input==false">
-			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
-				<mat-label><h3>Price New in €</h3></mat-label>
-				<input matInput type="number" active="false" placeholder="1" formControlName="fc_price_new">
-			</mat-form-field>
+			PLACEHOLDER - PRESET DATA SHOULD BE SHOWN HERE
 		</div>
 
 		<!-- CUSTOM BUY -->
@@ -95,9 +92,10 @@
 				<input matInput type="number" placeholder="1" formControlName="fc_consumption">
 			</mat-form-field>
 
-			<button mat-raised-button  color="accent" (click)="temporal_tco();">Do TCO</button>
-			{{temporal_vg_co2pkm}} kg co2/km | 
-			{{temporal_vg_costpkm}} €/km
+			<!--button mat-raised-button  color="accent" (click)="temporal_tco();">Do TCO</button-->
+			<div class=horizontal_100>
+				Cost and Emissions of the configured vehicle: <b>{{temporal_vg_co2pkm | number:".2"}} kg co2/km | {{temporal_vg_costpkm | number:".2"}} €/km</b>
+			</div>
 		</div>
 
 		<!-- CUSTOM LEASE -->
@@ -127,13 +125,15 @@
 				<input matInput type="number" placeholder="1" formControlName="fc_consumption">
 			</mat-form-field>
 
-			<button mat-raised-button  color="accent" (click)="temporal_tco();">Do TCO</button>
-			{{temporal_vg_co2pkm}} kg co2/km | 
-			{{temporal_vg_costpkm}} €/km
+			<!--button mat-raised-button  color="accent" (click)="temporal_tco();">Do TCO</button-->
+			<div class=horizontal_100>
+				Cost and Emissions of the configured vehicle: <b>{{temporal_vg_co2pkm | number:".2"}} kg co2/km | {{temporal_vg_costpkm | number:".2"}} €/km</b>
+			</div>
 		</div>
 
+
 		<div class="horizontal_100">
-			Vehicle Usage<br>
+			<b>Vehicle Usage</b><br>
 			<hr style="width:100%;text-align:left;margin-left:0">
 
 			<div class=horizontal_100>
@@ -158,7 +158,7 @@
 			</mat-form-field>
 			<div class=horizontal_100 *ngIf="fg_vehicleclass.value.fc_privateuse==1">
 				<form appearance="fill" [formGroup]="fg_vehicleclass">
-					<mat-checkbox formControlName="fc_company_pays_private_use" >Company pays private use</mat-checkbox><br>
+					<mat-checkbox formControlName="fc_company_pays_private_use" >Company pays for private use</mat-checkbox><br>
 				</form>
 			</div>
 
@@ -167,7 +167,7 @@
 
 		<form class=block_add>
 			<button mat-button mat-icon-button aria-label="Clear" (click)="add_vehicle_group();">
-				<mat-icon>add</mat-icon>
+				<mat-icon color="white">add</mat-icon>
 			</button>
 		</form>
 

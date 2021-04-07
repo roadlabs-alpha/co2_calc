@@ -46,7 +46,7 @@ export class CompanyVehiclesComponent implements OnInit{
 		{"id":1, "name": "Executive", value:"executive"},
 		{"id":2, "name": "Transporter", value:"transporter"},
 		{"id":3, "name": "Custom Own Vehicle", value:"custom_buy"},
-		{"id":3, "name": "Custom Leased Vehicle", value:"custom_lease"}]
+		{"id":4, "name": "Custom Leased Vehicle", value:"custom_lease"}]
 	},{
 		name: "Active",
 		vehicles:[
@@ -65,9 +65,10 @@ export class CompanyVehiclesComponent implements OnInit{
 
 		vehicle_propulsions=[
 		{"id":0, "name": "Electric", "value":"electric"},
-		{"id":1, "name": "Gasoline", "value":"gasoline"},
-		{"id":2, "name": "Diesel", "value":"diesel"},
-		{"id":3, "name": "Human", "value":"human"}]
+		{"id":1, "name": "Hybrid", "value":"hybrid"},
+		{"id":2, "name": "Gasoline", "value":"gasoline"},
+		{"id":3, "name": "Diesel", "value":"diesel"},
+		{"id":4, "name": "Human", "value":"human"}]
 
 		vehicle_groups: Array<VehicleGroup>=[];
 		vgn=this.generate_vehicle_group_name(0);
@@ -113,6 +114,11 @@ export class CompanyVehiclesComponent implements OnInit{
 					this.toggle_custom_vehicle_input(val)
 				});
 			}
+
+			this.fg_vehicleclass.valueChanges.subscribe(val => {
+				this.temporal_tco()
+			});
+			
 		}
 
 
