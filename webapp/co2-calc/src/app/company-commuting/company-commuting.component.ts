@@ -85,8 +85,6 @@ export class CompanyCommutingComponent implements OnInit {
 			dist_name = String(this.fg_commuting.value.fc_custom_dist)+" km"
 		}
 
-		console.log("CUSTOM DIST: ", dist)
-
 
 		this.commuting_groups.push(
 			new Commute_Group(
@@ -151,9 +149,6 @@ export class CompanyCommutingComponent implements OnInit {
 			new Commute_Group("Estimated Bike","bike", "Bike", number_bike, [dist_bike/number_bike, dist_bike/number_bike], String(dist_bike/number_bike) + " km", this.data.commuting_shares.bike.share)
 			]
 		}
-
-		
-
 
 	}
 

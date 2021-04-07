@@ -24,6 +24,8 @@ export class CompanyVehiclesComponent implements OnInit{
 	is_pool_car = false;
 	n_total_vehicles=0;
 
+	show_custom_milage_input=false;
+
 	// vehicle_types=[
 	// {"id":0, "name": "Bike", value:"bike"},
 	// {"id":1, "name": "Car", value: "car"}
@@ -49,7 +51,8 @@ export class CompanyVehiclesComponent implements OnInit{
 		{"id":0, "name": "<5000 km", "value":[0,5000]},
 		{"id":1,"name": "5000-10000 km", "value":[5000, 10000]},
 		{"id":2,"name": "10000-20000 km", "value":[10000,20000]},
-		{"id":3,"name": "20000-30000 km", "value":[20000,30000]}
+		{"id":3,"name": "20000-30000 km", "value":[20000,30000]},
+		{"id":4,"name": "custom", "value": [-1, -1]}
 		];
 
 		vehicle_propulsions=[
@@ -64,10 +67,10 @@ export class CompanyVehiclesComponent implements OnInit{
 
 		fg_vehicleclass = new FormGroup({
 			fc_vgn: new FormControl(this.vgn),
-			fc_vehicletype: new FormControl('1'),
 			fc_vehicleclass: new FormControl('compact'),
 			fc_vehicleprop: new FormControl('electric'),
 			fc_mileage: new FormControl("0"),
+			fc_custom_mileage: new FormControl(0),
 			fc_poolcar: new FormControl(false),
 			fc_privateuse: new FormControl(false),
 			fc_count: new FormControl(1),
@@ -78,13 +81,23 @@ export class CompanyVehiclesComponent implements OnInit{
 
 		ngOnInit(): void {
 
-			var vt = this.fg_vehicleclass.get("fc_vehicletype")
-			if (vt!= null){
-				vt.valueChanges.subscribe(val => {
+			var fc_mileage = this.fg_vehicleclass.get("fc_mileage")
+			if (fc_mileage!= null){
+				fc_mileage.valueChanges.subscribe(val => {
+					this.toggle_custom_distance(val)
 				});
 			}
 		}
 
+
+		toggle_custom_distance(fc_mileage: number){
+			if (fc_mileage == 4){
+				this.show_custom_milage_input=true;
+			}else{
+				this.show_custom_milage_input=false;
+			}
+
+		}
 
 
 		generate_vehicle_group_name(idx_add: number): string{
@@ -107,25 +120,25 @@ export class CompanyVehiclesComponent implements OnInit{
 
 
 		add_vehicle_group(): void{
-
-			// console.log("add vehicle group")
-			// console.log(this.fg_vehicleclass.value.fc_vehicleclass);
-			// console.log(this.fg_vehicleclass.value.fc_vehicleprop);
-			// console.log(this.fg_vehicleclass.value.fc_mileage);
-			// console.log(this.fg_vehicleclass.value.fc_count);
-			// console.log(this.fg_vehicleclass.value.fc_poolcar);
-			// console.log(this.fg_vehicleclass.value.fc_privateuse);
-
 			var vgn = this.generate_vehicle_group_name(0);
 
 			vgn = this.fg_vehicleclass.value.fc_vgn
 
-			var milage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value;
-			var vg = new VehicleGroup(vgn, milage, this.fg_vehicleclass.value.fc_vehicleprop, this.fg_vehicleclass.value.fc_vehicleclass);
+			var mileage = [];
+			var mileage_name="";
+			if (this.show_custom_milage_input==false){
+				mileage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value;
+				mileage_name=this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].name
+			}else{
+				mileage = [Number(this.fg_vehicleclass.value.fc_custom_mileage),Number(this.fg_vehicleclass.value.fc_custom_mileage)];
+				mileage_name = String(this.fg_vehicleclass.value.fc_custom_mileage) + " km"
+			}
+			
+			var vg = new VehicleGroup(vgn, mileage, this.fg_vehicleclass.value.fc_vehicleprop, this.fg_vehicleclass.value.fc_vehicleclass);
 
 
 			//vg.mileage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value
-			vg.mileage_name = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].name
+			vg.mileage_name = mileage_name
 
 			vg.count = this.fg_vehicleclass.value.fc_count;
 			vg.is_poolcar = this.fg_vehicleclass.value.fc_poolcar;
@@ -255,81 +268,81 @@ export class CompanyVehiclesComponent implements OnInit{
 
 
 			// if (vehicle_class == "bike"){
-			// 	this.tech = "bike"
-			// 	this.workshop_cost = 500 //€/year
-			// 	this.fixcost = 100 //€/year
-			// 	vehicle_class="bike"
-			// }else if(vehicle_class == "car"){
-			// 	this.workshop_cost = 720 //€/year
-			// 	this.fixcost = 1200 //€/year
+				// 	this.tech = "bike"
+				// 	this.workshop_cost = 500 //€/year
+				// 	this.fixcost = 100 //€/year
+				// 	vehicle_class="bike"
+				// }else if(vehicle_class == "car"){
+					// 	this.workshop_cost = 720 //€/year
+					// 	this.fixcost = 1200 //€/year
 
-			// }
-
-
-
-			var epk =  this.data.emissions_per_km.get(this.tech)
-			if (epk != undefined){
-				this.emissions_per_km = epk;
-			}
+					// }
 
 
 
-			var vehicle_class_detail = this.data.vehicle_class.get(vehicle_class)
-			if (vehicle_class_detail != undefined){
-				this.new_price = vehicle_class_detail.price_new
-				this.residual_value  = vehicle_class_detail.residual_value3y
-				this.workshop_cost  = vehicle_class_detail.workshop_cost
-				this.fixcost =  vehicle_class_detail.fixcost
+					var epk =  this.data.emissions_per_km.get(this.tech)
+					if (epk != undefined){
+						this.emissions_per_km = epk;
+					}
 
-				if (this.tech == "bev"){
-					this.consumption = vehicle_class_detail.e_consumption;
+
+
+					var vehicle_class_detail = this.data.vehicle_class.get(vehicle_class)
+					if (vehicle_class_detail != undefined){
+						this.new_price = vehicle_class_detail.price_new
+						this.residual_value  = vehicle_class_detail.residual_value3y
+						this.workshop_cost  = vehicle_class_detail.workshop_cost
+						this.fixcost =  vehicle_class_detail.fixcost
+
+						if (this.tech == "bev"){
+							this.consumption = vehicle_class_detail.e_consumption;
+						}
+						else{
+							this.consumption = vehicle_class_detail.consumption;
+						}
+					}
+
+					this.total_yearly_cost = -1
+					this.total_cost_per_km = -1
+					this.total_yearly_co2 = -1
+					this.total_co2_per_km = -1
+
+
 				}
-				else{
-					this.consumption = vehicle_class_detail.consumption;
+
+				do_tco(yearly_mileage: number){
+
+					var value_loss = 0
+					var yearly_loss=0
+					var energy_cost_yearly=0
+
+					this.yearly_mileage = yearly_mileage
+
+					value_loss = this.new_price - this.residual_value
+					yearly_loss = value_loss / this.writeoff_period
+
+
+					var ep = this.data.energy_price.get(this.tech)
+					if (ep != undefined){
+						energy_cost_yearly = yearly_mileage * this.consumption / 100 * ep
+					}
+
+					this.total_yearly_cost = this.workshop_cost + this.fixcost + yearly_loss + energy_cost_yearly
+					this.total_cost_per_km = this.total_yearly_cost / yearly_mileage
+
+					console.log("total_cost_per_km", this.total_cost_per_km)
+					console.log("this.new_price", this.new_price)
+
+					var epe = this.data.emissions_per_energy.get(this.tech)
+					if (epe != undefined){
+						this.total_yearly_co2 = yearly_mileage * this.consumption / 100 * epe
+					}
+					this.total_co2_per_km = this.total_yearly_co2 / yearly_mileage
+
 				}
+
+				getData(): void {
+					this.dataService.getData().subscribe(dat => this.data = dat);
+				}
+
 			}
-
-			this.total_yearly_cost = -1
-			this.total_cost_per_km = -1
-			this.total_yearly_co2 = -1
-			this.total_co2_per_km = -1
-
-
-		}
-
-		do_tco(yearly_mileage: number){
-
-			var value_loss = 0
-			var yearly_loss=0
-			var energy_cost_yearly=0
-
-			this.yearly_mileage = yearly_mileage
-
-			value_loss = this.new_price - this.residual_value
-			yearly_loss = value_loss / this.writeoff_period
-
-
-			var ep = this.data.energy_price.get(this.tech)
-			if (ep != undefined){
-				energy_cost_yearly = yearly_mileage * this.consumption / 100 * ep
-			}
-
-			this.total_yearly_cost = this.workshop_cost + this.fixcost + yearly_loss + energy_cost_yearly
-			this.total_cost_per_km = this.total_yearly_cost / yearly_mileage
-
-			console.log("total_cost_per_km", this.total_cost_per_km)
-			console.log("this.new_price", this.new_price)
-
-			var epe = this.data.emissions_per_energy.get(this.tech)
-			if (epe != undefined){
-				this.total_yearly_co2 = yearly_mileage * this.consumption / 100 * epe
-			}
-			this.total_co2_per_km = this.total_yearly_co2 / yearly_mileage
-
-		}
-
-		getData(): void {
-			this.dataService.getData().subscribe(dat => this.data = dat);
-		}
-
-	}

@@ -13,7 +13,7 @@
 		<div>
 			<!--h3>{{vgn}}</h3-->
 
-			<mat-form-field class="form_element_medium" [formGroup]="fg_vehicleclass">
+			<mat-form-field class="form_element_100" [formGroup]="fg_vehicleclass">
 				<mat-label><h3>Vehicle Group Name</h3></mat-label>
 				<input matInput type="text" placeholder="1" formControlName="fc_vgn">
 			</mat-form-field>
@@ -44,74 +44,77 @@
 		</mat-form-field>
 
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
-			<mat-label>Mileage (Year)</mat-label>
+			<mat-label>Mileage/year</mat-label>
 			<mat-select matNativeControl formControlName="fc_mileage">
-
 				<mat-option style="color:#333" *ngFor="let mc of mileage_classes" value={{mc.id}}>{{mc.name}}</mat-option>
-				<!--mat-option value="<5000 km"><5000 km</mat-option>
-				<mat-option value="5000-10000 km">5000-10000 km</mat-option>
-				<mat-option value="10000-20000 km">10000-20000 km</mat-option>
-				<mat-option value="20000-30000 km">20000-30000 km</mat-option-->
-				</mat-select>
-			</mat-form-field>
+			</mat-select>
+		</mat-form-field>
 
+		<!-- CUSTOM MILEAGE-->
+		<span *ngIf="show_custom_milage_input==true">
 			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
-				<mat-label>Vehicle count</mat-label>
-				<input matInput type="text" placeholder="1" formControlName="fc_count">
+				<mat-label>Enter mileage/year in km</mat-label>
+				<input matInput type="text" placeholder="1" formControlName="fc_custom_mileage">
 			</mat-form-field>
+		</span>
 
-			<div class=form_element>
-				<form appearance="fill" [formGroup]="fg_vehicleclass">
-					<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
-					<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
-				</form>
-			</div>
+		<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+			<mat-label>Vehicle count</mat-label>
+			<input matInput type="text" placeholder="1" formControlName="fc_count">
+		</mat-form-field>
 
-
-			<form class=block_add>
-				<button mat-button mat-icon-button aria-label="Clear" (click)="add_vehicle_group();">
-					<mat-icon>add</mat-icon>
-				</button>
+		<div class=form_element>
+			<form appearance="fill" [formGroup]="fg_vehicleclass">
+				<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
+				<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
 			</form>
-
-
 		</div>
 
-		<div class=vehicle_groups_container *ngIf="vehicle_groups.length==0">
-			You have no vehicle groups yet!
-		</div>
-		<div class=vehicle_groups_container *ngIf="vehicle_groups.length>0">
 
-			<table id=customers>
-				<tr>
-					<th> </th>
-					<th>Vehicle class</th>
-					<th>Propulsion</th>
-					<th>Mileage</th>
-					<th>Count</th>
-					<th>Private use</th>
-					<th>Pool car</th>
-					<th> </th>
-				</tr>
+		<form class=block_add>
+			<button mat-button mat-icon-button aria-label="Clear" (click)="add_vehicle_group();">
+				<mat-icon>add</mat-icon>
+			</button>
+		</form>
 
-				<tr  *ngFor = "let vg of vehicle_groups; let i = index">
-					<td>{{vg.vgn}}</td>
-					<td>{{vg.vehicleclass}}</td>
-					<td>{{vg.vehicleprop}}</td>
-					<td>{{vg.mileage_name}}</td>
-					<td>{{vg.count}}</td>
-					<td>{{vg.is_private_use}}</td>
-					<td>{{vg.is_poolcar}}</td>
-					<td><form class=block_add>
-						<button mat-button mat-icon-button aria-label="Clear" (click)="delete_vehicle_group(i);">
-							<mat-icon>clear</mat-icon>
-						</button>
-					</form></td>
-				</tr>
-			</table>
-			<br>
-			<span *ngIf="change_detected" style="color: red;">Save your vehicles!</span>
-			<br>
-			<button mat-raised-button  color="accent" (click)="save_vehicle_groups();">Save vehicle groups</button>
-		</div>
+
 	</div>
+
+	<div class=vehicle_groups_container *ngIf="vehicle_groups.length==0">
+		You have no vehicle groups yet!
+	</div>
+	<div class=vehicle_groups_container *ngIf="vehicle_groups.length>0">
+
+		<table id=customers>
+			<tr>
+				<th> </th>
+				<th>Vehicle class</th>
+				<th>Propulsion</th>
+				<th>Mileage</th>
+				<th>Count</th>
+				<th>Private use</th>
+				<th>Pool car</th>
+				<th> </th>
+			</tr>
+
+			<tr  *ngFor = "let vg of vehicle_groups; let i = index">
+				<td>{{vg.vgn}}</td>
+				<td>{{vg.vehicleclass}}</td>
+				<td>{{vg.vehicleprop}}</td>
+				<td>{{vg.mileage_name}}</td>
+				<td>{{vg.count}}</td>
+				<td>{{vg.is_private_use}}</td>
+				<td>{{vg.is_poolcar}}</td>
+				<td><form class=block_add>
+					<button mat-button mat-icon-button aria-label="Clear" (click)="delete_vehicle_group(i);">
+						<mat-icon>clear</mat-icon>
+					</button>
+				</form></td>
+			</tr>
+		</table>
+		<br>
+		<span *ngIf="change_detected" style="color: red;">Save your vehicles!</span>
+		<br>
+		<button mat-raised-button  color="accent" (click)="save_vehicle_groups();">Save vehicle groups</button>
+	</div>
+</div>
