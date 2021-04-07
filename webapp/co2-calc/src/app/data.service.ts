@@ -104,15 +104,19 @@ export class Data{
 				this.emissions_per_energy.set("diesel",2.6) //per l
 				this.emissions_per_energy.set("bev",0.5) //german mix, per kWh)
 				this.emissions_per_energy.set("bike",0) //german mix, per kWh)
+				this.emissions_per_energy.set("human",0) //german mix, per kWh)
 
 				this.energy_price.set("gasoline", 1.46) 	//€ per l
 				this.energy_price.set("diesel", 1.26) 		//€ per l
 				this.energy_price.set("bev", 0.3) 			// € per kWh
+				this.energy_price.set("human", 0) 			// € per kWh
 
-				this.vehicle_class.set("compact", {"price_new": 30000, "residual_value3y": 15000, "consumption": 6, "e_consumption": 12})
-				this.vehicle_class.set("executive", {"price_new": 55000, "residual_value3y": 30000, "consumption": 7, "e_consumption": 16})
-				this.vehicle_class.set("transporter", {"price_new": 40000, "residual_value3y": 15000, "consumption": 8, "e_consumption": 20})
-				this.vehicle_class.set("bike", {"price_new": 1200, "residual_value3y": 500, "consumption": 0, "e_consumption": 1})
+				this.vehicle_class.set("compact", {"price_new": 30000, "residual_value3y": 15000, "consumption": 6, "e_consumption": 12, "workshop_cost": 720 , "fixcost": 1200})
+				this.vehicle_class.set("executive", {"price_new": 55000, "residual_value3y": 30000, "consumption": 7, "e_consumption": 16, "workshop_cost": 720 , "fixcost": 1200})
+				this.vehicle_class.set("transporter", {"price_new": 40000, "residual_value3y": 15000, "consumption": 8, "e_consumption": 20, "workshop_cost": 720 , "fixcost": 1200})
+				this.vehicle_class.set("bike", {"price_new": 1200, "residual_value3y": 500, "consumption": 0, "e_consumption": 1, "workshop_cost": 500 , "fixcost": 150})
+				this.vehicle_class.set("e-bike", {"price_new": 2500, "residual_value3y": 500, "consumption": 0, "e_consumption": 1, "workshop_cost": 500 , "fixcost": 150})
+				this.vehicle_class.set("cargo_bike", {"price_new": 2500, "residual_value3y": 500, "consumption": 0, "e_consumption": 1, "workshop_cost": 500 , "fixcost": 150})
 
 			
 				this.transport_price_per_km.set("pt", 0.13)
@@ -131,4 +135,6 @@ class Vehicle_Price{
 	residual_value3y=0;
 	consumption=-1;
 	e_consumption=-1;
+	workshop_cost= 720;
+	 fixcost= 1200
 }

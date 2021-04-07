@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StateService, State} from '../state.service';
 import { DataService, Data} from '../data.service';
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 
 @Component({
 	selector: 'app-company-commuting',
@@ -45,8 +45,8 @@ export class CompanyCommutingComponent implements OnInit {
 		fc_transportmode: new FormControl("2"),
 		fc_dist_per_daycommute: new FormControl("2"),
 		fc_custom_dist: new FormControl(0),
-		fc_share: new FormControl(0.5),
-		fc_home_office_share: new FormControl(0),
+		fc_share: new FormControl(0.5, Validators.max(1)),
+		fc_home_office_share: new FormControl(0, Validators.compose([Validators.min(0), Validators.max(1)])),
 	});
 
 	value_fc_dist_per_daycommute=0
