@@ -85,7 +85,7 @@ export class CompanyVehiclesComponent implements OnInit{
 			fc_add: new FormControl(false),
 
 			fc_leasing_rate_year: new FormControl(0),
-			fc_price_new: new FormControl(0),
+			fc_price_new: new FormControl({value: 0, disabled: false}),
 			fc_insurance: new FormControl(0),
 			fc_maintenance: new FormControl(0),
 			fc_consumption: new FormControl(0),
@@ -187,7 +187,15 @@ export class CompanyVehiclesComponent implements OnInit{
 			vg.vehicle.new_price = this.fg_vehicleclass.value.fc_price_new
 			vg.vehicle.residual_value = this.fg_vehicleclass.value.fc_price_new/2
 			vg.vehicle.consumption = this.fg_vehicleclass.value.fc_consumption
-			vg.vehicle.do_tco(vg.mean_mileage)
+			
+			if (this.show_custom_buy_vehicle_input){
+				vg.vehicle.do_tco(vg.mean_mileage)
+			}
+			else if(this.show_custom_lease_vehicle_input){
+				vg.vehicle.leasing_rate = this.fg_vehicleclass.value.fc_leasing_rate_year
+				vg.vehicle.do_tco_leasing(vg.mean_mileage)
+			}
+			
 
 			console.log(vg.vehicle)
 			this.temporal_vg_co2pkm = vg.vehicle.total_co2_per_km
@@ -198,8 +206,16 @@ export class CompanyVehiclesComponent implements OnInit{
 		add_vehicle_group(): void{
 
 			var vg = this.compile_vehicle_group()
-			//var vg = "as";
 			this.vehicle_groups.push(vg);
+
+			// if custom vehicle data is available, use it and iverwrite the vehicle data!
+			if (this.show_custom_buy_vehicle_input == true || this.show_custom_lease_vehicle_input==true){
+				vg.vehicle.workshop_cost = this.fg_vehicleclass.value.fc_insurance + this.fg_vehicleclass.value.fc_maintenance
+				vg.vehicle.new_price = this.fg_vehicleclass.value.fc_price_new
+				vg.vehicle.residual_value = this.fg_vehicleclass.value.fc_price_new/2
+				vg.vehicle.consumption = this.fg_vehicleclass.value.fc_consumption
+				vg.vehicle.do_tco(vg.mean_mileage)
+			}
 
 			this.calc_total_vehicle_count();
 			this.vgn=this.generate_vehicle_group_name(1);
@@ -232,6 +248,8 @@ export class CompanyVehiclesComponent implements OnInit{
 			}
 		}
 	}
+
+
 
 	export class VehicleGroup{
 		vgn="";
@@ -295,6 +313,7 @@ export class CompanyVehiclesComponent implements OnInit{
 		emissions_per_km=-1;
 		new_price: number=-1;
 		residual_value: number=0;
+		leasing_rate: number=0;
 		yearly_mileage: number=0;
 		total_yearly_cost
 		total_cost_per_km=-1;
@@ -364,6 +383,36 @@ export class CompanyVehiclesComponent implements OnInit{
 
 			value_loss = this.new_price - this.residual_value
 			yearly_loss = value_loss / this.writeoff_period
+
+
+			var ep = this.data.energy_price.get(this.tech)
+			if (ep != undefined){
+				energy_cost_yearly = yearly_mileage * this.consumption / 100 * ep
+			}
+
+			this.total_yearly_cost = this.workshop_cost + this.fixcost + yearly_loss + energy_cost_yearly
+			this.total_cost_per_km = this.total_yearly_cost / yearly_mileage
+
+			console.log("total_cost_per_km", this.total_cost_per_km)
+			console.log("this.new_price", this.new_price)
+
+			var epe = this.data.emissions_per_energy.get(this.tech)
+			if (epe != undefined){
+				this.total_yearly_co2 = yearly_mileage * this.consumption / 100 * epe
+			}
+			this.total_co2_per_km = this.total_yearly_co2 / yearly_mileage
+
+		}
+
+		do_tco_leasing(yearly_mileage: number){
+
+			var value_loss = 0
+			var yearly_loss=0
+			var energy_cost_yearly=0
+
+			this.yearly_mileage = yearly_mileage
+
+			yearly_loss = this.leasing_rate
 
 
 			var ep = this.data.energy_price.get(this.tech)

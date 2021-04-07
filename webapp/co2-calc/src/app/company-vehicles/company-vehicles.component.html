@@ -23,6 +23,8 @@
 		</div>
 
 		<div class="horizontal_100">
+			Vehicle Properties<br>
+			<hr style="width:100%;text-align:left;margin-left:0">
 
 			<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
 				<mat-label>Select Vehicle Class</mat-label>
@@ -56,13 +58,14 @@
 				</mat-form-field>
 			</span>
 
+		</div>
 
-			<div class=form_element>
-				<form appearance="fill" [formGroup]="fg_vehicleclass">
-					<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
-					<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
-				</form>
-			</div>
+		<!-- SHOW PREDEFINED VALUES -->
+		<div class="horizontal_100" *ngIf="show_custom_lease_vehicle_input==false && show_custom_buy_vehicle_input==false">
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Price New in €</h3></mat-label>
+				<input matInput type="number" active="false" placeholder="1" formControlName="fc_price_new">
+			</mat-form-field>
 		</div>
 
 		<!-- CUSTOM BUY -->
@@ -100,9 +103,60 @@
 		<!-- CUSTOM LEASE -->
 		<div class="horizontal_100" *ngIf="show_custom_lease_vehicle_input">
 			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
-				<mat-label><h3>Leasing cost/year in €</h3></mat-label>
-				<input matInput type="text" placeholder="1" formControlName="fc_leasing_rate_year">
+				<mat-label><h3>Leasing rate/year in €</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_leasing_rate_year">
 			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Insurance/year in €</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_insurance">
+			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Mainenance and Repair/year in €</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_maintenance">
+			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Consumption in l/km</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_consumption">
+			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Consumption in kWh/km</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_consumption">
+			</mat-form-field>
+
+			<button mat-raised-button  color="accent" (click)="temporal_tco();">Do TCO</button>
+			{{temporal_vg_co2pkm}} kg co2/km
+			{{temporal_vg_costpkm}} €/km
+		</div>
+
+		<div class="horizontal_100">
+			Vehicle Usage<br>
+			<hr style="width:100%;text-align:left;margin-left:0">
+
+			<div class=form_element_small>
+				<form appearance="fill" [formGroup]="fg_vehicleclass">
+					<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
+					<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
+				</form>
+			</div>
+
+			<br>
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse==1">
+				<mat-label><h3>Private use share in %</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_insurance">
+			</mat-form-field>
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse==1">
+				<mat-label><h3>Commute use share in %</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_insurance">
+			</mat-form-field>
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse==1">
+				<mat-label><h3>Business use share in %</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_insurance">
+			</mat-form-field>
+
 		</div>
 
 
