@@ -45,8 +45,8 @@ export class CompanyVehiclesComponent implements OnInit{
 		{"id":0, "name": "Compact", value:"compact"},
 		{"id":1, "name": "Executive", value:"executive"},
 		{"id":2, "name": "Transporter", value:"transporter"},
-		{"id":3, "name": "Custom Buy", value:"custom_buy"},
-		{"id":3, "name": "Custom Lease", value:"custom_lease"}]
+		{"id":3, "name": "Custom Own Vehicle", value:"custom_buy"},
+		{"id":3, "name": "Custom Leased Vehicle", value:"custom_lease"}]
 	},{
 		name: "Active",
 		vehicles:[
@@ -89,6 +89,11 @@ export class CompanyVehiclesComponent implements OnInit{
 			fc_insurance: new FormControl(0),
 			fc_maintenance: new FormControl(0),
 			fc_consumption: new FormControl(0),
+
+			fc_veh_private_use: new FormControl(0.36),
+			fc_veh_commute_use: new FormControl(0.11),
+			fc_veh_business_use: new FormControl(0.53),
+			fc_company_pays_private_use: new FormControl(true),
 		});
 
 		constructor(private stateService: StateService) { }
