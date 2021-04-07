@@ -10,64 +10,99 @@
 
 	<div class=add_category_block>
 
-		<div>
-			<!--h3>{{vgn}}</h3-->
-
-			<mat-form-field class="form_element_100" [formGroup]="fg_vehicleclass">
+		<div class="horizontal_100">
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
 				<mat-label><h3>Vehicle Group Name</h3></mat-label>
 				<input matInput type="text" placeholder="1" formControlName="fc_vgn">
 			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label>Vehicle count</mat-label>
+				<input matInput type="text" placeholder="1" formControlName="fc_count">
+			</mat-form-field>
 		</div>
 
-		<!--mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
-			<mat-label>Select Vehicle Class</mat-label>
-			<mat-select matNativeControl formControlName="fc_vehicletype">
-				<mat-option style="color:#333" *ngFor="let vc of vehicle_types" value={{vc.id}}>{{vc.name}}</mat-option>
-			</mat-select>
-		</mat-form-field-->
+		<div class="horizontal_100">
 
-		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
-			<mat-label>Select Vehicle Class</mat-label>
-			<mat-select matNativeControl formControlName="fc_vehicleclass">
-				<mat-optgroup *ngFor="let group of vehicle_classes" [label]="group.name">
-					<mat-option style="color:#333" *ngFor="let vc of group.vehicles" value={{vc.value}}>{{vc.name}}</mat-option>
-				</mat-optgroup>
-			</mat-select>
-		</mat-form-field>
-
-		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
-			<mat-label>Vehicle Propulsion</mat-label>
-			<mat-select matNativeControl formControlName="fc_vehicleprop">
-				<mat-option style="color:#333" *ngFor="let vc of vehicle_propulsions" value={{vc.value}}>{{vc.name}}</mat-option>
-
-			</mat-select>
-		</mat-form-field>
-
-		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
-			<mat-label>Mileage/year</mat-label>
-			<mat-select matNativeControl formControlName="fc_mileage">
-				<mat-option style="color:#333" *ngFor="let mc of mileage_classes" value={{mc.id}}>{{mc.name}}</mat-option>
-			</mat-select>
-		</mat-form-field>
-
-		<!-- CUSTOM MILEAGE-->
-		<span *ngIf="show_custom_milage_input==true">
-			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
-				<mat-label>Enter mileage/year in km</mat-label>
-				<input matInput type="text" placeholder="1" formControlName="fc_custom_mileage">
+			<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
+				<mat-label>Select Vehicle Class</mat-label>
+				<mat-select matNativeControl formControlName="fc_vehicleclass">
+					<mat-optgroup *ngFor="let group of vehicle_classes" [label]="group.name">
+						<mat-option style="color:#333" *ngFor="let vc of group.vehicles" value={{vc.value}}>{{vc.name}}</mat-option>
+					</mat-optgroup>
+				</mat-select>
 			</mat-form-field>
-		</span>
 
-		<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
-			<mat-label>Vehicle count</mat-label>
-			<input matInput type="text" placeholder="1" formControlName="fc_count">
-		</mat-form-field>
+			<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
+				<mat-label>Vehicle Propulsion</mat-label>
+				<mat-select matNativeControl formControlName="fc_vehicleprop">
+					<mat-option style="color:#333" *ngFor="let vc of vehicle_propulsions" value={{vc.value}}>{{vc.name}}</mat-option>
 
-		<div class=form_element>
-			<form appearance="fill" [formGroup]="fg_vehicleclass">
-				<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
-				<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
-			</form>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
+				<mat-label>Mileage/year</mat-label>
+				<mat-select matNativeControl formControlName="fc_mileage">
+					<mat-option style="color:#333" *ngFor="let mc of mileage_classes" value={{mc.id}}>{{mc.name}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<!-- CUSTOM MILEAGE-->
+			<span *ngIf="show_custom_milage_input==true">
+				<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+					<mat-label>Enter mileage/year in km</mat-label>
+					<input matInput type="text" placeholder="1" formControlName="fc_custom_mileage">
+				</mat-form-field>
+			</span>
+
+
+			<div class=form_element>
+				<form appearance="fill" [formGroup]="fg_vehicleclass">
+					<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
+					<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
+				</form>
+			</div>
+		</div>
+
+		<!-- CUSTOM BUY -->
+		<div class="horizontal_100" *ngIf="show_custom_buy_vehicle_input">
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Price New in €</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_price_new">
+			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Insurance/year in €</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_insurance">
+			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Mainenance and Repair/year in €</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_maintenance">
+			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Consumption in l/km</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_consumption">
+			</mat-form-field>
+
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Consumption in kWh/km</h3></mat-label>
+				<input matInput type="number" placeholder="1" formControlName="fc_consumption">
+			</mat-form-field>
+
+			<button mat-raised-button  color="accent" (click)="temporal_tco();">Do TCO</button>
+			{{temporal_vg_co2pkm}} kg co2/km
+			{{temporal_vg_costpkm}} €/km
+		</div>
+
+		<!-- CUSTOM LEASE -->
+		<div class="horizontal_100" *ngIf="show_custom_lease_vehicle_input">
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
+				<mat-label><h3>Leasing cost/year in €</h3></mat-label>
+				<input matInput type="text" placeholder="1" formControlName="fc_leasing_rate_year">
+			</mat-form-field>
 		</div>
 
 
