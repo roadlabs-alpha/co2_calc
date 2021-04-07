@@ -45,7 +45,7 @@ export class CompanyCommutingComponent implements OnInit {
 		fc_transportmode: new FormControl("2"),
 		fc_dist_per_daycommute: new FormControl("2"),
 		fc_custom_dist: new FormControl(0),
-		fc_share: new FormControl(0.5, Validators.max(1)),
+		fc_share: new FormControl(0.5, Validators.compose([Validators.min(0), Validators.max(1)])),
 		fc_home_office_share: new FormControl(0, Validators.compose([Validators.min(0), Validators.max(1)])),
 	});
 
