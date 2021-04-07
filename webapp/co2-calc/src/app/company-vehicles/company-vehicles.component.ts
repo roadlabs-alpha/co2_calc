@@ -24,16 +24,26 @@ export class CompanyVehiclesComponent implements OnInit{
 	is_pool_car = false;
 	n_total_vehicles=0;
 
-	vehicle_types=[
-	{"id":0, "name": "Bike", value:"bike"},
-	{"id":1, "name": "Car", value: "car"}
-	]
+	// vehicle_types=[
+	// {"id":0, "name": "Bike", value:"bike"},
+	// {"id":1, "name": "Car", value: "car"}
+	// ]
 
-	vehicle_classes=[
-	{"id":0, "name": "Compact", value:"compact"},
-	{"id":1, "name": "Executive", value:"executive"},
-	{"id":2, "name": "Transporter", value:"transporter"},
-	]
+	vehicle_types=[]
+	
+	vehicle_classes=[{
+			name: "Cars",
+			vehicles:[
+				{"id":0, "name": "Compact", value:"compact"},
+				{"id":1, "name": "Executive", value:"executive"},
+				{"id":2, "name": "Transporter", value:"transporter"}]
+			},{
+			name: "Active",
+			vehicles:[
+				{"id":0, "name": "Bike", value:"bike"},
+				{"id":1, "name": "e-Bike", value:"e-bike"},
+				{"id":2, "name": "Cargo bike", value:"cargo_bike"}]}]
+
 
 	mileage_classes = [
 	{"id":0, "name": "<5000 km", "value":[0,5000]},
@@ -70,38 +80,11 @@ export class CompanyVehiclesComponent implements OnInit{
 		var vt = this.fg_vehicleclass.get("fc_vehicletype")
 		if (vt!= null){
 			vt.valueChanges.subscribe(val => {
-				this.change_forms_on_vehicle_type(val)
 			});
 		}
 	}
 
-	change_forms_on_vehicle_type(val: string): void{
-
-		console.log("VAL: ", val)
-
-		if (val == "0"){ // is BIke
-			this.vehicle_classes=[]
-
-			this.vehicle_propulsions=[
-			{"id":0, "name": "Human", "value":"human"},
-			{"id":1, "name": "Electric", "value":"electric"}]
-
-			this.fg_vehicleclass.value.fc_vehicleclass=""
-		}
-
-		if (val == "1"){ // is Car
-			this.vehicle_classes=[
-			{"id":0, "name": "Compact", value:"compact"},
-			{"id":1, "name": "Executive", value:"executive"},
-			{"id":2, "name": "Transporter", value:"transporter"}]
-
-			this.vehicle_propulsions=[
-			{"id":0, "name": "Electric", "value":"electric"},
-			{"id":1, "name": "Gasoline", "value":"gasoline"},
-			{"id":2, "name": "Diesel", "value":"diesel"}]
-		}
-
-	}
+	
 
 	generate_vehicle_group_name(idx_add: number): string{
 
@@ -137,7 +120,7 @@ export class CompanyVehiclesComponent implements OnInit{
 		vgn = this.fg_vehicleclass.value.fc_vgn
 
 		var milage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value;
-		var vg = new VehicleGroup(vgn, milage, this.vehicle_types[this.fg_vehicleclass.value.fc_vehicletype].value, this.fg_vehicleclass.value.fc_vehicleprop, this.fg_vehicleclass.value.fc_vehicleclass);
+		var vg = new VehicleGroup(vgn, milage, this.fg_vehicleclass.value.fc_vehicleprop, this.fg_vehicleclass.value.fc_vehicleclass);
 		
 
 		//vg.mileage = this.mileage_classes[Number(this.fg_vehicleclass.value.fc_mileage)].value
@@ -199,12 +182,11 @@ export class VehicleGroup{
 
 	// group cost and co2 values, to be estimated
 
-	constructor(vgn: string, milage: Array<number>, veh_type: string, tech: string, veh_class: string) { //vgn = vehicle group name 
+	constructor(vgn: string, milage: Array<number>, tech: string, veh_class: string) { //vgn = vehicle group name 
 		this.vgn=vgn
 		this.vehicleprop = tech;
 		this.vehicleclass = veh_class;
-		this.veh_type = veh_type
-		this.vehicle = new Vehicle(String(this.veh_type), String(this.vehicleprop), String(this.vehicleclass))
+		this.vehicle = new Vehicle(String(this.vehicleprop), String(this.vehicleclass))
 
 
 
@@ -254,7 +236,7 @@ export class Vehicle{
 	dataService
 
 
-	constructor(veh_type: string, tech: string, vehicle_class: string){
+	constructor(tech: string, vehicle_class: string){
 
 		this.dataService = new DataService()
 
@@ -272,12 +254,12 @@ export class Vehicle{
 			this.tech = tech;
 		}
 
-		if (veh_type == "bike"){
-			this.tech = "bike"
-			this.workshop_cost = 500 //€/year
-			this.fixcost = 100 //€/year
-			vehicle_class="bike"
-		}
+		// if (veh_type == "bike"){
+		// 	this.tech = "bike"
+		// 	this.workshop_cost = 500 //€/year
+		// 	this.fixcost = 100 //€/year
+		// 	vehicle_class="bike"
+		// }
 
 		
 

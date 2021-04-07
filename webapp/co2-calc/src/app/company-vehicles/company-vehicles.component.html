@@ -19,17 +19,19 @@
 			</mat-form-field>
 		</div>
 
-		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
+		<!--mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
 			<mat-label>Select Vehicle Class</mat-label>
 			<mat-select matNativeControl formControlName="fc_vehicletype">
 				<mat-option style="color:#333" *ngFor="let vc of vehicle_types" value={{vc.id}}>{{vc.name}}</mat-option>
 			</mat-select>
-		</mat-form-field>
+		</mat-form-field-->
 
 		<mat-form-field appearance="fill" [formGroup]="fg_vehicleclass" class="form_element_small">
 			<mat-label>Select Vehicle Class</mat-label>
 			<mat-select matNativeControl formControlName="fc_vehicleclass">
-				<mat-option style="color:#333" *ngFor="let vc of vehicle_classes" value={{vc.value}}>{{vc.name}}</mat-option>
+				<mat-optgroup *ngFor="let group of vehicle_classes" [label]="group.name">
+					<mat-option style="color:#333" *ngFor="let vc of group.vehicles" value={{vc.value}}>{{vc.name}}</mat-option>
+				</mat-optgroup>
 			</mat-select>
 		</mat-form-field>
 
@@ -83,7 +85,6 @@
 			<table id=customers>
 				<tr>
 					<th> </th>
-					<th>Vehicle type</th>
 					<th>Vehicle class</th>
 					<th>Propulsion</th>
 					<th>Mileage</th>
@@ -95,7 +96,6 @@
 
 				<tr  *ngFor = "let vg of vehicle_groups; let i = index">
 					<td>{{vg.vgn}}</td>
-					<td>{{vg.veh_type}}</td>
 					<td>{{vg.vehicleclass}}</td>
 					<td>{{vg.vehicleprop}}</td>
 					<td>{{vg.mileage_name}}</td>
