@@ -4,8 +4,32 @@
 		"selected_items":
 		[
 			[
+				"padd",
+				"padding-top\tproperty"
+			],
+			[
 				"veh",
-				"veh_type\tparameter"
+				"vehicle\tproperty"
+			],
+			[
+				"Veh",
+				"VehicleGroup\tclass"
+			],
+			[
+				"mila",
+				"mileage_name\tlocal var"
+			],
+			[
+				"mil",
+				"mileage"
+			],
+			[
+				"year",
+				"yearly_loss\tlocal var"
+			],
+			[
+				"n",
+				"number"
 			],
 			[
 				"fc",
@@ -72,10 +96,6 @@
 				"constructor\tkeyword"
 			],
 			[
-				"n",
-				"n_veh_private_use\tlocal var"
-			],
-			[
 				"is",
 				"is_private_use\tproperty"
 			],
@@ -94,10 +114,6 @@
 			[
 				"vehicle",
 				"vehicleprop\tproperty"
-			],
-			[
-				"mil",
-				"mileage\tproperty"
 			],
 			[
 				"d",
@@ -260,10 +276,6 @@
 				"do_tco"
 			],
 			[
-				"year",
-				"yearly_mileage"
-			],
-			[
 				"yea",
 				"yearly_mileage"
 			],
@@ -332,16 +344,26 @@
 			"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.html",
 			"settings":
 			{
-				"buffer_size": 4234,
+				"buffer_size": 8778,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.spec.ts",
+			"file": "/home/lukas/Projekte/diss/figures/plots/Einleitung/efzge_einl.py",
 			"settings":
 			{
-				"buffer_size": 690,
+				"buffer_size": 1851,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/lukas/Projekte/diss/library.bib",
+			"settings":
+			{
+				"buffer_size": 584335,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -349,7 +371,7 @@
 			"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.ts",
 			"settings":
 			{
-				"buffer_size": 8083,
+				"buffer_size": 12231,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -358,8 +380,16 @@
 			"file": "co2-calc/src/app/data.service.ts",
 			"settings":
 			{
-				"buffer_size": 3304,
+				"buffer_size": 3946,
 				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "co2-calc/src/app/company-commuting/company-commuting.component.css",
+			"settings":
+			{
+				"buffer_size": 897,
 				"line_ending": "Unix"
 			}
 		},
@@ -394,7 +424,16 @@
 			"file": "co2-calc/src/app/company-commuting/company-commuting.component.ts",
 			"settings":
 			{
-				"buffer_size": 8486,
+				"buffer_size": 8575,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "co2-calc/src/app/company-commuting/company-commuting.component.html",
+			"settings":
+			{
+				"buffer_size": 3313,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -403,7 +442,7 @@
 			"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.css",
 			"settings":
 			{
-				"buffer_size": 911,
+				"buffer_size": 1061,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -447,6 +486,8 @@
 	[
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/webapp/co2-calc",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/co2-cost-calc",
+		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-commuting",
 		"/home/lukas/Projekte/Roadlabs/co2_calc/webapp/co2-calc/src/app/company-vehicles"
 	],
 	"file_history":
@@ -557,6 +598,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			",",
+			"0.1",
 			"fc_",
 			"_fc",
 			"total_bt",
@@ -608,11 +651,12 @@
 			"img_height"
 		],
 		"highlight": true,
-		"in_selection": true,
+		"in_selection": false,
 		"preserve_case": false,
 		"regex": true,
 		"replace_history":
 		[
+			".",
 			"",
 			"n_total_commutes",
 			"commuting_shares",
@@ -639,7 +683,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -670,7 +714,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -679,15 +723,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4234,
+						"buffer_size": 8778,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3601,
-								3601
+								2700,
+								2700
 							]
 						],
 						"settings":
@@ -702,19 +746,136 @@
 							}
 						},
 						"translation.x": 0.0,
-						"translation.y": 675.0,
+						"translation.y": 585.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/lukas/Projekte/diss/figures/plots/Einleitung/efzge_einl.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1851,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1851,
+								1851
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1080.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.spec.ts",
+					"buffer": 3,
+					"file": "/home/lukas/Projekte/diss/library.bib",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 584335,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								584042,
+								584058
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LaTeX/Bibtex.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 130733.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12231,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3474,
+								3474
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1260.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "co2-calc/src/app/data.service.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3946,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3871,
+								3871
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 939.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "co2-calc/src/app/company-commuting/company-commuting.component.css",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 690,
+						"buffer_size": 897,
 						"regions":
 						{
 						},
@@ -727,80 +888,17 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true,
-							"use_tab_stops": false
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.ts",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8083,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6555,
-								6555
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2835.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "co2-calc/src/app/data.service.ts",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3304,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3094,
-								3094
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
-							"translate_tabs_to_spaces": false,
-							"use_tab_stops": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 945.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
+					"buffer": 7,
 					"file": "co2-calc/src/app/app.component.css",
 					"semi_transient": false,
 					"settings":
@@ -830,11 +928,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 8,
 					"file": "co2-calc/src/app/app.component.html",
 					"semi_transient": false,
 					"settings":
@@ -858,11 +956,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 9,
 					"file": "co2-calc/src/app/company-properties/company-properties.component.html",
 					"semi_transient": false,
 					"settings":
@@ -887,24 +985,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 10,
 					"file": "co2-calc/src/app/company-commuting/company-commuting.component.ts",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8486,
+						"buffer_size": 8575,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2096,
-								2096
+								2669,
+								2669
 							]
 						],
 						"settings":
@@ -917,24 +1015,53 @@
 						"translation.y": 405.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
-					"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.css",
+					"buffer": 11,
+					"file": "co2-calc/src/app/company-commuting/company-commuting.component.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 911,
+						"buffer_size": 3313,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								207,
-								207
+								1609,
+								1609
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1246.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "co2-calc/src/app/company-vehicles/company-vehicles.component.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1061,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								509,
+								509
 							]
 						],
 						"settings":
@@ -942,10 +1069,10 @@
 							"syntax": "Packages/CSS/CSS.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 225.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]

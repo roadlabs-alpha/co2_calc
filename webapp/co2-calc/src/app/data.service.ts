@@ -111,9 +111,19 @@ export class Data{
 				this.energy_price.set("bev", 0.3) 			// € per kWh
 				this.energy_price.set("human", 0) 			// € per kWh
 
-				this.vehicle_class.set("compact", {"price_new": 30000, "residual_value3y": 15000, "consumption": 6, "e_consumption": 12, "workshop_cost": 720 , "fixcost": 1200})
-				this.vehicle_class.set("executive", {"price_new": 55000, "residual_value3y": 30000, "consumption": 7, "e_consumption": 16, "workshop_cost": 720 , "fixcost": 1200})
-				this.vehicle_class.set("transporter", {"price_new": 40000, "residual_value3y": 15000, "consumption": 8, "e_consumption": 20, "workshop_cost": 720 , "fixcost": 1200})
+
+				// {"id":2, "name": "Transporter", value:"transporter"},
+				// this.vehicle_class.set("compact", {"price_new": 20000, "residual_value3y": 10000, "consumption": 6, "e_consumption": 12, "workshop_cost": 720 , "fixcost": 1200})
+				// this.vehicle_class.set("executive", {"price_new": 55000, "residual_value3y": 30000, "consumption": 7, "e_consumption": 16, "workshop_cost": 720 , "fixcost": 1200})
+				// this.vehicle_class.set("transporter", {"price_new": 40000, "residual_value3y": 15000, "consumption": 8, "e_consumption": 20, "workshop_cost": 720 , "fixcost": 1200})
+
+				this.vehicle_class.set("mini", {"price_new": 16000, "residual_value3y": 8000, "consumption": 6, "e_consumption": 12, "workshop_cost": 600 , "fixcost": 1000})
+				this.vehicle_class.set("small", {"price_new": 25000, "residual_value3y": 12500, "consumption": 6, "e_consumption": 12, "workshop_cost": 600 , "fixcost": 1000})
+				this.vehicle_class.set("medium_small", {"price_new": 30000, "residual_value3y": 15000, "consumption": 7, "e_consumption": 14, "workshop_cost": 720 , "fixcost": 1200})
+				this.vehicle_class.set("medium", {"price_new": 45000, "residual_value3y": 22500, "consumption": 7, "e_consumption": 14, "workshop_cost": 720 , "fixcost": 1200})
+				this.vehicle_class.set("medium_big", {"price_new": 55000, "residual_value3y": 27500, "consumption": 7, "e_consumption": 16, "workshop_cost": 1200 , "fixcost": 1600})
+				this.vehicle_class.set("big", {"price_new": 110000, "residual_value3y": 50000, "consumption": 7, "e_consumption": 20, "workshop_cost": 1600 , "fixcost": 2400})
+				
 				this.vehicle_class.set("bike", {"price_new": 1200, "residual_value3y": 500, "consumption": 0, "e_consumption": 1, "workshop_cost": 500 , "fixcost": 150})
 				this.vehicle_class.set("e-bike", {"price_new": 2500, "residual_value3y": 500, "consumption": 0, "e_consumption": 1, "workshop_cost": 500 , "fixcost": 150})
 				this.vehicle_class.set("cargo_bike", {"price_new": 2500, "residual_value3y": 500, "consumption": 0, "e_consumption": 1, "workshop_cost": 500 , "fixcost": 150})

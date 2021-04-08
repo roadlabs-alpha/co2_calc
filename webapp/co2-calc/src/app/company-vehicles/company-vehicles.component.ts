@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatFormFieldControl} from "@angular/material/form-field"
-import { FormControl, FormGroup } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '../state.service';
 import { DataService, Data} from '../data.service';
 
@@ -40,13 +40,22 @@ export class CompanyVehiclesComponent implements OnInit{
 	vehicle_types=[]
 	
 	vehicle_classes=[{
-		name: "Cars",
+		name: "Car Classes",
 		vehicles:[
-		{"id":0, "name": "Compact", value:"compact"},
-		{"id":1, "name": "Executive", value:"executive"},
-		{"id":2, "name": "Transporter", value:"transporter"},
-		{"id":3, "name": "Custom Own Vehicle", value:"custom_buy"},
-		{"id":4, "name": "Custom Leased Vehicle", value:"custom_lease"}]
+		// {"id":0, "name": "Compact", value:"compact"},
+		// {"id":1, "name": "Executive", value:"executive"},
+		// {"id":2, "name": "Transporter", value:"transporter"},
+		{"id":1, "name": "Kleinstwagen", value:"mini"},
+		{"id":2, "name": "Kleinwagen", value:"small"},
+		{"id":3, "name": "Untere Mittelklasse", value:"medium_small"},
+		{"id":4, "name": "Mittelklasse", value:"medium"},
+		{"id":5, "name": "Obere Mittelklasse", value:"medium_big"},
+		{"id":6, "name": "Oberklasse", value:"big"}]
+	},{
+		name: "User defined",
+		vehicles:[
+		{"id":0, "name": "Custom Own Vehicle", value:"custom_buy"},
+		{"id":1, "name": "Custom Leased Vehicle", value:"custom_lease"}]
 	},{
 		name: "Active",
 		vehicles:[
@@ -80,8 +89,6 @@ export class CompanyVehiclesComponent implements OnInit{
 			fc_vehicleprop: new FormControl('electric'),
 			fc_mileage: new FormControl("0"),
 			fc_custom_mileage: new FormControl(0),
-			fc_poolcar: new FormControl(false),
-			fc_privateuse: new FormControl(false),
 			fc_count: new FormControl(1),
 			fc_add: new FormControl(false),
 
@@ -91,9 +98,11 @@ export class CompanyVehiclesComponent implements OnInit{
 			fc_maintenance: new FormControl(0),
 			fc_consumption: new FormControl(0),
 
-			fc_veh_private_use: new FormControl(0.36),
-			fc_veh_commute_use: new FormControl(0.11),
-			fc_veh_business_use: new FormControl(0.53),
+			fc_poolcar: new FormControl(false),
+			fc_privateuse_allowed: new FormControl(false),
+			fc_share_private_use: new FormControl(0.36, Validators.compose([Validators.min(0), Validators.max(1)])),
+			fc_share_commute_use: new FormControl(0.11, Validators.compose([Validators.min(0), Validators.max(1)])),
+			fc_share_business_use: new FormControl(0.53, Validators.compose([Validators.min(0), Validators.max(1)])),
 			fc_company_pays_private_use: new FormControl(true),
 		});
 
@@ -185,7 +194,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 			vg.count = this.fg_vehicleclass.value.fc_count;
 			vg.is_poolcar = this.fg_vehicleclass.value.fc_poolcar;
-			vg.is_private_use = this.fg_vehicleclass.value.fc_privateuse;
+			vg.private_use_allowed = this.fg_vehicleclass.value.fc_privateuse_allowed;
 
 			return vg
 		}
@@ -224,8 +233,24 @@ export class CompanyVehiclesComponent implements OnInit{
 				vg.vehicle.workshop_cost = this.fg_vehicleclass.value.fc_insurance + this.fg_vehicleclass.value.fc_maintenance
 				vg.vehicle.new_price = this.fg_vehicleclass.value.fc_price_new
 				vg.vehicle.residual_value = this.fg_vehicleclass.value.fc_price_new/2
+				vg.vehicle.leasing_rate = this.fg_vehicleclass.value.fc_leasing_rate_year
 				vg.vehicle.consumption = this.fg_vehicleclass.value.fc_consumption
-				vg.vehicle.do_tco(vg.mean_mileage)
+				if (this.show_custom_buy_vehicle_input == true)	vg.vehicle.do_tco(vg.mean_mileage);
+				if (this.show_custom_lease_vehicle_input == true)	vg.vehicle.do_tco_leasing(vg.mean_mileage);
+			}
+
+			// check private use and set parameters
+			if(this.fg_vehicleclass.value.fc_privateuse_allowed==true){
+				vg.vehicle.share_private_use = this.fg_vehicleclass.value.fc_share_private_use
+				vg.vehicle.share_commute_use = this.fg_vehicleclass.value.fc_share_commute_use
+				vg.vehicle.share_business_use = this.fg_vehicleclass.value.fc_share_business_use
+				vg.company_pays_private_use = this.fg_vehicleclass.value.fc_company_pays_private_use
+			
+			}else{ // No private use allowed
+				vg.vehicle.share_private_use = 0
+				vg.vehicle.share_commute_use = 0
+				vg.vehicle.share_business_use = 1
+				vg.company_pays_private_use = false
 			}
 
 			this.calc_total_vehicle_count();
@@ -264,7 +289,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 	export class VehicleGroup{
 		vgn="";
-		is_private_use=0;
+		private_use_allowed=false;
 		is_poolcar=0;
 		veh_type=""
 		vehicleclass="";
@@ -275,14 +300,15 @@ export class CompanyVehiclesComponent implements OnInit{
 		mean_mileage=0;
 		vg_total_co2=0;
 		vg_total_cost=0;
+		company_pays_private_use=true;
 
 		vehicle: Vehicle;
 
 		// group cost and co2 values, to be estimated
 
-		constructor(vgn: string, milage: Array<number>, tech: string, veh_class: string) { //vgn = vehicle group name 
+		constructor(vgn: string, milage: Array<number>, vehicle_prop: string, veh_class: string) { //vgn = vehicle group name 
 			this.vgn=vgn
-			this.vehicleprop = tech;
+			this.vehicleprop = vehicle_prop;
 			this.vehicleclass = veh_class;
 			this.vehicle = new Vehicle(String(this.vehicleprop), String(this.vehicleclass))
 
@@ -330,6 +356,9 @@ export class CompanyVehiclesComponent implements OnInit{
 		total_cost_per_km=-1;
 		total_yearly_co2
 		total_co2_per_km=-1;
+		share_private_use=0;
+		share_commute_use=0;
+		share_business_use=0;
 
 		data = new Data();
 		dataService
@@ -423,7 +452,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 			this.yearly_mileage = yearly_mileage
 
-			yearly_loss = this.leasing_rate
+			yearly_loss = this.leasing_rate*12
 
 
 			var ep = this.data.energy_price.get(this.tech)

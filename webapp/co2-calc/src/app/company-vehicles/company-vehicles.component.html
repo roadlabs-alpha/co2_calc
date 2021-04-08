@@ -101,7 +101,7 @@
 		<!-- CUSTOM LEASE -->
 		<div class="horizontal_100" *ngIf="show_custom_lease_vehicle_input">
 			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass">
-				<mat-label><h3>Leasing rate/year in €</h3></mat-label>
+				<mat-label><h3>Leasing rate/month in €</h3></mat-label>
 				<input matInput type="number" placeholder="1" formControlName="fc_leasing_rate_year">
 			</mat-form-field>
 
@@ -138,25 +138,25 @@
 
 			<div class=horizontal_100>
 				<form appearance="fill" [formGroup]="fg_vehicleclass">
-					<mat-checkbox formControlName="fc_privateuse" >Privat use allowed</mat-checkbox><br>
+					<mat-checkbox formControlName="fc_privateuse_allowed" >Privat use allowed</mat-checkbox><br>
 					<mat-checkbox formControlName="fc_poolcar">Poolvehicle</mat-checkbox>
 				</form>
 			</div>
 
 			<br>
-			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse==1">
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse_allowed==1">
 				<mat-label><h3>Private use share in %</h3></mat-label>
-				<input matInput type="number" placeholder="1" formControlName="fc_veh_private_use" step="0.01">
+				<input matInput type="number" placeholder="1" formControlName="fc_share_private_use" step="0.01">
 			</mat-form-field>
-			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse==1">
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse_allowed==1">
 				<mat-label><h3>Commute use share in %</h3></mat-label>
-				<input matInput type="number" placeholder="1" formControlName="fc_veh_commute_use" step="0.01">
+				<input matInput type="number" placeholder="1" formControlName="fc_share_commute_use" step="0.01">
 			</mat-form-field>
-			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse==1">
+			<mat-form-field class="form_element_small" [formGroup]="fg_vehicleclass" *ngIf="fg_vehicleclass.value.fc_privateuse_allowed==1">
 				<mat-label><h3>Business use share in %</h3></mat-label>
-				<input matInput type="number" placeholder="1" formControlName="fc_veh_business_use" step="0.01">
+				<input matInput type="number" placeholder="1" formControlName="fc_share_business_use" step="0.01">
 			</mat-form-field>
-			<div class=horizontal_100 *ngIf="fg_vehicleclass.value.fc_privateuse==1">
+			<div class=horizontal_100 *ngIf="fg_vehicleclass.value.fc_privateuse_allowed==1">
 				<form appearance="fill" [formGroup]="fg_vehicleclass">
 					<mat-checkbox formControlName="fc_company_pays_private_use" >Company pays for private use</mat-checkbox><br>
 				</form>
@@ -193,12 +193,14 @@
 
 			<tr  *ngFor = "let vg of vehicle_groups; let i = index">
 				<td>{{vg.vgn}}</td>
-				<td>{{vg.vehicleclass}}</td>
+				<td>{{vg.vehicleclass}} <br>
+				<span *ngIf="vg.vehicle.leasing_rate>0">Leasing rate: {{vg.vehicle.leasing_rate}} €/month</span></td>
 				<td>{{vg.vehicleprop}}</td>
 				<td>{{vg.mileage_name}}</td>
 				<td>{{vg.count}}</td>
-				<td>{{vg.is_private_use}}</td>
-				<td>{{vg.is_poolcar}}</td>
+				<td>Private use allowed: <mat-icon style="color: green;" *ngIf="vg.private_use_allowed">check</mat-icon><mat-icon style="color: red;" *ngIf="!vg.private_use_allowed">close</mat-icon> <br>
+					Company pays for private use: <mat-icon style="color: green;" *ngIf="vg.company_pays_private_use">check</mat-icon><mat-icon style="color: red;" *ngIf="!vg.company_pays_private_use">close</mat-icon></td>
+				<td><mat-icon style="color: green;" *ngIf="vg.is_poolcar">check</mat-icon><mat-icon style="color: red;" *ngIf="!vg.is_poolcar">close</mat-icon></td>
 				<td><form class=block_add>
 					<button mat-button mat-icon-button aria-label="Clear" (click)="delete_vehicle_group(i);">
 						<mat-icon>clear</mat-icon>
