@@ -62,7 +62,8 @@
 
 		<!-- SHOW PREDEFINED VALUES -->
 		<div class="horizontal_100" *ngIf="show_custom_lease_vehicle_input==false && show_custom_buy_vehicle_input==false">
-			PLACEHOLDER - PRESET DATA SHOULD BE SHOWN HERE
+			Vehicle price: {{vehicle_class_data.price_new | currency:"EUR"}} | Fixcost: {{vehicle_class_data.fixcost | currency:"EUR"}} | Workshop + Repair: {{vehicle_class_data.workshop_cost | currency:"EUR"}}<br>
+			Cost and Emissions of the configured vehicle: <b>{{temporal_vg_co2pkm | number:".2"}} kg co2/km | {{temporal_vg_costpkm | number:".2"}} €/km</b>
 		</div>
 
 		<!-- CUSTOM BUY -->

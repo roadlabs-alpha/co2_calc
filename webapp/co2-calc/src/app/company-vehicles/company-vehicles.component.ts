@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatFormFieldControl} from "@angular/material/form-field"
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { StateService } from '../state.service';
-import { DataService, Data} from '../data.service';
+import { DataService, Data, Vehicle_Price} from '../data.service';
 
 
 
@@ -31,6 +31,10 @@ export class CompanyVehiclesComponent implements OnInit{
 	temporal_vg_co2pkm=0;
 	temporal_vg_costpkm=0;
 
+	vehicle_class_data = new Vehicle_Price;
+
+	data = new Data();
+
 
 	// vehicle_types=[
 	// {"id":0, "name": "Bike", value:"bike"},
@@ -42,15 +46,12 @@ export class CompanyVehiclesComponent implements OnInit{
 	vehicle_classes=[{
 		name: "Car Classes",
 		vehicles:[
-		// {"id":0, "name": "Compact", value:"compact"},
-		// {"id":1, "name": "Executive", value:"executive"},
-		// {"id":2, "name": "Transporter", value:"transporter"},
-		{"id":1, "name": "Kleinstwagen", value:"mini"},
-		{"id":2, "name": "Kleinwagen", value:"small"},
-		{"id":3, "name": "Untere Mittelklasse", value:"medium_small"},
-		{"id":4, "name": "Mittelklasse", value:"medium"},
-		{"id":5, "name": "Obere Mittelklasse", value:"medium_big"},
-		{"id":6, "name": "Oberklasse", value:"big"}]
+		{"id":0, "name": "Kleinstwagen",		 	value:"mini"},
+		{"id":1, "name": "Kleinwagen", 				value:"small"},
+		{"id":2, "name": "Untere Mittelklasse", 	value:"medium_small"},
+		{"id":3, "name": "Mittelklasse", 			value:"medium"},
+		{"id":4, "name": "Obere Mittelklasse", 		value:"medium_big"},
+		{"id":5, "name": "Oberklasse", 				value:"big"}]
 	},{
 		name: "User defined",
 		vehicles:[
@@ -61,7 +62,8 @@ export class CompanyVehiclesComponent implements OnInit{
 		vehicles:[
 		{"id":0, "name": "Bike", value:"bike"},
 		{"id":1, "name": "e-Bike", value:"e-bike"},
-		{"id":2, "name": "Cargo bike", value:"cargo_bike"}]}]
+		{"id":2, "name": "Cargo bike", value:"cargo_bike"}]
+	}]
 
 
 		mileage_classes = [
@@ -85,7 +87,7 @@ export class CompanyVehiclesComponent implements OnInit{
 
 		fg_vehicleclass = new FormGroup({
 			fc_vgn: new FormControl(this.vgn),
-			fc_vehicleclass: new FormControl('compact'),
+			fc_vehicleclass: new FormControl('medium'),
 			fc_vehicleprop: new FormControl('electric'),
 			fc_mileage: new FormControl("0"),
 			fc_custom_mileage: new FormControl(0),
@@ -106,7 +108,7 @@ export class CompanyVehiclesComponent implements OnInit{
 			fc_company_pays_private_use: new FormControl(true),
 		});
 
-		constructor(private stateService: StateService) { }
+		constructor(private stateService: StateService, private dataService: DataService) { }
 
 		ngOnInit(): void {
 
@@ -120,14 +122,18 @@ export class CompanyVehiclesComponent implements OnInit{
 			var fc_vehicleclass = this.fg_vehicleclass.get("fc_vehicleclass")
 			if (fc_vehicleclass!= null){
 				fc_vehicleclass.valueChanges.subscribe(val => {
-					this.toggle_custom_vehicle_input(val)
+					this.toggle_custom_vehicle_input(val);
+					this.vehicle_class_data = this.get_current_veh_data(val);
 				});
 			}
 
 			this.fg_vehicleclass.valueChanges.subscribe(val => {
 				this.temporal_tco()
 			});
-			
+
+			this.getData()
+
+			this.vehicle_class_data = this.get_current_veh_data(this.fg_vehicleclass.value.fc_vehicleclass)
 		}
 
 
@@ -151,6 +157,13 @@ export class CompanyVehiclesComponent implements OnInit{
 			}else{
 				this.show_custom_lease_vehicle_input=false;
 			}
+		}
+
+		
+		get_current_veh_data(val : string): any{
+			// Load vehicle data from the data service, base on  the form field	
+			var veh_data =this.data.vehicle_class.get(val)			
+			return veh_data
 		}
 
 
@@ -214,6 +227,9 @@ export class CompanyVehiclesComponent implements OnInit{
 			else if(this.show_custom_lease_vehicle_input){
 				vg.vehicle.leasing_rate = this.fg_vehicleclass.value.fc_leasing_rate_year
 				vg.vehicle.do_tco_leasing(vg.mean_mileage)
+			}else{
+				var vg = this.compile_vehicle_group()
+				vg.vehicle.do_tco(vg.mean_mileage)
 			}
 			
 
@@ -245,7 +261,7 @@ export class CompanyVehiclesComponent implements OnInit{
 				vg.vehicle.share_commute_use = this.fg_vehicleclass.value.fc_share_commute_use
 				vg.vehicle.share_business_use = this.fg_vehicleclass.value.fc_share_business_use
 				vg.company_pays_private_use = this.fg_vehicleclass.value.fc_company_pays_private_use
-			
+
 			}else{ // No private use allowed
 				vg.vehicle.share_private_use = 0
 				vg.vehicle.share_commute_use = 0
@@ -282,6 +298,11 @@ export class CompanyVehiclesComponent implements OnInit{
 			for (var i=0; i<this.vehicle_groups.length; i++){
 				this.n_total_vehicles += Number(this.vehicle_groups[i].count);
 			}
+		}
+
+
+		getData(): void {
+			this.dataService.getData().subscribe(dat => this.data = dat);
 		}
 	}
 

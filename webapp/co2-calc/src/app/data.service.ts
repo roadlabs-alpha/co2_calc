@@ -139,12 +139,12 @@ export class Data{
 
 		}
 
-class Vehicle_Price{
+export class Vehicle_Price{
 
 	price_new=0;
 	residual_value3y=0;
 	consumption=-1;
 	e_consumption=-1;
 	workshop_cost= 720;
-	 fixcost= 1200
+	fixcost= 1200
 }
